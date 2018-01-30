@@ -25,6 +25,8 @@ There are three similar products to our proposed website. However, all of the pr
 We have some experience coding back-end database management and front-end web development. In CS 3430, we were in a group together creating a website that manipulates data within a database we created on PHPmyAdmin. Hayden has much more experience in web development because of his client-side and server-side programming classes. He coded the front-end web page for the final CS 3430 database project. Megan has more experience coding the back-end, including PHP and SQL from coding the back-end of the final CS 3430 database project. This allows Hayden to comfortably take the front-end, web design and functionality of the project and Megan to take the back-end, database manipulation part of the project.. We are both avid Skyrim players. Our knowledge of how the game functions, what attributes are important, and being able to physical test and check our website data will be extremely helpful in our product creation. 
 
 ## Technology
+**NEED EXPLANATION**
+
 * Student Server/github??: host the website
 * MySQL and PHPmyAdmin: host the databases and place to manipulate and maintain users’ data
 * Bootstrap: front-end framework
