@@ -1,3 +1,3 @@
 # Project Proposal
-##### Skyrim Combat Skills Planner
-###### Developers: Megan Petruso and Hayden Grindstaff
+##### Title: Skyrim Combat Skills Planner
+##### Developers: Megan Petruso and Hayden Grindstaff
