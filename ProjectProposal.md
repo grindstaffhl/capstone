@@ -25,15 +25,11 @@ There are three similar products to our proposed website. However, all of the pr
 We have some experience coding back-end database management and front-end web development. In CS 3430, we were in a group together creating a website that manipulates data within a database we created on PHPmyAdmin. Hayden has much more experience in web development because of his client-side and server-side programming classes. He coded the front-end web page for the final CS 3430 database project. Megan has more experience coding the back-end, including PHP and SQL from coding the back-end of the final CS 3430 database project. This allows Hayden to comfortably take the front-end, web design and functionality of the project and Megan to take the back-end, database manipulation part of the project.. We are both avid Skyrim players. Our knowledge of how the game functions, what attributes are important, and being able to physical test and check our website data will be extremely helpful in our product creation. 
 
 ## Technology
-**NEED EXPLANATION**
-
-* Student Server/github??: host the website
-* MySQL and PHPmyAdmin: host the databases and place to manipulate and maintain users’ data
-* Bootstrap: front-end framework
-* Javascript and PHP: back-end framework
-* Notepad++ and Sublime Text: place to write and save code
-* Visual Studio: run automated tests
-* Friends: test website
-* Jira: bug tracking, project management
-* Selenium: Automate website testing
-* Making our own database of weapons and armor; pulling from [here](http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim))and [here](http://elderscrolls.wikia.com/wiki/Armor_(Skyrim))
+* Student Server and Github: We are planning to use the Student Server to actually host the website, because Hayden has had experience in hosting assignments there in web development classes
+* MySQL and PHPmyAdmin: We plan to host the databases through PHPmyAdmin and manipulate and maintain users’ data through MySQL. We used these in our Database class that we took together, but we are not completely confident in all of the possible capabilities these utilities hold. 
+* HTML, CSS, Bootstrap, JavaScript: Using these languages for the front-end framework of the website because we are comfortable with HTML, CSS, and JavaScript, but want to expand our web design knowledge with Bootstrap.
+SQL and PHP: Using these languages for back-end framework of the website and database management because although we have coded some in both SQL and PHP, we have enough familiarity with these languages to use them, but want to expand our knowledge and create more complex scripts.
+* Notepad++ and Sublime Text: These programs will be a place to write our code because we find that using vim or emacs is not as efficient for our coding style. Similarly, we will be using WinSCP to transfer our Notepad++ and Sublime Text code files to the Student Server.
+* We plan on fully testing each function of the website as we develop by using a white hat approach and trying to break the site in order to find bugs and flaws because we do not have the knowledge to inject scripts into our website that will test its features.
+* Github: Use Github’s issues and backlog features for bug tracking and project management because we are most comfortable and familiar with Github’s tools, as opposed to Jira, for example.
+* We are creating our own database of weapons and armor by pulling information from the following websites: [weapons](http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim)) and [armor](http://elderscrolls.wikia.com/wiki/Armor_(Skyrim)). As of right now, we could not find a premade database with weapons and armor from Skyrim.
