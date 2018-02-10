@@ -1,5 +1,5 @@
 <?php
-	include("connection.php");
+	include("firstConnection.php");
 	
 	$sql = "SELECT * FROM helloworld";
 	

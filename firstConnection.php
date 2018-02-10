@@ -2,7 +2,7 @@
 
 	$user = 'root';
 	$password = 'root';
-	$db = 'capstone';
+	$db = 'test';
 	$host = 'localhost';
 	$port = 3306;
 
