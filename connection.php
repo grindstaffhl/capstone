@@ -1,3 +1,9 @@
+/*
+	Author: Megan Petruso
+	Created: 2/10/2018
+	This code creates a connection to our capstone database
+	in phpmyadmin.
+*/
 <?php
 
 	$user = 'root';
