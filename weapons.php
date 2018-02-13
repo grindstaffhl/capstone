@@ -4,6 +4,7 @@
 	This code displays all of the contents of the skyrim_weapons table 
 	in our capstone database on phpmyadmin.
 */
+
 <?
 	include("connection.php");
 	

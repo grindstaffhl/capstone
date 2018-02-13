@@ -24,5 +24,3 @@
 	}
 	echo "</table>";
 	$link->close();
-
-?>

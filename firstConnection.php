@@ -19,4 +19,3 @@
 	if ($success->connect_error) {
     		die("Connection failed: " . $success->connect_error);
 	}
-?>
