@@ -1,16 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Megan Petruso
- * Date: 2/14/2018
- * Time: 4:08 PM
- */
-
+/*
+    Created by: Megan Petruso
+    This file is a search query for the names in skyrim weapons database
+*/
     include("connection.php");
 
     $weapons = $_GET["wpnsearch"];
 
-    $sql = "SELECT * FROM skyrim_weapons WHERE name LIKE '%".$wpnsearch."%'";
+    $sql = "SELECT * FROM skyrim_weapons WHERE name LIKE '%".$weapons."%'";
 
     $result = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($result);
