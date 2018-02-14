@@ -26,11 +26,6 @@ var f_glass = {type:"feet", weight:"light", family:"glass", name:"Glass Boots", 
 var o_glass = {type:"onehand", family:"glass", name:"Glass Sword", base:12}
 var t_glass = {type:"twohand", family:"glass", name:"Glass Greatsword", base:21}
 
-var itemsarray = [h_steel, c_steel, a_steel, f_steel, o_steel, t_steel,
-				h_daedric, c_daedric, a_daedric, f_daedric, o_daedric, t_daedric,
-				h_elven, c_elven, a_elven, f_elven, o_elven, t_elven,
-				h_glass, c_glass, a_glass, f_glass, o_glass, t_glass];
-
 /* 
  * Finds your effective skill for smithing
  * baseskill = skill in smithing tree
@@ -71,7 +66,7 @@ function ratingbonus(part, qlevel)
  * basedam = base damage of weapon
  * ratbo = rating bonus of improved weapon, 0 if unimproved weapon
  * wpnslevel = one handed or two handed skill level
- * wpnperk = perk bonus for relevant tree (onehanded = Armsman, twohanded = Barbarian)
+ * wpnperk = perk bonus for relevant tree, 0 to 5 (onehanded = Armsman, twohanded = Barbarian)
  * itemeff = enhancements/active effects that increase one or two handed
  * potioneff = potion effects that increase one or two handed
  * seekmight = 1 if Seeker of Might is active, 0 if not
@@ -80,7 +75,7 @@ function ratingbonus(part, qlevel)
 function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, seekmight)
 {
 	return ((basedam + ratbo) * (1 + (wpnslevel/200)) * (1 + (wpnperk * 0.2))
-			* (1 + (itemeff/100)) * (1 + (potioneff/100)) * (seekmight * 1.10));
+			* (1 + (itemeff/100)) * (1 + (potioneff/100)) * (1 + (seekmight/10)));
 }
 /* 
  * basedef = base defense of armor
@@ -89,12 +84,23 @@ function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, se
  * armoracteff = enhancements/active effects that increase heavy or light armor
  * unisonperk = 1 if unison perk active, 0 if not (Well Fitted = heavy, Custom Fit = light)
  * matchset = 1 if Matching Set perk active, 0 if not
- * armorperk = 1 if armor perk active, 0 if not (Juggernaut = heavy, Agile Defender = light)
+ * armorperk = perk bonus for relevant tree, from 0 to 5 (Juggernaut = heavy, Agile Defender = light)
  */
 function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchset, armorperk)
 {
-	return (Math.ceil((basedef + ratbo) * (1 + 0.4 * ((armslevel + armoracteff)/100)))
-			* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk * 0.2)));
+	window.alert(armoracteff);
+	var step1 = basedef + ratbo;
+	var step2 = Math.ceil(step1 * (1 + (0.4 * ((armslevel + armoracteff)/100))));
+	var step3 = step2 * (1 + unisonperk);
+	var step4 = step3 * (1 + matchset);
+	var step5 = step4 * (1 + (armorperk/5));
+	var steps = (step1 + " " + step2 + " " + step3 + " " + step4 + " " + step5);
+	//var steps = (armslevel + " " + armoracteff);
+	window.alert(armoracteff);
+	window.alert(steps);
+	return step5;
+	//return(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
+	//* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5)));
 }	
 
 function readpage()
@@ -133,39 +139,71 @@ function readpage()
 	var armdef = 0;
 	var armbase = 0;
 	
-	switch(eval(item).type)
+	armbase = armordefense(eval(item).base, 0, halvl, 0, 0, 0, haperk);
+	armdef = armordefense(eval(item).base, ratbo, halvl, 0, 0, 0, haperk);
+	//armbase = armordefense(c_steel.base, 0, halvl, 0, 0, 0, haperk);
+	//armdef = armordefense(c_steel.base, ratbo, halvl, 0, 0, 0, haperk);
+	
+	/*switch(eval(item).type)
 	{
 		case "onehand":
+			wpnbase = weapondamage(eval(item).base, 0, onelvl, oneperk, 0, 0, 0);
 			wpndmg = weapondamage(eval(item).base, ratbo, onelvl, oneperk, 0, 0, 0);
 			break;
 		case "twohand":
+			wpnbase = weapondamage(eval(item).base, 0, twolvl, twoperk, 0, 0, 0);
 			wpndmg = weapondamage(eval(item).base, ratbo, twolvl, twoperk, 0, 0, 0);
 			break;
 		default:
+			if (eval(item).weight == "light")
+			{
+				armbase = armordefense(eval(item).base, 0, lalvl, 0, 0, 0, laperk);
+				armdef = armordefense(eval(item).base, ratbo, lalvl, 0, 0, 0, laperk);
+			}
+		    else if (eval(item).weight == "heavy")
+			{
+				armbase = armordefense(eval(item).base, 0, halvl, 0, 0, 0, haperk);
+				armdef = armordefense(eval(item).base, ratbo, halvl, 0, 0, 0, haperk);
+			}
+			else
+			{}
 			break;
-	}
+	}*/
 	
-	window.alert(wpndmg);
+	/*var stufftoprint = ("Smithlvl: " + smithlvl + "\nSmith Perk: " + smithperk
+	+ "\nOnelvl: " + onelvl + "\nOneperk: " + oneperk + "\nTwolvl: " + twolvl
+	+ "\ntwoperk" + twoperk + "\nlalvl: " + lalvl + "\nlaperk: " + laperk + "\nhalvl: " + halvl
+	+ "\nhaperk: " + haperk + "\neffskill: " + effskill + "\nqlevel: "
+	+ qlevel + "\nratbo: " + ratbo + "\nfamily: " + family + "\ntype: " + type + "\nitem: "
+	+ item);*/
+	
+	
+	
+	var para = document.getElementById("test");
+	para.innerHTML = (halvl + " " + haperk + " " + ratbo + " " + armbase + " " + armdef);
 }
 
 // Testing stuff below
-/*
-var eskill = effectiveskill(character.smithlvl, character.smithperk, character.ench, character.pot);
+
+var eskill = effectiveskill(98, 1, 0, 0);
 
 var qlvl = qualitylvl(eskill);
 
-var ratbo = ratingbonus(chest.part, qlvl);
+var ratbo = ratingbonus(c_steel.type, qlvl);
 
-var wpndmg = weapondamage(sword.base, ratbo, 100, 1, 0, 0, 1);
-var bdmg = weapondamage(sword.base, 0, 100, 1, 0, 0, 0.10);
+//var wpndmg = weapondamage(o_steel.base, ratbo, 100, 1, 0, 0, 1);
+//var bdmg = weapondamage(o_steel.base, 0, 100, 1, 0, 0, 0.10);
+var poopy = "c_steel";
 
-var armdef = armordefense(chest.base, ratbo, 100, 0, 0, 0, 1);
-var barm = armordefense(chest.base, 0, 100, 0, 0, 0, 1);
 
-var p = document.getElementById("test");
+var barm = armordefense(eval(poopy).base, 0, 100, 0, 0, 0, 5);
+var armdef = armordefense(eval(poopy).base, ratbo, 100, 0, 0, 0, 5);
 
-p.innerHTML = (character.name + " making an " + 
+//var p = document.getElementById("test");
+
+/*p.innerHTML = (character.name + " making an " + 
 sword.name + " with a Smithing Level of " + character.smithlvl + " means an Effective Skill of " + eskill + 
 ", a Quality Level of " + qlvl + ", base damage being " + barm + " and a Rating Bonus of " + ratbo + 
 ", making the total defense be " + armdef);
 */
+//window.alert(barm + " " + armdef);
