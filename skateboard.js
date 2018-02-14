@@ -88,19 +88,11 @@ function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, se
  */
 function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchset, armorperk)
 {
-	window.alert(armoracteff);
-	var step1 = basedef + ratbo;
-	var step2 = Math.ceil(step1 * (1 + (0.4 * ((armslevel + armoracteff)/100))));
-	var step3 = step2 * (1 + unisonperk);
-	var step4 = step3 * (1 + matchset);
-	var step5 = step4 * (1 + (armorperk/5));
-	var steps = (step1 + " " + step2 + " " + step3 + " " + step4 + " " + step5);
-	//var steps = (armslevel + " " + armoracteff);
-	window.alert(armoracteff);
-	window.alert(steps);
-	return step5;
-	//return(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
-	//* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5)));
+	armslevel = parseInt(armslevel);
+	armoracteff = parseInt(armoracteff);
+	
+	return(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
+	* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5)));
 }	
 
 function readpage()
@@ -134,76 +126,45 @@ function readpage()
 	
 	var ratbo = ratingbonus(eval(item).type, qlevel);
 	
-	var wpndmg = 0;
-	var wpnbase = 0;
-	var armdef = 0;
-	var armbase = 0;
+	var baserating,improvedrating = 0;
+	var itemname, ratingtype = "";
 	
-	armbase = armordefense(eval(item).base, 0, halvl, 0, 0, 0, haperk);
-	armdef = armordefense(eval(item).base, ratbo, halvl, 0, 0, 0, haperk);
-	//armbase = armordefense(c_steel.base, 0, halvl, 0, 0, 0, haperk);
-	//armdef = armordefense(c_steel.base, ratbo, halvl, 0, 0, 0, haperk);
-	
-	/*switch(eval(item).type)
+	switch(eval(item).type)
 	{
 		case "onehand":
-			wpnbase = weapondamage(eval(item).base, 0, onelvl, oneperk, 0, 0, 0);
-			wpndmg = weapondamage(eval(item).base, ratbo, onelvl, oneperk, 0, 0, 0);
+			baserating = weapondamage(eval(item).base, 0, onelvl, oneperk, 0, 0, 0);
+			improvedrating = weapondamage(eval(item).base, ratbo, onelvl, oneperk, 0, 0, 0);
+			itemname = "weapon";
+			ratingtype = "damage";
 			break;
 		case "twohand":
-			wpnbase = weapondamage(eval(item).base, 0, twolvl, twoperk, 0, 0, 0);
-			wpndmg = weapondamage(eval(item).base, ratbo, twolvl, twoperk, 0, 0, 0);
+			baserating = weapondamage(eval(item).base, 0, twolvl, twoperk, 0, 0, 0);
+			improvedrating = weapondamage(eval(item).base, ratbo, twolvl, twoperk, 0, 0, 0);
+			itemname = "weapon";
+			ratingtype = "damage";
 			break;
 		default:
 			if (eval(item).weight == "light")
 			{
-				armbase = armordefense(eval(item).base, 0, lalvl, 0, 0, 0, laperk);
-				armdef = armordefense(eval(item).base, ratbo, lalvl, 0, 0, 0, laperk);
+				baserating = armordefense(eval(item).base, 0, lalvl, 0, 0, 0, laperk);
+				improvedrating = armordefense(eval(item).base, ratbo, lalvl, 0, 0, 0, laperk);
+				itemname = "armor";
+				ratingtype = "defense";
 			}
 		    else if (eval(item).weight == "heavy")
 			{
-				armbase = armordefense(eval(item).base, 0, halvl, 0, 0, 0, haperk);
-				armdef = armordefense(eval(item).base, ratbo, halvl, 0, 0, 0, haperk);
+				baserating = armordefense(eval(item).base, 0, halvl, 0, 0, 0, haperk);
+				improvedrating = armordefense(eval(item).base, ratbo, halvl, 0, 0, 0, haperk);
+				itemname = "armor";
+				ratingtype = "defense";
 			}
 			else
 			{}
 			break;
-	}*/
-	
-	/*var stufftoprint = ("Smithlvl: " + smithlvl + "\nSmith Perk: " + smithperk
-	+ "\nOnelvl: " + onelvl + "\nOneperk: " + oneperk + "\nTwolvl: " + twolvl
-	+ "\ntwoperk" + twoperk + "\nlalvl: " + lalvl + "\nlaperk: " + laperk + "\nhalvl: " + halvl
-	+ "\nhaperk: " + haperk + "\neffskill: " + effskill + "\nqlevel: "
-	+ qlevel + "\nratbo: " + ratbo + "\nfamily: " + family + "\ntype: " + type + "\nitem: "
-	+ item);*/
-	
-	
+	}
 	
 	var para = document.getElementById("test");
-	para.innerHTML = (halvl + " " + haperk + " " + ratbo + " " + armbase + " " + armdef);
+	para.innerHTML = ("Assuming your character has no active effects, this " 
+	+ itemname + "'s base " + ratingtype + " is " + baserating
+	+ ". It can be improved to have " + improvedrating + " " + ratingtype + ".");
 }
-
-// Testing stuff below
-
-var eskill = effectiveskill(98, 1, 0, 0);
-
-var qlvl = qualitylvl(eskill);
-
-var ratbo = ratingbonus(c_steel.type, qlvl);
-
-//var wpndmg = weapondamage(o_steel.base, ratbo, 100, 1, 0, 0, 1);
-//var bdmg = weapondamage(o_steel.base, 0, 100, 1, 0, 0, 0.10);
-var poopy = "c_steel";
-
-
-var barm = armordefense(eval(poopy).base, 0, 100, 0, 0, 0, 5);
-var armdef = armordefense(eval(poopy).base, ratbo, 100, 0, 0, 0, 5);
-
-//var p = document.getElementById("test");
-
-/*p.innerHTML = (character.name + " making an " + 
-sword.name + " with a Smithing Level of " + character.smithlvl + " means an Effective Skill of " + eskill + 
-", a Quality Level of " + qlvl + ", base damage being " + barm + " and a Rating Bonus of " + ratbo + 
-", making the total defense be " + armdef);
-*/
-//window.alert(barm + " " + armdef);
