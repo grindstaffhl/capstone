@@ -5,11 +5,20 @@
     <title>Search Bar Test</title>
 </head>
 <body>
-    <form action="searchBar.php" method="get">
+    <!-- Search Bar for skyrim_weapons (names) table -->
+    <form action="searchWPN.php" method="get">
         <label for="wpnsearch">Weapon: </label>
     <br>
         <input type="text" name="wpnsearch">
         <input type="Submit" value="Search">
     </form>
+    <!-- Search Bar for master list of weapons and armor table -->
+    <form action="searchWPNARMR.php" method="get">
+        <label for="wpnarmrsearch">Weapon or Armor: </label>
+        <br>
+        <input type="text" name="wpnarmrsearch">
+        <input type="Submit" value="Search">
+    </form>
+</body>
 </body>
 </html>
