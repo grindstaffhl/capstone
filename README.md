@@ -12,5 +12,16 @@ Once both the Apache and MySQL severs are up and running, you can select "Open s
 #### phpMyAdmin
 In order to create the tables within the database, download the "capstone.sql" file in the respository. In phpMyAdmin, create a new database called "capstone". Then select "Import" at the top of the page, select the downloaded capstone.sql file from your computer to import, and click "Go". This will create all of the tables and data necessary for this project.
 
+
+#### Laravel
+To install Laravel, go to the following [link](https://laravel.com/docs/5.6/installation). For a more "follow-along" approach, you can visit [Laracasts](https://laracasts.com/series/laravel-5-from-scratch/episodes/1). Although the previous video is for Laravel 5.2 installation, initial installation of Laravel 5.6 and Composer is still the same. 
+
+Once you have installed Laravel and Composer, download [Sublime text](https://www.sublimetext.com/). Download the capstone.zip folder from the repository, unzip it, and open the folder in Sublime text. In order to configure the MAMP with Laravel, you need to change a couple of things:
+
+1. Run the following command in your Laravel project file:
+  ```
+  C:\Users\username\Documents\laravel\capstone>composer require "laravelcollective/html":"^5.4.0"
+  ```
+
 Once you have all of desired files from the repository downloaded, MAMP installed, and the capstone.sql imported into your database in phpMyAdmin, you are ready to edit and experiement with the Skyrim Combat Skills Planner.
 
