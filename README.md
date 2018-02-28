@@ -22,6 +22,25 @@ Once you have installed Laravel and Composer, download [Sublime text](https://ww
   ```
   C:\Users\username\Documents\laravel\capstone>composer require "laravelcollective/html":"^5.4.0"
   ```
+2. Navigate to your php configurations file (also known as php.ini file). Uncomment the line:
+  ```
+  extension=openssl
+  ```
+  You will then add the following line of code to the end of that list of extensions:
+  ```
+  extension=php_pdo_mysql.dll
+  ```
+3.  In your Laravel project file in Sublime, navigate to the app.php file, located in the config folder. Under 'providers' add the following line:
+  ```
+  Collective\Html\HtmlServiceProvider::class,
+  ```
+  Then add the following lines under 'aliases':
+  ```
+  'Form' => Collective\Html\FormFacade::class,
+  'Html' => Collective\Html\HtmlFacade::class,
+  ```
+4. Lastly, you will configure the MAMP database in your database.php file under the config folder.
+![image](C:\Users\mcpet\Desktop\mysqldrivers.png)
 
-Once you have all of desired files from the repository downloaded, MAMP installed, and the capstone.sql imported into your database in phpMyAdmin, you are ready to edit and experiement with the Skyrim Combat Skills Planner.
+Once you have all of desired files from the repository downloaded, MAMP installed, and the capstone.sql imported into your database in phpMyAdmin, Laravel and Composer installed, and MAMP configured with Laravel, you are ready to edit and experiement with the Skyrim Combat Skills Planner.
 
