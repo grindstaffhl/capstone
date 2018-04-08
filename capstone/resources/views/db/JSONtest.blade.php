@@ -79,6 +79,19 @@
 
 <br><br>
 
+{!! Form::label('potiontype', 'Potion Effect:') !!}
+{!! Form::text('potiontype', null, ['id'=>'potiontype']) !!}
+
+<br>
+
+{!! Form::label('potionnum', 'Total Effect Increase:') !!}
+{!! Form::number('potionnum', 0, ['id'=>'potionnum']) !!} 
+
+<br>
+
+
+<br><br>
+
 <!-- submit button to pass data and do calculations -->
 {{-- <button class = "submitbtn">Submit</button> --}}
 {!! Form::submit('Submit', ['id'=>'submitbtn']) !!}
@@ -122,6 +135,9 @@
       var al = $("input[name=arlvl]").val();
       var ap = $("input[name=arperk]").val();
 
+      var pe = $("input[name=potiontype]").val();
+      var pn = $("input[name=potionnum]").val();
+
       // ajax request
       $.ajax(
       {
@@ -131,7 +147,7 @@
          url:'/',
 
          // data is an array with keys sharing the name of the relevant form
-         data:{name:name, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap},
+         data:{name:name, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap, potiontype:pe, potionnum:pn},
 
          // when the post request is successful
          success:function(data)

@@ -73,6 +73,10 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5));
 }	
 
+function addInput()
+{
+
+}
 
 /* Main function that does all the calculations
  * data = array of data that contains key value pairs of form input
@@ -97,7 +101,9 @@ function readpage(data)
 
 	var arlvl = parseInt(data['arlvl']);
 	var arperk = parseInt(data['arperk']);
-	
+
+	var potiontype = data['potiontype'];
+	var potionnum = parseInt(data['potionnum']);
 	
 	var effskill = effectiveskill(smithlvl, smithperk, 0, 0);
 	var qlevel = qualitylvl(effskill);
@@ -111,30 +117,40 @@ function readpage(data)
 	switch(data[0][0].type)
 	{
 		case "One-Handed":
-			baserating = weapondamage(data[0][0].rating, 0, onelvl, oneperk, 0, 0, 0);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, onelvl, oneperk, 0, 0, 0);
+			if (potiontype != "One-Handed")
+				potionnum = 0;
+			baserating = weapondamage(data[0][0].rating, 0, onelvl, oneperk, 0, potionnum, 0);
+			improvedrating = weapondamage(data[0][0].rating, ratbo, onelvl, oneperk, 0, potionnum, 0);
 			itemname = "weapon";
 			ratingtype = "damage";
 			break;
 		case "Two-Handed":
-			baserating = weapondamage(data[0][0].rating, 0, twolvl, twoperk, 0, 0, 0);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, twolvl, twoperk, 0, 0, 0);
+			if (potiontype != "Two-Handed")
+				potionnum = 0;
+			baserating = weapondamage(data[0][0].rating, 0, twolvl, twoperk, 0, potionnum, 0);
+			improvedrating = weapondamage(data[0][0].rating, ratbo, twolvl, twoperk, 0, potionnum, 0);
 			itemname = "weapon";
 			ratingtype = "damage";
 			break;
 		case "Archery":
-			baserating = weapondamage(data[0][0].rating, 0, arlvl, arperk, 0, 0, 0);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, arlvl, arperk, 0, 0, 0);
+			if (potiontype != "Archery")
+				potionnum = 0;
+			baserating = weapondamage(data[0][0].rating, 0, arlvl, arperk, 0, potionnum, 0);
+			improvedrating = weapondamage(data[0][0].rating, ratbo, arlvl, arperk, 0, potionnum, 0);
 			break;
 		case "Light":
-			baserating = armordefense(data[0][0].rating, 0, lalvl, 0, 0, 0, laperk);
-			improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, 0, 0, 0, laperk);
+			if (potiontype != "Light")
+				potionnum = 0;
+			baserating = armordefense(data[0][0].rating, 0, lalvl, potionnum, 0, 0, laperk);
+			improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, potionnum, 0, 0, laperk);
 			itemname = "armor";
 			ratingtype = "defense";
 			break;
 		case "Heavy":
-			baserating = armordefense(data[0][0].rating, 0, halvl, 0, 0, 0, haperk);
-			improvedrating = armordefense(data[0][0].rating, ratbo, halvl, 0, 0, 0, haperk);
+			if (potiontype != "Heavy")
+				potionnum = 0;
+			baserating = armordefense(data[0][0].rating, 0, halvl, potionnum, 0, 0, haperk);
+			improvedrating = armordefense(data[0][0].rating, ratbo, halvl, potionnum, 0, 0, haperk);
 			itemname = "armor";
 			ratingtype = "defense";
 			break;
@@ -143,10 +159,11 @@ function readpage(data)
 	}
 	
 	// adds text to the screen after calculations are done
-	var para = document.getElementById("test");
+	 var para = document.getElementById("test");
 	para.innerHTML = ("Assuming your character has no active effects, " 
 	+ data[0][0].name + "'s base " + ratingtype + " is " + baserating
 	+ ". It can be improved to have " + improvedrating + " " + ratingtype + ".");
 
 	//para.innerHTML = data[0][0].rating + " " + baserating + " " + improvedrating + " " + effskill + " " + ratbo;
+	//para.innerHTML = potiontype + " " + potionnum;
 }
