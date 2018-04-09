@@ -89,6 +89,7 @@
 
 <br>
 
+{!! Form::button('Add Potion', ['id'=>'addpotion']) !!}
 
 <br><br>
 
