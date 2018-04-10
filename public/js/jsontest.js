@@ -143,6 +143,39 @@ function shielddefense(basedef, ratbo, shieldlevel, shieldperk, itemeff, potione
 	return Math.ceil(block);
 }
 
+function validateInput(skillarray, perkarray)
+{
+	var badskillnames = '';
+	var badperk = '';
+
+	for (skill in skillarray)
+	{
+		if (isNaN(skillarray[skill]) || skillarray[skill] > 100 || skillarray[skill] < 15)
+			{
+				badskillnames += ('- ' + skill.toString() + "\n");
+			}
+	}
+
+	if (badskillnames != '')
+		window.alert('ERROR: These skills are out of range. They must be between 15 and 100, inclusive.' + '\n\n' + badskillnames);
+
+	for(perk in perkarray)
+	{
+		if(perkarray[perk] > 5 || perkarray[perk] < 0 || isNaN(perkarray[perk]))
+		{
+			badperk += ("- " + perk.toString() + "\n");
+		}
+	}
+
+	if(badperk != '')
+		window.alert("ERROR! These perks are out of range. They must be between 0 and 5, inclusive." + "\n\n" + badperk);
+	
+
+	if (badskillnames != '' && badperk != '')
+		return false;
+	return true;
+}
+
 /* Main function that does all the calculations
  * data = array of data that contains key value pairs of form input
  * data[0][0] is json data from database query
@@ -169,22 +202,26 @@ function readpage(data)
 
 	var bllvl = parseInt(data['bllvl']);
 	var blperk = parseInt(data['blperk']);
-	
+
+	var skills = {'Smithing': smithlvl, 'One-Handed': onelvl, 'Two-Handed': twolvl, 'Light Armor': lalvl, 'Heavy Armor': halvl,
+					'Archery': arlvl, 'Block': bllvl};
+	var perks = {"Smithing": smithperk, "Light Armor": laperk, "Heavy Armor": haperk, "One-Handed": oneperk, 
+					"Two-Handed": twoperk, "Archery": arperk, "Block": blperk};
+
+	if (!validateInput(skills, perks))
+		return;	
+
 	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0};
 
 	for (var i = 1; i <= formnum; i++)
 	{
 		var key = document.getElementById('potiontype' + i);
-
 		var val = document.getElementById('potioneffect' + i);
 
 		potions[key.value] = parseInt(val.value);
-
-		console.log(potions);
 	}
 
 	
-
 	var effskill = effectiveskill(smithlvl, smithperk, 0, potions['Smithing']);
 	var qlevel = qualitylvl(effskill);
 	
