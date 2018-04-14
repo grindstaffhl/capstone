@@ -89,10 +89,14 @@
 
 <br><br>
 
-<div id="potionform">
-</div>
+<div id="potionform"></div>
 
 {!! Form::button('Add Potion', ['id'=>'addpotion']) !!}
+
+<br><br>
+
+<div id="effectform"></div>
+{!! Form::button('Add Effect', ['id'=>'addeffect']) !!}
 
 <br><br>
 
@@ -110,6 +114,11 @@
   $("#addpotion").click(function(e)
   {
     makePotionForm();
+  });
+
+  $("#addeffect").click(function(e)
+  {
+    makeEffectForm();
   });
 
   // sets up CSRF token for ajax post request
@@ -161,14 +170,19 @@
          // when the post request is successful
          success:function(data)
          {
-            document.getElementById('errortext').style.display = 'none';
+            //document.getElementById('errortext').style.display = 'none';
             if (typeof data[0][0] == 'undefined')
             {
               //alert("Item you chose is not valid.");
               document.getElementById('errortext').style.display = 'block';
+              document.getElementById('test').style.display = 'none';
             }
             else 
+            {
+              document.getElementById('test').style.display = 'block';
+              document.getElementById('errortext').style.display = 'none';
               readpage(data);
+            }
             
          },
 
