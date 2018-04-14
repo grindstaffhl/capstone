@@ -1,3 +1,17 @@
+/* GLOBAL VARIABLES*/
+
+var specialArmor = [];
+
+var potionnum = 0;
+var effectnum = 0;
+var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
+					'Light Armor', 'Heavy Armor', 'Block'];
+
+var listPotions = [];
+
+/* GLOBAL VARIABLES*/
+
+
 /* 
  * Finds your effective skill for smithing
  * baseskill = skill in smithing tree
@@ -12,7 +26,7 @@ function effectiveskill(baseskill, perk, enchantments, potions)
 }
 
 /* 
- * Determines quality level of improved armor or weapon
+ * Determines quality level of improved armor or weaponsapon
  * Should round down but sometimes messes up???
  * effskill = value returned by effectiveskill method
  */
@@ -35,23 +49,21 @@ function ratingbonus(part, qlevel)
 		return Math.ceil(rbo/2);
 }
 
-var numpotion = 0;
-var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
-					'Light Armor', 'Heavy Armor', 'Block'];
-
+/*
+*/
 function makePotionForm()
 {
-	numpotion++;
+	potionnum++;
 
 
 	var potionform = document.getElementById('potionform');
 
 	var typelabel = document.createElement('label');
-	typelabel.setAttribute('for', 'potiontype' + numpotion);
+	typelabel.setAttribute('for', 'potiontype' + potionnum);
 	typelabel.innerHTML = 'Potion Type:';
 
 	var potiontype = document.createElement('select');
-	potiontype.setAttribute('id', 'potiontype' + numpotion);
+	potiontype.setAttribute('id', 'potiontype' + potionnum);
 	
 	for (var i = 0; i < skilltrees.length; i++)
 	{
@@ -64,15 +76,19 @@ function makePotionForm()
 	var br = document.createElement('br');
 
 	var effectlabel = document.createElement('label');
-	effectlabel.setAttribute('for', 'potioneffect' + numpotion);
+	effectlabel.setAttribute('for', 'potioneffect' + potionnum);
 	effectlabel.innerHTML = 'Potion Effect (%):';
 
-	var potioneffect = document.createElement('input');
-	potioneffect.setAttribute('id', 'potioneffect' + numpotion);
+	potioneffect = document.createElement('input');
+	potioneffect.setAttribute('id', 'potioneffect' + potionnum);
 	potioneffect.setAttribute('type', 'number');
+	potioneffect.setAttribute('value', 0);
+
+	listPotions.push(potioneffect);
 
 	potionform.appendChild(typelabel);
 	potionform.appendChild(potiontype);
+	potionform.appendChild(br);
 	potionform.appendChild(br);
 	potionform.appendChild(effectlabel);
 	potionform.appendChild(potioneffect);
@@ -80,20 +96,19 @@ function makePotionForm()
 	potionform.appendChild(br);
 }
 
-var numeffect = 0;
 function makeEffectForm()
 {
-	numeffect++;
+	effectnum++;
 
 
 	var effectform = document.getElementById('effectform');
 
 	var typelabel = document.createElement('label');
-	typelabel.setAttribute('for', 'effecttype' + numeffect);
+	typelabel.setAttribute('for', 'effecttype' + effectnum);
 	typelabel.innerHTML = 'effect Type:';
 
 	var effecttype = document.createElement('select');
-	effecttype.setAttribute('id', 'effecttype' + numeffect);
+	effecttype.setAttribute('id', 'effecttype' + effectnum);
 	
 	for (var i = 0; i < skilltrees.length; i++)
 	{
@@ -106,11 +121,11 @@ function makeEffectForm()
 	var br = document.createElement('br');
 
 	var effectlabel = document.createElement('label');
-	effectlabel.setAttribute('for', 'effecteffect' + numeffect);
+	effectlabel.setAttribute('for', 'effecteffect' + effectnum);
 	effectlabel.innerHTML = 'effect Effect (%):';
 
 	var effecteffect = document.createElement('input');
-	effecteffect.setAttribute('id', 'effecteffect' + numeffect);
+	effecteffect.setAttribute('id', 'effecteffect' + effectnum);
 	effecteffect.setAttribute('type', 'number');
 
 	effectform.appendChild(typelabel);
@@ -144,16 +159,17 @@ function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, se
 	potioneff = parseInt(potioneff);
 	seekmight = parseInt(seekmight);
 
-	var wpndmg = ((basedam + ratbo) * (1 + ((wpnslevel)/200)) * (1 + (wpnperk * 0.2))
-			 *(1 + (itemeff/100)) * (1 + (potioneff/100)) * (1 + (seekmight/10)));
+	var wpndmg = (((basedam + ratbo) * (1 + ((wpnslevel)/200)) * (1 + (wpnperk * 0.2)) * (1 + (itemeff/100))
+			 * (1 + (potioneff/100)) * (1 + (seekmight/10))));
 	return Math.round(wpndmg);
 	//return wpndmg;
 }
+
 /* 
  * basedef = base defense of armor
  * ratbo = rating bonus of improved armor, 0 if unimproved armor
  * armslevel = heavy armor or light armor skill level
- * armoracteff = enhancements/active effects/potions that increase heavy or light armor
+ * armoracteff = potions/enhancements/active effects that increase heavy or light armor
  * unisonperk = 1 if unison perk active, 0 if not (Well Fitted = heavy, Custom Fit = light)
  * matchset = 1 if Matching Set perk active, 0 if not
  * armorperk = perk bonus for relevant tree, from 0 to 5 (Juggernaut = heavy, Agile Defender = light)
@@ -166,12 +182,10 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	armoracteff = parseInt(armoracteff);
 	unisonperk = parseInt(unisonperk);
 	armorperk = parseInt(armorperk);
+	seekmight = parseInt(seekmight);
 	
-	var lmao = Math.floor((basedef + ratbo) * (1 + 0.4 * ((armslevel + armoracteff)/100))) * (1 + (seekmight/10))
-	* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk * 0.2));
-
-	return basedef + " " + ratbo + " " + armslevel + " " + armoracteff 
-	+ " " + unisonperk + " " + matchset + " " + armorperk + "= " + lmao;
+	return Math.round(Math.floor((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
+	* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
 }	
 
 /* 
@@ -198,7 +212,6 @@ function validateInput(skillarray, perkarray)
 {
 	var badskillnames = '';
 	var badperk = '';
-	var badpotions = '';
 
 	for (skill in skillarray)
 	{
@@ -207,9 +220,9 @@ function validateInput(skillarray, perkarray)
 				badskillnames += ('- ' + skill.toString() + "\n");
 			}
 	}
+
 	if (badskillnames != '')
 		window.alert('ERROR: These skills are out of range. They must be between 15 and 100, inclusive.' + '\n\n' + badskillnames);
-
 
 	for(perk in perkarray)
 	{
@@ -221,13 +234,69 @@ function validateInput(skillarray, perkarray)
 
 	if(badperk != '')
 		window.alert("ERROR! These perks are out of range. They must be between 0 and 5, inclusive." + "\n\n" + badperk);
-
+	
 
 	if (badskillnames != '' && badperk != '')
 		return false;
+
+	if(potionnum > 0)
+	{
+		for(var i = 0; i < potionnum; i++)
+		{
+			//console.log(listPotions[i].value);
+			if(listPotions[i].value < 0 || listPotions[i].value == '')
+			{
+				window.alert("ERROR! Potion(s) are out of range. They must be greater than 0, inclusive.");
+				return false;
+			}
+		}
+		
+	}
+
 	return true;
 }
 
+function uniqueArmor()
+{
+	/*
+	LIST OF UNIQUE ITEMS WE CARE ABOUT:
+
+		Ancient Shrouded Cowl: bows +35%
+		Gauntlets of the Gods: bows +20%
+		Deathbrand Gauntlets:  While dual-wielding, your One-handed attacks do 
+			10% more damage for each Deathbrand item you wear
+		Wearing all Deathbrand: +100 Armor
+		Nightingale Gloves: LEVELED percent one-handed
+		Shrounded Cowl or Shrouded Cowl Maskless: bows +20%
+		Forgemaster's Fingers: Weapons and armor improved +12%
+		Ironhand Gauntlets: two-handed +15%
+
+	*/
+	addToSpecialArmor('Ancient Shrouded Cowl', 'Head', 'Archery', 0.35);
+	addToSpecialArmor('Gauntlets of the Gods', 'Hands', 'Archery', 0.2);
+	addToSpecialArmor('Deathbrand Gauntlets', 'Hands', 'One-Handed', 0.1);
+	addToSpecialArmor('Nightingale Gloves', 'Hands', 'One-Handed', 0.15);
+	addToSpecialArmor('Shrounded Cowl', 'Head', 'Archery', 0.2);
+	addToSpecialArmor('Shrounded Cowl Maskless', 'Head', 'Archery', 0.2);
+	addToSpecialArmor('Forgemaster Fingers', 'Hands', 'Smithing', 0.12);
+	addToSpecialArmor('Ironhand Gauntlets', 'Hands', 'Two-Handed', 0.15);
+
+	/*for(var i = 0; i < specialArmor.length; i ++)
+	{
+		console.log(specialArmor[i].name);
+	}*/
+
+}
+
+function addToSpecialArmor(name, part, skill, amount)
+{
+	specialArmor.push({
+		'name': name,
+		'part': part,
+		'skill' : skill,
+		'bonus': amount
+	});
+}
 
 function qualityName(q)
 {
@@ -266,6 +335,8 @@ function readpage(data)
 {
 	var smithlvl = parseInt(data['smithlvl']);
 	var smithperk = parseInt(data['smithperk']);
+
+	var quality = data['quality'];
 	
 	var onelvl = parseInt(data['ohlvl']);
 	var oneperk = parseInt(data['ohperk']);
@@ -290,34 +361,44 @@ function readpage(data)
 	var perks = {"Smithing": smithperk, "Light Armor": laperk, "Heavy Armor": haperk, "One-Handed": oneperk, 
 					"Two-Handed": twoperk, "Archery": arperk, "Block": blperk};
 
+	var seekmight = 0;
+	if (document.getElementById('seekmight').checked)
+		seekmight = 1;
+
 	if (!validateInput(skills, perks))
 		return;	
+
+	uniqueArmor();
+
+	console.log(quality);
+	console.log(initialquality);
+
 
 	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
 	var effects = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
 
-	for (var i = 1; i <= numpotion; i++)
+	for (var i = 1; i <= potionnum; i++)
 	{
-		var pkey = document.getElementById('potiontype' + i);
-		var pval = document.getElementById('potioneffect' + i);
+		var key = document.getElementById('potiontype' + i);
+		var val = document.getElementById('potioneffect' + i);
 
-		potions[pkey.value] += parseInt(pval.value);
+		potions[key.value] += parseInt(val.value);
 	}
-
-	for (var i = 1; i <= numeffect; i++)
+	for (var i = 1; i <= effectnum; i++)
 	{
 		var ekey = document.getElementById('effecttype' + i);
 		var eval = document.getElementById('effecteffect' + i);
 
 		effects[ekey.value] += parseInt(eval.value);
 	}
-	
+
 	
 	var effskill = effectiveskill(smithlvl, smithperk, 0, potions['Smithing']);
 	var qlevel = parseInt(qualitylvl(effskill));
 	var quality = qualityName(qlevel);
 	
 	var ratbo = parseInt(ratingbonus(data[0][0].part, qlevel));
+	var initialquality = document.getElementById('initialquality').value;
 	
 	var baserating,improvedrating = 0;
 	var itemname, ratingtype = "";
@@ -326,54 +407,60 @@ function readpage(data)
 	switch(data[0][0].type)
 	{
 		case "One-Handed":
-			baserating = weapondamage(data[0][0].rating, 0, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], 1);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], 1);
+			baserating = weapondamage(data[0][0].rating, Math.floor(initialquality), onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+			improvedrating = weapondamage(data[0][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
 			itemname = "weapon";
 			ratingtype = "damage";
 			break;
 		case "Two-Handed":
-			baserating = weapondamage(data[0][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], 0);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], 0);
+			baserating = weapondamage(data[0][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+			improvedrating = weapondamage(data[0][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
 			itemname = "weapon";
 			ratingtype = "damage";
 			break;
 		case "Archery":
-			baserating = weapondamage(data[0][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], 0);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, arlvl, arperk, effects['Archery'], potions['Archery'], 0);
+			baserating = weapondamage(data[0][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
+			improvedrating = weapondamage(data[0][0].rating, ratbo, arlvl, arperk, effskill['Archery'], potions['Archery'], seekmight);
 			break;
 		case "Light":
+			itemname = "armor";
+			ratingtype = "defense";
+			
 			if(data[0][0].part == "Shield")
 			{
-				baserating = shielddefense(data[0][0].rating, 0, bllvl, blperk, 0, 0, 0);
-				improvedrating = shielddefense(data[0][0].rating, ratbo, bllvl, blperk, 0, 0, 0);
-				itemname = "armor";
-				ratingtype = "defense";
-				break;
-			} 
-			else
-			{
-				baserating = armordefense(data[0][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, 1);
-				improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, 1);
-				itemname = "armor";
-				ratingtype = "defense";
-				break;
+				baserating = shielddefense(data[0][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
+				improvedrating = shielddefense(data[0][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
 			}
-		case "Heavy":
-			if(data[0][0].part == "Shield")
+			else if (data[0][0].part == "Chest")
 			{
-				baserating = shielddefense(data[0][0].rating, 0, bllvl, blperk, 0, 0, 0);
-				improvedrating = shielddefense(data[0][0].rating, ratbo, bllvl, blperk, 0, 0, 0);
-				itemname = "armor";
-				ratingtype = "defense";
-				break;
-			} 
+				baserating = armordefense(data[0][0].rating, initialquality, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+			}
 			else
 			{
-				baserating = armordefense(data[0][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, 1);
-				improvedrating = armordefense(data[0][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, 1);
-				itemname = "armor";
-				ratingtype = "defense";
+				baserating = armordefense(data[0][0].rating, Math.floor(initialquality/2), lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+			}
+			break;
+		case "Heavy":
+			itemname = "armor";
+			ratingtype = "defense";
+			if(data[0][0].part == "Shield")
+			{
+				baserating = shielddefense(data[0][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
+				improvedrating = shielddefense(data[0][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
+				
 				break;
+			} 
+			else if (data[0][0].part == "Chest")
+			{
+				baserating = armordefense(data[0][0].rating, initialquality, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				improvedrating = armordefense(data[0][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+			}
+			else
+			{
+				baserating = armordefense(data[0][0], Math.floor(initialquality/2), halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data[0][0], ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 			}
 		default:
 			break;
@@ -383,16 +470,10 @@ function readpage(data)
 	var para = document.getElementById("test");
 	para.innerHTML = ("Assuming your character has no active effects, " 
 	+ data[0][0].name + "'s base " + ratingtype + " is " + baserating
-	+ ". It can be improved to " + quality + " quality with " + improvedrating + " " + ratingtype + ".");
+	+ ". It can be improved to be " + quality + " quality and have " +  improvedrating + " " + ratingtype + ".");
 	
 
-	// para.innerHTML = "effskill" + effskill + "\n"
-	// 				+ "qlevel" + qlevel + "\n"
-	// 				+ "ratbo" + ratbo + "\n"
-	// 				+ "baserating" + baserating + "\n"
-	// 				+ "improvedrating" + improvedrating + "\n"
-	// 				+ "quality" + quality +"\n"
-	// 				+ "potion" + potions['One-Handed'];
+	//para.innerHTML = bllvl + " " + blperk;
 
 	//para.innerHTML = data[0][0].rating + " " + baserating + " " + improvedrating + " " + effskill + " " + ratbo;
 

@@ -17,7 +17,7 @@ Route::get('home', 'PageController@home'); //home page
 	Routes for the ONLY SEEING the contents of each database
 */
 
-Route::get('weapons_armor', 'DBController@weapons_armor'); //view weapons_armor database
+Route::get('weapons_armor', 'DBController@ascendName'); //view weapons_armor database
 
 
 /*
