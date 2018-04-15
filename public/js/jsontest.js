@@ -398,7 +398,7 @@ function readpage(data)
 	var quality = qualityName(qlevel);
 	
 	var ratbo = parseInt(ratingbonus(data[0][0].part, qlevel));
-	var initialquality = document.getElementById('initialquality').value;
+	var initialquality = 0;//document.getElementById('initialquality').value;
 	
 	var baserating,improvedrating = 0;
 	var itemname, ratingtype = "";
@@ -459,18 +459,29 @@ function readpage(data)
 			}
 			else
 			{
-				baserating = armordefense(data[0][0], Math.floor(initialquality/2), halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data[0][0], ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				baserating = armordefense(data[0][0].rating, Math.floor(initialquality/2), halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data[0][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 			}
 		default:
 			break;
 	}
 	
 	// adds text to the screen after calculations are done
-	var para = document.getElementById("test");
-	para.innerHTML = ("Assuming your character has no active effects, " 
-	+ data[0][0].name + "'s base " + ratingtype + " is " + baserating
-	+ ". It can be improved to be " + quality + " quality and have " +  improvedrating + " " + ratingtype + ".");
+	// var para = document.getElementById("test");
+	// para.innerHTML = ("Assuming your character has no active effects, " 
+	// + data[0][0].name + "'s base " + ratingtype + " is " + baserating
+	// + ". It can be improved to be " + quality + " quality and have " +  improvedrating + " " + ratingtype + ".");
+	
+	
+		document.getElementById('head-name').innerHTML = data[0][0].name;
+		// document.getElementById('head-base').innerHTML = baserating;
+		// document.getElementById('head-improved').innerHTML = improvedrating;
+
+		document.getElementById('chest-name').innerHTML = data[1][0].name;
+		document.getElementById('hands-name').innerHTML = data[2][0].name;
+		document.getElementById('boots-name').innerHTML = data[3][0].name;
+		document.getElementById('shield-name').innerHTML = data[4][0].name;
+		document.getElementById('weapon-name').innerHTML = data[5][0].name;
 	
 
 	//para.innerHTML = bllvl + " " + blperk;

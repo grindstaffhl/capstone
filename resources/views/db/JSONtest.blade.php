@@ -12,7 +12,7 @@
 
 <!-- Builds the forms for input -->
 <form action=''>
-
+{{--
 {!! Form::label('itemname', 'Item Name:') !!}
 {!! Form::text('itemname', null, ['id'=>'itemname', 'placeholder'=>'Search...']) !!} 
 {!! Form::label('itemquality', 'Quality:') !!}
@@ -21,7 +21,8 @@
 <p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
 
 <br>
-{{-- 
+--}}
+
 {!! Form::label('headname', 'Head Armor:') !!}
 {!! Form::text('headname', null, ['id'=>'headname', 'placeholder'=>'Search...']) !!} 
 {!! Form::label('headquality', 'Quality:') !!}
@@ -173,6 +174,7 @@
 
 <table id="table-data">
   <tr>
+    <th></th>
     <th>Name</th>
     <th>Base Rating</th>
     <th>Improved Rating</th>
@@ -258,9 +260,21 @@
       e.preventDefault();
 
       // this block grabs the data from the form
-      var name = $("input[name=itemname]").val();
+      var headname = $("input[name=headname]").val();
+      var chestname = $("input[name=chestname]").val();
+      var handsname = $("input[name=handsname]").val();
+      var bootsname = $("input[name=bootsname]").val();
+      var shieldname = $("input[name=shieldname]").val();
+      var weaponname = $("input[name=weaponname]").val();
+
+      var headquality = $("input[name=headquality]").val();
+      var chestquality = $("input[name=chestquality]").val();
+      var handsquality = $("input[name=handsquality]").val();
+      var bootsquality = $("input[name=bootsquality]").val();
+      var shieldquality = $("input[name=shieldquality]").val();
+      var weaponquality = $("input[name=weaponquality]").val();
+
       var smlvl = $("input[name=smithlvl]").val();
-      var qual = $("select[name=itemquality]").val();
       
       var smp = 0;
       if ($("input[name=smithperk]:checked").length > 0)
@@ -288,7 +302,7 @@
          url:'/',
 
          // data is an array with keys sharing the name of the relevant form
-         data:{name:name, quality:qual, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap, bllvl:bl, blperk:bp},
+         data:{headname:headname, headquality:headquality, chestname:chestname, chestquality:chestquality, handsname:handsname, handsquality:handsquality, bootsname:bootsname, bootsquality:bootsquality, shieldname:shieldname, shieldquality:shieldquality, weaponname:weaponname, weaponquality:weaponquality, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap, bllvl:bl, blperk:bp},
 
          // when the post request is successful
          success:function(data)
@@ -306,6 +320,7 @@
               //document.getElementById('test').style.display = 'block';
               //document.getElementById('errortext').style.display = 'none';
               readpage(data);
+              console.log(data);
             }
             
          },
