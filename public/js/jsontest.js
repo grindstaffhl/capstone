@@ -4,8 +4,10 @@ var specialArmor = [];
 
 var potionnum = 0;
 var effectnum = 0;
+var itemnum = 1;
 var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
 					'Light Armor', 'Heavy Armor', 'Block'];
+var parts = ['Head', 'Chest', 'Hands', 'Feet', 'Shield', 'Weapon'];
 
 var listPotions = [];
 
@@ -135,6 +137,55 @@ function makeEffectForm()
 	effectform.appendChild(effecteffect);
 	effectform.appendChild(br);
 	effectform.appendChild(br);
+}
+
+function makeItemForm()
+{
+	itemnum++;
+
+	var itemform = document.getElementById('itemform');
+
+	var br = document.createElement('br');
+
+	var itemlabel = document.createElement('label');
+	itemlabel.setAttribute('for', 'iteminput' + itemnum);
+	itemlabel.setAttribute('id', 'itemlabel' + itemnum);
+	itemlabel.innerHTML = 'Item Name:';
+
+	var iteminput = document.createElement('input');
+	iteminput.setAttribute('id', 'iteminput' + itemnum);
+	iteminput.setAttribute('type', 'text');
+
+	var errortext = document.createElement('p');
+	errortext.setAttribute('id', 'errortext' + itemnum);
+	errortext.setAttribute('style', 'display:none; color:red;');
+	errortext.innerHTML = 'Item you chose is not valid. Please try again.';
+
+	itemform.appendChild(itemlabel);
+	itemform.appendChild(iteminput);
+	itemform.appendChild(errortext);
+	itemform.appendChild(br);
+}
+
+function deleteItemForm()
+{
+	var form = document.getElementById('itemform');
+	
+	var typelabel = document.getElementById('typelabel' + itemnum);
+	var itemtype = document.getElementById('itemtype' + itemnum);
+
+	var itemlabel = document.getElementById('itemlabel' + itemnum);
+	var iteminput = document.getElementById('iteminput' + itemnum);
+
+	var errortext = document.getElementById('errortext' + itemnum);
+
+	form.removeChild(typelabel);
+	form.removeChild(itemtype);
+	form.removeChild(itemlabel);
+	form.removeChild(iteminput);
+	form.removeChild(errortext);
+
+	itemnum--;
 }
 
 /*
@@ -320,7 +371,7 @@ function qualityName(q)
 			return "Epic";
 			break;
 		case q >= 6:
-			return
+			return "Legendary";
 		default:
 			return "idfk";
 			break;
@@ -333,28 +384,28 @@ function qualityName(q)
  */
 function readpage(data)
 {
-	var smithlvl = parseInt(data['smithlvl']);
-	var smithperk = parseInt(data['smithperk']);
+	var smithlvl = parseInt(data['input'].smithlvl);
+	var smithperk = parseInt(data['input'].smithperk);
 
-	var quality = data['quality'];
+	// var quality = data['input'].quality;
 	
-	var onelvl = parseInt(data['ohlvl']);
-	var oneperk = parseInt(data['ohperk']);
+	var onelvl = parseInt(data['input'].ohlvl);
+	var oneperk = parseInt(data['input'].ohperk);
 	
-	var twolvl = parseInt(data['thlvl']);
-	var twoperk = parseInt(data['thperk']);
+	var twolvl = parseInt(data['input'].thlvl);
+	var twoperk = parseInt(data['input'].thperk);
 	
-	var lalvl = parseInt(data['lalvl']);
-	var laperk = parseInt(data['laperk']);
+	var lalvl = parseInt(data['input'].lalvl);
+	var laperk = parseInt(data['input'].laperk);
 	
-	var halvl = parseInt(data['halvl']);
-	var haperk = parseInt(data['haperk']);
+	var halvl = parseInt(data['input'].halvl);
+	var haperk = parseInt(data['input'].haperk);
 
-	var arlvl = parseInt(data['arlvl']);
-	var arperk = parseInt(data['arperk']);
+	var arlvl = parseInt(data['input'].arlvl);
+	var arperk = parseInt(data['input'].arperk);
 
-	var bllvl = parseInt(data['bllvl']);
-	var blperk = parseInt(data['blperk']);
+	var bllvl = parseInt(data['input'].bllvl);
+	var blperk = parseInt(data['input'].blperk);
 
 	var skills = {'Smithing': smithlvl, 'Light Armor': lalvl, 'Heavy Armor': halvl, 'One-Handed': onelvl, 
 					'Two-Handed': twolvl, 'Archery': arlvl, 'Block': bllvl};
@@ -370,8 +421,8 @@ function readpage(data)
 
 	uniqueArmor();
 
-	console.log(quality);
-	console.log(initialquality);
+	// console.log(quality);
+	// console.log(initialquality);
 
 
 	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
@@ -397,75 +448,116 @@ function readpage(data)
 	var qlevel = parseInt(qualitylvl(effskill));
 	var quality = qualityName(qlevel);
 	
-	var ratbo = parseInt(ratingbonus(data[0][0].part, qlevel));
+	
 	var initialquality = 0;//document.getElementById('initialquality').value;
 	
 	var baserating,improvedrating = 0;
 	var itemname, ratingtype = "";
 
+	var basetotal = 0;
+	var improvedtotal = 0;
 	// calculates weapon damage or armor defense depending on the item
-	switch(data[0][0].type)
+
+	for (var i = 0; i < data['names'].length; i++) {
+	var ratbo = parseInt(ratingbonus(data['names'][i][0].part, qlevel));
+
+	switch(data['names'][i][0].type)
 	{
 		case "One-Handed":
-			baserating = weapondamage(data[0][0].rating, Math.floor(initialquality), onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+			baserating = weapondamage(data['names'][i][0].rating, Math.floor(initialquality), onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
 			itemname = "weapon";
 			ratingtype = "damage";
 			break;
 		case "Two-Handed":
-			baserating = weapondamage(data[0][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+			baserating = weapondamage(data['names'][i][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
 			itemname = "weapon";
 			ratingtype = "damage";
 			break;
 		case "Archery":
-			baserating = weapondamage(data[0][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
-			improvedrating = weapondamage(data[0][0].rating, ratbo, arlvl, arperk, effskill['Archery'], potions['Archery'], seekmight);
+			baserating = weapondamage(data['names'][i][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
+			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, arlvl, arperk, effskill['Archery'], potions['Archery'], seekmight);
 			break;
 		case "Light":
 			itemname = "armor";
 			ratingtype = "defense";
 			
-			if(data[0][0].part == "Shield")
+			if(data['names'][i][0].part == "Shield")
 			{
-				baserating = shielddefense(data[0][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
-				improvedrating = shielddefense(data[0][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
+				baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
+				improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
 			}
-			else if (data[0][0].part == "Chest")
+			else if (data['names'][i][0].part == "Chest")
 			{
-				baserating = armordefense(data[0][0].rating, initialquality, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, initialquality, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
 			}
 			else
 			{
-				baserating = armordefense(data[0][0].rating, Math.floor(initialquality/2), lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data[0][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, Math.floor(initialquality/2), lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
 			}
 			break;
 		case "Heavy":
 			itemname = "armor";
 			ratingtype = "defense";
-			if(data[0][0].part == "Shield")
+			if(data['names'][i][0].part == "Shield")
 			{
-				baserating = shielddefense(data[0][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
-				improvedrating = shielddefense(data[0][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
+				baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
+				improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
 				
 				break;
 			} 
-			else if (data[0][0].part == "Chest")
+			else if (data['names'][i][0].part == "Chest")
 			{
-				baserating = armordefense(data[0][0].rating, initialquality, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
-				improvedrating = armordefense(data[0][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, initialquality, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 			}
 			else
 			{
-				baserating = armordefense(data[0][0].rating, Math.floor(initialquality/2), halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data[0][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, Math.floor(initialquality/2), halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
+				improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 			}
 		default:
 			break;
 	}
+		
+
+		//document.getElementById('head-name').innerHTML = data['names'][0].name;
+		var tablepart = data['names'][i][0].part;
+
+		console.log(tablepart);
+
+
+		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
+		document.getElementById(tablepart + '-base').innerHTML = baserating;
+		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
+		document.getElementById(tablepart + '-quality').innerHTML = quality;
+
+
+		if (tablepart != "Weapon")
+		{
+			basetotal += baserating;
+			improvedtotal += improvedrating;
+		}
+	}
+
+
 	
+	
+
+	// for (var i = 0; i < basevalues.length; i++)
+	// 	basetotal += parseInt(basevalues[i].innerHTML);
+
+	// var improvedvalues = document.getElementsByClassName("improved");
+	// var improvedtotal = 0;
+	// for (var i = 0; i < improvedvalues.length; i++)
+	// 	improvedtotal += parseInt(improvedvalues[i].innerHTML);
+	
+
+	document.getElementById('total-base').innerHTML = basetotal;
+	document.getElementById('total-improved').innerHTML = improvedtotal;
 	// adds text to the screen after calculations are done
 	// var para = document.getElementById("test");
 	// para.innerHTML = ("Assuming your character has no active effects, " 
@@ -473,15 +565,15 @@ function readpage(data)
 	// + ". It can be improved to be " + quality + " quality and have " +  improvedrating + " " + ratingtype + ".");
 	
 	
-		document.getElementById('head-name').innerHTML = data[0][0].name;
-		// document.getElementById('head-base').innerHTML = baserating;
-		// document.getElementById('head-improved').innerHTML = improvedrating;
+		// document.getElementById('head-name').innerHTML = data[0][0].name;
+		// // document.getElementById('head-base').innerHTML = baserating;
+		// // document.getElementById('head-improved').innerHTML = improvedrating;
 
-		document.getElementById('chest-name').innerHTML = data[1][0].name;
-		document.getElementById('hands-name').innerHTML = data[2][0].name;
-		document.getElementById('boots-name').innerHTML = data[3][0].name;
-		document.getElementById('shield-name').innerHTML = data[4][0].name;
-		document.getElementById('weapon-name').innerHTML = data[5][0].name;
+		// document.getElementById('chest-name').innerHTML = data[1][0].name;
+		// document.getElementById('hands-name').innerHTML = data[2][0].name;
+		// document.getElementById('Feets-name').innerHTML = data[3][0].name;
+		// document.getElementById('shield-name').innerHTML = data[4][0].name;
+		// document.getElementById('weapon-name').innerHTML = data[5][0].name;
 	
 
 	//para.innerHTML = bllvl + " " + blperk;

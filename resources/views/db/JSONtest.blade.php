@@ -12,31 +12,29 @@
 
 <!-- Builds the forms for input -->
 <form action=''>
+
+<div id="itemform">
+
+{!! Form::label('iteminput1', 'Item Name:') !!}
+{!! Form::text('iteminput1', null, ['id'=>'iteminput1', 'placeholder'=>'Search...']) !!} 
+<p id='errortext' style='display:none; color=red;'>item1 you chose is not valid. Please try again.</p>
+
+<br>
+
+
+</div>
+{!! Form::button('Add Item', ['id'=>'additem']) !!}
+{!! Form::button('Delete Item', ['id'=>'deleteitem']) !!}
+
+<br>
+
 {{--
-{!! Form::label('itemname', 'Item Name:') !!}
-{!! Form::text('itemname', null, ['id'=>'itemname', 'placeholder'=>'Search...']) !!} 
-{!! Form::label('itemquality', 'Quality:') !!}
-{!! Form::select('itemquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'initialquality']) !!} 
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
-<br>
---}}
-
-{!! Form::label('headname', 'Head Armor:') !!}
-{!! Form::text('headname', null, ['id'=>'headname', 'placeholder'=>'Search...']) !!} 
-{!! Form::label('headquality', 'Quality:') !!}
-{!! Form::select('headquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'headinitialquality']) !!} 
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
-<br>
 
 {!! Form::label('chestname', 'Chest Armor:') !!}
-{!! Form::text('chestname', null, ['id'=>'chestname', 'placeholder'=>'Search...']) !!} 
+{!! Form::text('chestname', null, ['id'=>'chestname', 'placeholder'=>'Search...']) !!}
 {!! Form::label('chestquality', 'Quality:') !!}
 {!! Form::select('chestquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'chestinitialquality']) !!} 
+                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'chestinitialquality']) !!}
 <p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
 
 <br>
@@ -50,7 +48,7 @@
 
 <br>
 
-{!! Form::label('bootsname', 'Boots Armor:') !!}
+{!! Form::label('bootsname', 'Feet Armor:') !!}
 {!! Form::text('bootsname', null, ['id'=>'bootsname', 'placeholder'=>'Search...']) !!} 
 {!! Form::label('bootsquality', 'Quality:') !!}
 {!! Form::select('bootsquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
@@ -74,8 +72,12 @@
 {!! Form::select('weaponquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
                     17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'weaponinitialquality']) !!} 
 <p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
+
 --}}
+
 <br><br>
+
+
 
 {!! Form::label('smithlvl', 'Smithing Level:') !!}
 {!! Form::number('smithlvl', 15, ['min'=>15, 'max'=>100, 'id'=>'smithlvl']) !!}
@@ -180,47 +182,47 @@
     <th>Improved Rating</th>
     <th>Quality</th>
   </tr>
-  <tr id="head-armor">
+  <tr id="Head-armor">
     <th>Head</th>
-    <td id="head-name"></td>
-    <td id="head-base"></td>
-    <td id="head-improved"></td>
-    <td id="head-quality"></td>
+    <td id="Head-name"></td>
+    <td id="Head-base" class="base"></td>
+    <td id="Head-improved" class="improved"></td>
+    <td id="Head-quality"></td>
   </tr>
-  <tr id="chest-armor">
+  <tr id="Chest-armor">
     <th>Chest</th>
-    <td id="chest-name"></td>
-    <td id="chest-base"></td>
-    <td id="chest-improved"></td>
-    <td id="chest-quality"></td>
+    <td id="Chest-name"></td>
+    <td id="Chest-base" class="base"></td>
+    <td id="Chest-improved" class="improved"></td>
+    <td id="Chest-quality"></td>
   </tr>
-  <tr id="hands-armor">
+  <tr id="Hands-armor">
     <th>Hands</th>
-    <td id="hands-name"></td>
-    <td id="hands-base"></td>
-    <td id="hands-improved"></td>
-    <td id="hands-quality"></td>
+    <td id="Hands-name"></td>
+    <td id="Hands-base" class="base"></td>
+    <td id="Hands-improved" class="improved"></td>
+    <td id="Hands-quality"></td>
   </tr>
-  <tr id="boots-armor">
-    <th>Boots</th>
-    <td id="boots-name"></td>
-    <td id="boots-base"></td>
-    <td id="boots-improved"></td>
-    <td id="boots-quality"></td>
+  <tr id="Feet-armor">
+    <th>Feet</th>
+    <td id="Feet-name"></td>
+    <td id="Feet-base" class="base"></td>
+    <td id="Feet-improved" class="improved"></td>
+    <td id="Feet-quality"></td>
   </tr>
-  <tr id="shield-armor">
+  <tr id="Shield-armor">
     <th>Shield</th>
-    <td id="shield-name"></td>
-    <td id="shield-base"></td>
-    <td id="shield-improved"></td>
-    <td id="shield-quality"></td>
+    <td id="Shield-name"></td>
+    <td id="Shield-base" class="base"></td>
+    <td id="Shield-improved" class="improved"></td>
+    <td id="Shield-quality"></td>
   </tr>
-  <tr id="weapon">
+  <tr id="Weapon">
     <th>Weapon</th>
-    <td id="weapon-name"></td>
-    <td id="weapon-base"></td>
-    <td id="weapon-improved"></td>
-    <td id="weapon-quality"></td>
+    <td id="Weapon-name"></td>
+    <td id="Weapon-base" class="base"></td>
+    <td id="Weapon-improved" class="improved"></td>
+    <td id="Weapon-quality"></td>
   </tr>
   <tr id="total">
     <th>Total</th>
@@ -245,6 +247,16 @@
     makeEffectForm();
   });
 
+  $("#additem").click(function(e)
+  {
+    makeItemForm();
+  });
+
+  $('#deleteitem').click(function(e)
+  {
+    deleteItemForm();
+  });
+
   // sets up CSRF token for ajax post request
   $.ajaxSetup({
 
@@ -260,19 +272,25 @@
       e.preventDefault();
 
       // this block grabs the data from the form
-      var headname = $("input[name=headname]").val();
-      var chestname = $("input[name=chestname]").val();
-      var handsname = $("input[name=handsname]").val();
-      var bootsname = $("input[name=bootsname]").val();
-      var shieldname = $("input[name=shieldname]").val();
-      var weaponname = $("input[name=weaponname]").val();
+      var names = [];
+      var parts = [];
 
-      var headquality = $("input[name=headquality]").val();
-      var chestquality = $("input[name=chestquality]").val();
-      var handsquality = $("input[name=handsquality]").val();
-      var bootsquality = $("input[name=bootsquality]").val();
-      var shieldquality = $("input[name=shieldquality]").val();
-      var weaponquality = $("input[name=weaponquality]").val();
+      $('#itemform').children('input[type=text]').each(function () {
+          names.push($(this).val());
+      });
+
+      $('#itemform').children('input[type=select]').each(function() {
+          parts.push($(this).val());
+      });
+
+      // var headname = $("input[name=headname]").val();
+      // var chestname = $("input[name=chestname]").val();
+      // if (chestname == null || chestname == undefined)
+      //   chestname = '';
+      // var handsname = $("input[name=handsname]").val();
+      // var bootsname = $("input[name=bootsname]").val();
+      // var shieldname = $("input[name=shieldname]").val();
+      // var weaponname = $("input[name=weaponname]").val();
 
       var smlvl = $("input[name=smithlvl]").val();
       
@@ -302,13 +320,15 @@
          url:'/',
 
          // data is an array with keys sharing the name of the relevant form
-         data:{headname:headname, headquality:headquality, chestname:chestname, chestquality:chestquality, handsname:handsname, handsquality:handsquality, bootsname:bootsname, bootsquality:bootsquality, shieldname:shieldname, shieldquality:shieldquality, weaponname:weaponname, weaponquality:weaponquality, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap, bllvl:bl, blperk:bp},
+         // headname:headname, chestname:chestname, handsname:handsname, bootsname:bootsname, shieldname:shieldname, weaponname:weaponname,
+         
+         data:{names:names, parts:parts, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap, bllvl:bl, blperk:bp},
 
          // when the post request is successful
          success:function(data)
          {
             //document.getElementById('errortext').style.display = 'none';
-            if (typeof data[0][0] == 'undefined')
+            if (false)//typeof data[0][0] == 'undefined')
             {
               //alert("Item you chose is not valid.");
               //document.getElementById('errortext').style.display = 'block';
@@ -319,8 +339,8 @@
             {
               //document.getElementById('test').style.display = 'block';
               //document.getElementById('errortext').style.display = 'none';
-              readpage(data);
               console.log(data);
+              readpage(data);
             }
             
          },
