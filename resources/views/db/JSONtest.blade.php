@@ -97,6 +97,11 @@
 {!! Form::label('laperk', 'Agile Defender Perk Level (0-5):') !!}
 {!! Form::number('laperk', 0, ['id'=>'laperk', 'min'=>'0', 'max'=>'5']) !!}
 
+<br>
+
+{!! Form::label('customfitperk', 'Custom Fit Perk?') !!}
+{!! Form::checkbox('customfitperk', null, 0, ['id'=>'customfitperk']) !!}
+
 <br><br>
 
 {!! Form::label('halvl', 'Heavy Armor Level:') !!}
@@ -106,6 +111,11 @@
 
 {!! Form::label('haperk', 'Juggernaut Perk Level (0-5):') !!}
 {!! Form::number('haperk', 0, ['id'=>'haperk', 'min'=>'0', 'max'=>'5']) !!}
+
+<br>
+
+{!! Form::label('wellfittedperk', 'Well Fitted Perk?') !!}
+{!! Form::checkbox('wellfittedperk', null, 0, ['id'=>'wellfittedperk']) !!}
 
 <br><br>
 
@@ -314,7 +324,6 @@
       // ajax request
       $.ajax(
       {
-
          type:'POST',
 
          url:'/',
@@ -331,22 +340,24 @@
             var validdata = true;
             //document.getElementById('errortext').style.display = 'none';
             
-            for (var i = 1; i <= data['names'].length; i++)
+            for (var i = 0; i < data['names'].length; i++)
             {
-              if (typeof data['names'][i] == 'undefined')
+              if (typeof data['names'][i][0] == 'undefined')
               {
-              window.alert("Item you chose is not valid.");
+                window.alert("Item you chose is not valid.");
+                //console.log(data);
               //document.getElementById('errortext' + i).style.display = 'block';
               //document.getElementById('test').style.display = 'none';
               //window.alert((errortext + i).innerHTML);
-              validdata = false;
+                validdata = false;
               }
             }
+
             if (validdata)
             {
               //document.getElementById('test').style.display = 'block';
               //document.getElementById('errortext').style.display = 'none';
-              console.log(data['names'].length);
+              console.log(data['names']);
               readpage(data);
             }
             

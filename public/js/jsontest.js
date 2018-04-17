@@ -448,9 +448,6 @@ function readpage(data)
 	var qlevel = parseInt(qualitylvl(effskill));
 	var quality = qualityName(qlevel);
 	
-	
-	var initialquality = 0;//document.getElementById('initialquality').value;
-	
 	var baserating,improvedrating = 0;
 	var itemname, ratingtype = "";
 
@@ -464,7 +461,7 @@ function readpage(data)
 	switch(data['names'][i][0].type)
 	{
 		case "One-Handed":
-			baserating = weapondamage(data['names'][i][0].rating, Math.floor(initialquality), onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+			baserating = weapondamage(data['names'][i][0].rating, 0, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
 			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
 			itemname = "weapon";
 			ratingtype = "damage";
@@ -490,12 +487,12 @@ function readpage(data)
 			}
 			else if (data['names'][i][0].part == "Chest")
 			{
-				baserating = armordefense(data['names'][i][0].rating, initialquality, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
 				improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
 			}
 			else
 			{
-				baserating = armordefense(data['names'][i][0].rating, Math.floor(initialquality/2), lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
 				improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
 			}
 			break;
@@ -511,12 +508,12 @@ function readpage(data)
 			} 
 			else if (data['names'][i][0].part == "Chest")
 			{
-				baserating = armordefense(data['names'][i][0].rating, initialquality, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 				improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 			}
 			else
 			{
-				baserating = armordefense(data['names'][i][0].rating, Math.floor(initialquality/2), halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
+				baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
 				improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
 			}
 		default:
