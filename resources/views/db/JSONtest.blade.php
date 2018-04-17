@@ -327,19 +327,26 @@
          // when the post request is successful
          success:function(data)
          {
+
+            var validdata = true;
             //document.getElementById('errortext').style.display = 'none';
-            if (false)//typeof data[0][0] == 'undefined')
+            
+            for (var i = 1; i <= data['names'].length; i++)
             {
-              //alert("Item you chose is not valid.");
-              //document.getElementById('errortext').style.display = 'block';
+              if (typeof data['names'][i] == 'undefined')
+              {
+              window.alert("Item you chose is not valid.");
+              //document.getElementById('errortext' + i).style.display = 'block';
               //document.getElementById('test').style.display = 'none';
-              window.alert(errortext.innerHTML);
+              //window.alert((errortext + i).innerHTML);
+              validdata = false;
+              }
             }
-            else 
+            if (validdata)
             {
               //document.getElementById('test').style.display = 'block';
               //document.getElementById('errortext').style.display = 'none';
-              console.log(data);
+              console.log(data['names'].length);
               readpage(data);
             }
             

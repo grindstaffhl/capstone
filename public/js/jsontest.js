@@ -6,7 +6,7 @@ var potionnum = 0;
 var effectnum = 0;
 var itemnum = 1;
 var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
-					'Light Armor', 'Heavy Armor', 'Block'];
+					'Light', 'Heavy', 'Block'];
 var parts = ['Head', 'Chest', 'Hands', 'Feet', 'Shield', 'Weapon'];
 
 var listPotions = [];
@@ -179,8 +179,9 @@ function deleteItemForm()
 
 	var errortext = document.getElementById('errortext' + itemnum);
 
-	form.removeChild(typelabel);
-	form.removeChild(itemtype);
+	
+	$('#typelabel').remove();
+	$('#itemtype').remove();
 	form.removeChild(itemlabel);
 	form.removeChild(iteminput);
 	form.removeChild(errortext);
@@ -442,7 +443,6 @@ function readpage(data)
 
 		effects[ekey.value] += parseInt(eval.value);
 	}
-
 	
 	var effskill = effectiveskill(smithlvl, smithperk, 0, potions['Smithing']);
 	var qlevel = parseInt(qualitylvl(effskill));
@@ -526,6 +526,7 @@ function readpage(data)
 
 		//document.getElementById('head-name').innerHTML = data['names'][0].name;
 		var tablepart = data['names'][i][0].part;
+		var type = data['names']
 
 		console.log(tablepart);
 
@@ -543,10 +544,6 @@ function readpage(data)
 		}
 	}
 
-
-	
-	
-
 	// for (var i = 0; i < basevalues.length; i++)
 	// 	basetotal += parseInt(basevalues[i].innerHTML);
 
@@ -558,6 +555,9 @@ function readpage(data)
 
 	document.getElementById('total-base').innerHTML = basetotal;
 	document.getElementById('total-improved').innerHTML = improvedtotal;
+
+	console.log(potions);
+	console.log(effects);
 	// adds text to the screen after calculations are done
 	// var para = document.getElementById("test");
 	// para.innerHTML = ("Assuming your character has no active effects, " 
