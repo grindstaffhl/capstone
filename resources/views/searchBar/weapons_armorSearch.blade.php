@@ -12,7 +12,7 @@
             <input type="text" class="form-control" name="search" placeholder="Search...">
             <span class="input-group-btn">
                 {{-- search bar button (VERY SMALL RIGHT NOW) --}}
-                <button class="btn btn-default-sm" type="submit"></button>
+                <button class="btn btn-default-sm" type="submit">Search</button>
             </span>
         </div>
         

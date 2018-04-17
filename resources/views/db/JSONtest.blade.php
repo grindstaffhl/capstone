@@ -13,6 +13,10 @@
 <!-- Builds the forms for input -->
 <form action=''>
 
+<button onclick="window.open('search', '_blank')">
+     Search Items</button>
+
+
 <div id="itemform">
 
 {!! Form::label('iteminput1', 'Item Name:') !!}

@@ -10,6 +10,7 @@ var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
 var parts = ['Head', 'Chest', 'Hands', 'Feet', 'Shield', 'Weapon'];
 
 var listPotions = [];
+var listEffects = [];
 
 /* GLOBAL VARIABLES*/
 
@@ -107,7 +108,7 @@ function makeEffectForm()
 
 	var typelabel = document.createElement('label');
 	typelabel.setAttribute('for', 'effecttype' + effectnum);
-	typelabel.innerHTML = 'effect Type:';
+	typelabel.innerHTML = 'Effect Type:';
 
 	var effecttype = document.createElement('select');
 	effecttype.setAttribute('id', 'effecttype' + effectnum);
@@ -124,11 +125,14 @@ function makeEffectForm()
 
 	var effectlabel = document.createElement('label');
 	effectlabel.setAttribute('for', 'effecteffect' + effectnum);
-	effectlabel.innerHTML = 'effect Effect (%):';
+	effectlabel.innerHTML = 'Effect (%):';
 
 	var effecteffect = document.createElement('input');
 	effecteffect.setAttribute('id', 'effecteffect' + effectnum);
 	effecteffect.setAttribute('type', 'number');
+	effecteffect.setAttribute('value', 0);
+
+	listEffects.push(effecteffect);
 
 	effectform.appendChild(typelabel);
 	effectform.appendChild(effecttype);
@@ -299,6 +303,19 @@ function validateInput(skillarray, perkarray)
 			if(listPotions[i].value < 0 || listPotions[i].value == '')
 			{
 				window.alert("ERROR! Potion(s) are out of range. They must be greater than 0, inclusive.");
+				return false;
+			}
+		}
+		
+	}
+
+	if(effectnum > 0)
+	{
+		for(var i = 0; i < effectnum; i++)
+		{
+			if(listEffects[i].value < 0 || listEffects[i].value == '')
+			{
+				window.alert("ERROR! Effect(s) are out of range. They must be greater than 0, inclusive.");
 				return false;
 			}
 		}
