@@ -29,6 +29,7 @@
                 <th>Price</th>
                 <th>ID</th>
                 <th>Type</th>
+                <th>Part</th>
             </thead>    
             <tbody>
                <!-- print out all of the items that adhere to the search value -->
@@ -41,6 +42,7 @@
                         <td> {{ $wa->price }} </td>
                         <td> {{ $wa->id }} </td>
                         <td> {{ $wa->type }} </td>
+                        <td> {{ $wa->part }} </td>
                     </tr>
                 @endforeach
             </tbody>

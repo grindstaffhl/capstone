@@ -192,6 +192,7 @@
   <tr>
     <th></th>
     <th>Name</th>
+    <th>Type</th>
     <th>Base Rating</th>
     <th>Improved Rating</th>
     <th>Quality</th>
@@ -199,6 +200,7 @@
   <tr id="Head-armor">
     <th>Head</th>
     <td id="Head-name"></td>
+    <td id="Head-type"></td>
     <td id="Head-base" class="base"></td>
     <td id="Head-improved" class="improved"></td>
     <td id="Head-quality"></td>
@@ -206,6 +208,7 @@
   <tr id="Chest-armor">
     <th>Chest</th>
     <td id="Chest-name"></td>
+    <td id="Chest-type"></td>
     <td id="Chest-base" class="base"></td>
     <td id="Chest-improved" class="improved"></td>
     <td id="Chest-quality"></td>
@@ -213,6 +216,7 @@
   <tr id="Hands-armor">
     <th>Hands</th>
     <td id="Hands-name"></td>
+    <td id="Hands-type"></td>
     <td id="Hands-base" class="base"></td>
     <td id="Hands-improved" class="improved"></td>
     <td id="Hands-quality"></td>
@@ -220,6 +224,7 @@
   <tr id="Feet-armor">
     <th>Feet</th>
     <td id="Feet-name"></td>
+    <td id="Feet-type"></td>
     <td id="Feet-base" class="base"></td>
     <td id="Feet-improved" class="improved"></td>
     <td id="Feet-quality"></td>
@@ -227,6 +232,7 @@
   <tr id="Shield-armor">
     <th>Shield</th>
     <td id="Shield-name"></td>
+    <td id="Shield-type"></td>
     <td id="Shield-base" class="base"></td>
     <td id="Shield-improved" class="improved"></td>
     <td id="Shield-quality"></td>
@@ -234,6 +240,7 @@
   <tr id="Weapon">
     <th>Weapon</th>
     <td id="Weapon-name"></td>
+    <td id="Weapon-type"></td>
     <td id="Weapon-base" class="base"></td>
     <td id="Weapon-improved" class="improved"></td>
     <td id="Weapon-quality"></td>
@@ -241,6 +248,7 @@
   <tr id="total">
     <th>Total</th>
     <td id="total-name"></td>
+    <td id="total-type"></td>
     <td id="total-base"></td>
     <td id="total-improved"></td>
     <td id="total-quality"></td>

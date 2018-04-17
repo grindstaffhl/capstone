@@ -240,7 +240,7 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	armorperk = parseInt(armorperk);
 	seekmight = parseInt(seekmight);
 	
-	return Math.round(Math.floor((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
+	return Math.round(Math.round((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
 	* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
 }	
 
@@ -396,6 +396,26 @@ function qualityName(q)
 	}
 }
 
+function armorFittingPerk(type)
+{
+	var pieces = 0;
+
+	for (var i = 1; i < 4; i++)
+	{
+		if (document.getElementById(parts[i] + '-type').innerHTML == type)
+			pieces++;
+		// console.log(type);
+		// console.log(document.getElementById(parts[i] + '-type').innerHTML);
+	}
+
+	console.log(pieces);
+
+	if (pieces == 3)
+		return 1.25;
+	else
+		return 1;
+}
+
 /* Main function that does all the calculations
  * data = array of data that contains key value pairs of form input
  * data[0][0] is json data from database query
@@ -472,70 +492,71 @@ function readpage(data)
 	var improvedtotal = 0;
 	// calculates weapon damage or armor defense depending on the item
 
-	for (var i = 0; i < data['names'].length; i++) {
-	var ratbo = parseInt(ratingbonus(data['names'][i][0].part, qlevel));
-
-	switch(data['names'][i][0].type)
+	for (var i = 0; i < data['names'].length; i++) 
 	{
-		case "One-Handed":
-			baserating = weapondamage(data['names'][i][0].rating, 0, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
-			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
-			itemname = "weapon";
-			ratingtype = "damage";
-			break;
-		case "Two-Handed":
-			baserating = weapondamage(data['names'][i][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
-			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
-			itemname = "weapon";
-			ratingtype = "damage";
-			break;
-		case "Archery":
-			baserating = weapondamage(data['names'][i][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
-			improvedrating = weapondamage(data['names'][i][0].rating, ratbo, arlvl, arperk, effskill['Archery'], potions['Archery'], seekmight);
-			break;
-		case "Light":
-			itemname = "armor";
-			ratingtype = "defense";
-			
-			if(data['names'][i][0].part == "Shield")
-			{
-				baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
-				improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
-			}
-			else if (data['names'][i][0].part == "Chest")
-			{
-				baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-			}
-			else
-			{
-				baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-			}
-			break;
-		case "Heavy":
-			itemname = "armor";
-			ratingtype = "defense";
-			if(data['names'][i][0].part == "Shield")
-			{
-				baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
-				improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
-				
+		var ratbo = parseInt(ratingbonus(data['names'][i][0].part, qlevel));
+
+		switch(data['names'][i][0].type)
+		{
+			case "One-Handed":
+				baserating = weapondamage(data['names'][i][0].rating, 0, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+				itemname = "weapon";
+				ratingtype = "damage";
 				break;
-			} 
-			else if (data['names'][i][0].part == "Chest")
-			{
-				baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
-				improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
-			}
-			else
-			{
-				baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
-				improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
-			}
-		default:
-			break;
-	}
+			case "Two-Handed":
+				baserating = weapondamage(data['names'][i][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+				itemname = "weapon";
+				ratingtype = "damage";
+				break;
+			case "Archery":
+				baserating = weapondamage(data['names'][i][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, ratbo, arlvl, arperk, effskill['Archery'], potions['Archery'], seekmight);
+				break;
+			case "Light":
+				itemname = "armor";
+				ratingtype = "defense";
+				
+				if(data['names'][i][0].part == "Shield")
+				{
+					baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
+					improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
+				}
+				else if (data['names'][i][0].part == "Chest")
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				}
+				else
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+				}
+				break;
+			case "Heavy":
+				itemname = "armor";
+				ratingtype = "defense";
+				if(data['names'][i][0].part == "Shield")
+				{
+					baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
+					improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
+					
+					break;
+				} 
+				else if (data['names'][i][0].part == "Chest")
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				}
+				else
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+				}
+			default:
+				break;
+		}
 		
 
 		//document.getElementById('head-name').innerHTML = data['names'][0].name;
@@ -546,18 +567,14 @@ function readpage(data)
 
 
 		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
+		document.getElementById(tablepart + '-type').innerHTML = data['names'][i][0].type;
+
+		console.log("fitted " + fitted);
 		document.getElementById(tablepart + '-base').innerHTML = baserating;
 		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
 		document.getElementById(tablepart + '-quality').innerHTML = quality;
-
-
-		if (tablepart != "Weapon")
-		{
-			basetotal += baserating;
-			improvedtotal += improvedrating;
-		}
+	
 	}
-
 	// for (var i = 0; i < basevalues.length; i++)
 	// 	basetotal += parseInt(basevalues[i].innerHTML);
 
@@ -566,12 +583,28 @@ function readpage(data)
 	// for (var i = 0; i < improvedvalues.length; i++)
 	// 	improvedtotal += parseInt(improvedvalues[i].innerHTML);
 	
+	var fitted = armorFittingPerk(document.getElementById('Head-type').innerHTML);
+
+	for(var i = 0; i < 4; i++)
+	{
+		document.getElementById(parts[i] + '-base').innerHTML *= fitted;
+		document.getElementById(parts[i] + '-improved').innerHTML *= fitted;
+
+		if (data['names'][i][0].part != "Weapon")
+		{
+			basetotal += parseInt(document.getElementById(parts[i] + '-base').innerHTML);
+			improvedtotal += parseInt(document.getElementById(parts[i] + '-improved').innerHTML);
+		}
+	}
 
 	document.getElementById('total-base').innerHTML = basetotal;
 	document.getElementById('total-improved').innerHTML = improvedtotal;
 
-	console.log(potions);
-	console.log(effects);
+
+	// console.log(potions);
+	// console.log(effects);
+
+	console.log(armorFittingPerk(document.getElementById('Head-type').innerHTML));
 	// adds text to the screen after calculations are done
 	// var para = document.getElementById("test");
 	// para.innerHTML = ("Assuming your character has no active effects, " 
