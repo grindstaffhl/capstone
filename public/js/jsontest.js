@@ -155,7 +155,7 @@ function makeEffectForm()
 	effectlabel.innerHTML = 'Effect (%):';
 
 	var effectinput = document.createElement('input');
-	effectinput.setAttribute('id', 'effectiput' + effectnum);
+	effectinput.setAttribute('id', 'effectinput' + effectnum);
 	effectinput.setAttribute('type', 'number');
 	effectinput.setAttribute('value', 0);
 
@@ -296,14 +296,10 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 
 	var all = br * up * ms * ap;
 
-	console.log(br + " * " + up + " * " + ms + " * " + ap + " = " + all);
+	//console.log(br + " * " + up + " * " + ms + " * " + ap + " = " + all);
 	
 	return Math.round(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
 	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
-
-
-	
-
 }	
 
 /* 
@@ -315,13 +311,13 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
  * potioneff = potion effects that increase blocking
  * seekmight = 1 if Seeker of Might is active, 0 if not
  */
-function shielddefense(basedef, ratbo, shieldlevel, shieldperk, itemeff, potioneff, seekmight)
+function shielddefense(basedef, ratbo, shieldlevel, shieldperk, shieldeff, unisonperk, matchset)
 {
 	shieldlevel = parseInt(shieldlevel);
 	shieldperk = parseInt(shieldperk);
 
-	var block = (((basedef + ratbo) * (1 + (shieldlevel/100)) * (1 + (shieldperk * 0.2))
-			* (1 + (itemeff/100)) * (1 + (potioneff/100)) * (1 + (seekmight/10))));
+	var block = (((basedef + ratbo) * (1 + 0.4 * (shieldlevel + shieldperk)/100))
+	* (1 + unisonperk/4) * (1 + matchset/4));
 
 	return Math.ceil(block);
 }
@@ -458,24 +454,24 @@ function qualityName(q)
 	}
 }
 
-// function armorFittingPerk(type)
+// function armorFittingPerk(armortype, data)
 // {
 // 	var pieces = 0;
 
 // 	for (var i = 1; i < 4; i++)
 // 	{
-// 		if (document.getElementById(parts[i] + '-type').innerHTML == type)
+// 		if (typeof data['names'][i] != 'undefined' && data['names'][i][0].type == armortype)
 // 			pieces++;
 // 		// console.log(type);
 // 		// console.log(document.getElementById(parts[i] + '-type').innerHTML);
 // 	}
 
-// 	console.log(pieces);
+// 	window.alert(pieces);
 
 // 	if (pieces == 3)
-// 		return 1.25;
-// 	else
 // 		return 1;
+// 	else
+// 		return 0;
 // }
 
 /* Main function that does all the calculations
@@ -598,13 +594,8 @@ function readpage(data)
 				
 				if(data['names'][i][0].part == "Shield")
 				{
-					baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
-					improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
-				}
-				else if (data['names'][i][0].part == "Chest")
-				{
-					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
 				}
 				else
 				{
@@ -617,21 +608,15 @@ function readpage(data)
 				ratingtype = "defense";
 				if(data['names'][i][0].part == "Shield")
 				{
-					baserating = shielddefense(data['names'][i][0].rating, 0, bllvl, blperk, 0, 0, seekmight);
-					improvedrating = shielddefense(data['names'][i][0].rating, ratbo, bllvl, blperk, 0, 0, seekmight);
-					
-					break;
-				} 
-				else if (data['names'][i][0].part == "Chest")
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
+				}
+				else
 				{
 					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
 					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
 				}
-				else
-				{
-					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, laperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
-				}
+				break;
 			default:
 				break;
 		}
@@ -639,17 +624,21 @@ function readpage(data)
 
 		//document.getElementById('head-name').innerHTML = data['names'][0].name;
 		var tablepart = data['names'][i][0].part;
-		var type = data['names']
+		//var type = data['names'];
 
 		//console.log(tablepart);
 
 
 		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
+		//console.log(document.getElementById(tablepart + '-name').innerHTML);
 		document.getElementById(tablepart + '-type').innerHTML = data['names'][i][0].type;
+		//console.log(document.getElementById(tablepart + '-type').innerHTML);
 
 		document.getElementById(tablepart + '-base').innerHTML = baserating;
 		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
 		document.getElementById(tablepart + '-quality').innerHTML = quality;
+
+
 	
 	}
 	// for (var i = 0; i < basevalues.length; i++)
@@ -669,24 +658,28 @@ function readpage(data)
 		//console.log("fitted " + fitted);
 
 		//document.getElementById(parts[i] + '-base').innerHTML = 
-		if (parseInt(document.getElementById(parts[i] + '-base').innerHTML) != 0)
-			Math.round(document.getElementById(parts[i] + '-base').innerHTML);// * fitted);
-		//document.getElementById(parts[i] + '-improved').innerHTML = 
-
+		//if (parseInt(document.getElementById(parts[i] + '-base').innerHTML) != 0)
+		Math.round(document.getElementById(parts[i] + '-base').innerHTML);// * fitted);
 		Math.round(document.getElementById(parts[i] + '-improved').innerHTML);// * fitted);
 
-		if (typeof data['names'][i] != 'undefined' && data['names'][i][0].part != "Weapon")
+		if (document.getElementById(parts[i] + '-base').innerHTML != '' && document.getElementById(parts[i] + '-type').innerHTML != "Weapon")
 		{
+			//console.log(typeof parseInt(document.getElementById(parts[i] + '-base').innerHTML);
+			
 			basetotal += parseInt(document.getElementById(parts[i] + '-base').innerHTML);
 			improvedtotal += parseInt(document.getElementById(parts[i] + '-improved').innerHTML);
 		}
 	}
 
-	if (basetotal != 0 && improvedtotal != 0)
-	{
+	//if (basetotal != 0 && improvedtotal != 0)
+	//{
+
+		//console.log(basetotal);
+		//console.log(typeof improvedtotal);
+
 		document.getElementById('total-base').innerHTML = basetotal;
 		document.getElementById('total-improved').innerHTML = improvedtotal;
-	}
+	//}
 
 	// console.log(potions);
 	// console.log(effects);

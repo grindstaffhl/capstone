@@ -21,7 +21,7 @@
     <!-- check if there is anything returned from the query -->
     @unless($weapArmor->isEmpty())
         <!-- create the table that will hold the items -->
-        <table class="table table-bordered table-hover" >
+        <table class="table table-bordered table-hover" id="weaponarmortable">
             <thead>
                 <th>Name</th>
                 <th>Rating</th>

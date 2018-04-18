@@ -101,12 +101,12 @@
 
 <br>
 
-{!! Form::label('customfitperk', 'Custom Fit Perk?') !!}
+{!! Form::label('customfitperk', 'Custom Fit Perk? (Only check if wearing 4 pieces of armor)') !!}
 {!! Form::checkbox('customfitperk', null, 0, ['id'=>'customfitperk']) !!}
 
 <br>
 
-{!! Form::label('lmatchset', 'Light Armor Matched Set?') !!}
+{!! Form::label('lmatchset', 'Light Armor Matched Set? (Only check if wearing 4 pieces of armor)') !!}
 {!! Form::checkbox('lmatchset', null, 0, ['id'=>'lmatchset']) !!}
 
 <br><br>
@@ -121,12 +121,12 @@
 
 <br>
 
-{!! Form::label('wellfittedperk', 'Well Fitted Perk?') !!}
+{!! Form::label('wellfittedperk', 'Well Fitted Perk? (Only check if wearing 4 pieces of armor)') !!}
 {!! Form::checkbox('wellfittedperk', null, 0, ['id'=>'wellfittedperk']) !!}
 
 <br>
 
-{!! Form::label('hmatchset', 'Heavy Armor Matched Set?') !!}
+{!! Form::label('hmatchset', 'Heavy Armor Matched Set? (Only check if wearing 4 pieces of armor)') !!}
 {!! Form::checkbox('hmatchset', null, 0, ['id'=>'hmatchset']) !!}
 
 <br><br>
