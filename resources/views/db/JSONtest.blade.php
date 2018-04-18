@@ -180,8 +180,8 @@
 <div id="potionform">
 </div>
 
-{!! Form::button('Add Potion', ['id'=>'addpotion']) !!}{{-- 
-{!! Form::button('Delete Potion', ['id'=>'deletepotion']) !!} --}}
+{!! Form::button('Add Potion', ['id'=>'addpotion']) !!} 
+{!! Form::button('Delete Potion', ['id'=>'deletepotion']) !!}
 
 <br><br>
 
@@ -189,7 +189,7 @@
   
 </div>
 {!! Form::button('Add Effect', ['id'=>'addeffect']) !!}
-{{-- {!! Form::button('Delete Effect', ['id'=>'deleteeffect']) !!} --}}
+{!! Form::button('Delete Effect', ['id'=>'deleteeffect']) !!}
 
 <br><br>
 
@@ -292,15 +292,15 @@
     deleteItemForm();
   });
 
-  // $('#deletepotion').click(function(e)
-  // {
-  //   deletePotionForm();
-  // });
+  $('#deletepotion').click(function(e)
+  {
+    deletePotionForm();
+  });
 
-  // $('#deleteeffect').click(function(e)
-  // {
-  //   deleteEffectForm();
-  // });
+  $('#deleteeffect').click(function(e)
+  {
+    deleteEffectForm();
+  });
 
   // sets up CSRF token for ajax post request
   $.ajaxSetup({

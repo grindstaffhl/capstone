@@ -1,16 +1,14 @@
 /* GLOBAL VARIABLES*/
 
-var specialArmor = [];
-
-var potionnum = 0;
-var effectnum = 0;
-var itemnum = 1;
+var potionnum = 0; //number of potions
+var effectnum = 0; //number of effects
+var itemnum = 1; //number of item inputs
 var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
-					'Light', 'Heavy', 'Block'];
-var parts = ['Head', 'Chest', 'Hands', 'Feet', 'Shield', 'Weapon'];
+					'Light', 'Heavy', 'Block']; //array of the different skill trees
+var parts = ['Head', 'Chest', 'Hands', 'Feet', 'Shield', 'Weapon']; //array of the different parts associated with items in DB
 
-var listPotions = [];
-var listEffects = [];
+var listPotions = []; //list of all the potions the user added to equation
+var listEffects = []; //list of all the effects the user added to equation
 
 /* GLOBAL VARIABLES*/
 
@@ -23,25 +21,19 @@ var listEffects = [];
  * potions = works like enchantments except for fortify smithing potions
  */
 function effectiveskill(baseskill, perk, enchantments, potions)
-{
-	
-	var es = (baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
-			(1 + (potions/100)) + 13.29;
-	console.log("effective skill " + es);
-	return es;
+{	
+	reutrn ((baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
+			(1 + (potions/100)) + 13.29);
 }
 
 /* 
- * Determines quality level of improved armor or weaponsapon
+ * Determines quality level of improved armor or weapon
  * Should round down but sometimes messes up???
  * effskill = value returned by effectiveskill method
  */
 function qualitylvl(effskill)
 {
-	var ql = Math.floor((effskill + 38) * (3/103));
-	console.log("quality level " + ql);
-	return ql;
-	//return ((effskill + 38) * (3/103));
+	return Math.floor((effskill + 38) * (3/103));
 }
 
 /*
@@ -58,6 +50,9 @@ function ratingbonus(part, qlevel)
 }
 
 /*
+	Creates potions everytime the user clicks "Add Potion" button
+	Adds potions to a list in order to validate the input of them later
+	Keeps track of the number of potions made
 */
 function makePotionForm()
 {
@@ -68,6 +63,7 @@ function makePotionForm()
 
 	var typelabel = document.createElement('label');
 	typelabel.setAttribute('for', 'potiontype' + potionnum);
+	typelabel.setAttribute('id', 'typelabel' + potionnum);
 	typelabel.innerHTML = 'Potion Type:';
 
 	var potiontype = document.createElement('select');
@@ -85,7 +81,7 @@ function makePotionForm()
 
 	var potionlabel = document.createElement('label');
 	potionlabel.setAttribute('for', 'potioneffect' + potionnum);
-	potionlabel.setAttribute('id', 'typelabel' + potionnum);
+	potionlabel.setAttribute('id', 'potionlabel' + potionnum);
 	potionlabel.innerHTML = 'Potion Effect (%):';
 
 	potioninput = document.createElement('input');
@@ -105,25 +101,23 @@ function makePotionForm()
 	potionform.appendChild(br);
 }
 
-// function deletePotionForm()
-// {
-// 	var form = document.getElementById('potionform');
-	
-// 	var typelabel = document.getElementById('typelabel' + potionnum);
-// 	var potiontype = document.getElementById('potiontype' + potionnum);
+function deletePotionForm()
+{
+	$('#typelabel' + potionnum).remove();
+	$('#potiontype' + potionnum).remove();
+	$('#potionlabel' + potionnum).remove();
+	$('#potioninput' + potionnum).remove();
 
-// 	var potionlabel = document.getElementById('potionlabel' + potionnum);
-// 	var potioninput = document.getElementById('potioninput' + potionnum);
+	listPotions.pop();
 
-	
-// 	$('#typelabel').remove();
-// 	$('#potiontype').remove();
-// 	form.removeChild(potionlabel);
-// 	form.removeChild(potioninput);
+	potionnum--;
+}
 
-// 	potionnum--;
-// }
-
+/*
+	Creates effects for users every time "Add Effect" button is clicked
+	Adds all or any effects to a list in order to validate them later
+	Keeps track of the number of effects made
+*/
 function makeEffectForm()
 {
 	effectnum++;
@@ -170,25 +164,21 @@ function makeEffectForm()
 	effectform.appendChild(br);
 }
 
-// function deleteEffectForm()
-// {
-// 	var form = document.getElementById('effectform');
-	
-// 	var typelabel = document.getElementById('typelabel' + effectnum);
-// 	var effecttype = document.getElementById('effecttype' + effectnum);
+function deleteEffectForm()
+{
+	$('#typelabel' + effectnum).remove();
+	$('#effecttype' + effectnum).remove();
+	$('#effectlabel' + effectnum).remove();
+	$('#effectinput' + effectnum).remove();
 
-// 	var effectlabel = document.getElementById('effectlabel' + effectnum);
-// 	var effectinput = document.getElementById('effectinput' + effectnum);
+	listEffects.pop();
 
-	
-// 	$('#typelabel').remove();
-// 	$('#effecttype').remove();
-// 	form.removeChild(effectlabel);
-// 	form.removeChild(effectinput);
+	effectnum--;
+}
 
-// 	effectnum--;
-// }
-
+/*
+	Creates items for users to add to total armor table
+*/
 function makeItemForm()
 {
 	itemnum++;
@@ -295,32 +285,10 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	var ap = 1 + armorperk/5;
 
 	var all = br * up * ms * ap;
-
-	//console.log(br + " * " + up + " * " + ms + " * " + ap + " = " + all);
 	
 	return Math.round(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
 	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
 }	
-
-/* 
- * basedef = base defense of shield
- * ratbo = rating bonus of improved shield, 0 if unimproved shield
- * armslevel = block skill level
- * armorperk = perk bonus for relevant tree, from 0 to 5 (Shield Wall)
- * itemeff = enhancements/active effects that increase blocking
- * potioneff = potion effects that increase blocking
- * seekmight = 1 if Seeker of Might is active, 0 if not
- */
-function shielddefense(basedef, ratbo, shieldlevel, shieldperk, shieldeff, unisonperk, matchset)
-{
-	shieldlevel = parseInt(shieldlevel);
-	shieldperk = parseInt(shieldperk);
-
-	var block = (((basedef + ratbo) * (1 + 0.4 * (shieldlevel + shieldperk)/100))
-	* (1 + unisonperk/4) * (1 + matchset/4));
-
-	return Math.ceil(block);
-}
 
 function validateInput(skillarray, perkarray)
 {
@@ -357,7 +325,6 @@ function validateInput(skillarray, perkarray)
 	{
 		for(var i = 0; i < potionnum; i++)
 		{
-			//console.log(listPotions[i].value);
 			if(listPotions[i].value < 0 || listPotions[i].value == '')
 			{
 				window.alert("ERROR! Potion(s) are out of range. They must be greater than 0, inclusive.");
@@ -381,48 +348,6 @@ function validateInput(skillarray, perkarray)
 	}
 
 	return true;
-}
-
-function uniqueArmor()
-{
-	/*
-	LIST OF UNIQUE ITEMS WE CARE ABOUT:
-
-		Ancient Shrouded Cowl: bows +35%
-		Gauntlets of the Gods: bows +20%
-		Deathbrand Gauntlets:  While dual-wielding, your One-handed attacks do 
-			10% more damage for each Deathbrand item you wear
-		Wearing all Deathbrand: +100 Armor
-		Nightingale Gloves: LEVELED percent one-handed
-		Shrounded Cowl or Shrouded Cowl Maskless: bows +20%
-		Forgemaster's Fingers: Weapons and armor improved +12%
-		Ironhand Gauntlets: two-handed +15%
-
-	*/
-	addToSpecialArmor('Ancient Shrouded Cowl', 'Head', 'Archery', 0.35);
-	addToSpecialArmor('Gauntlets of the Gods', 'Hands', 'Archery', 0.2);
-	addToSpecialArmor('Deathbrand Gauntlets', 'Hands', 'One-Handed', 0.1);
-	addToSpecialArmor('Nightingale Gloves', 'Hands', 'One-Handed', 0.15);
-	addToSpecialArmor('Shrounded Cowl', 'Head', 'Archery', 0.2);
-	addToSpecialArmor('Shrounded Cowl Maskless', 'Head', 'Archery', 0.2);
-	addToSpecialArmor('Forgemaster Fingers', 'Hands', 'Smithing', 0.12);
-	addToSpecialArmor('Ironhand Gauntlets', 'Hands', 'Two-Handed', 0.15);
-
-	/*for(var i = 0; i < specialArmor.length; i ++)
-	{
-		console.log(specialArmor[i].name);
-	}*/
-
-}
-
-function addToSpecialArmor(name, part, skill, amount)
-{
-	specialArmor.push({
-		'name': name,
-		'part': part,
-		'skill' : skill,
-		'bonus': amount
-	});
 }
 
 function qualityName(q)
@@ -454,26 +379,6 @@ function qualityName(q)
 	}
 }
 
-// function armorFittingPerk(armortype, data)
-// {
-// 	var pieces = 0;
-
-// 	for (var i = 1; i < 4; i++)
-// 	{
-// 		if (typeof data['names'][i] != 'undefined' && data['names'][i][0].type == armortype)
-// 			pieces++;
-// 		// console.log(type);
-// 		// console.log(document.getElementById(parts[i] + '-type').innerHTML);
-// 	}
-
-// 	window.alert(pieces);
-
-// 	if (pieces == 3)
-// 		return 1;
-// 	else
-// 		return 0;
-// }
-
 /* Main function that does all the calculations
  * data = array of data that contains key value pairs of form input
  * data[0][0] is json data from database query
@@ -482,8 +387,6 @@ function readpage(data)
 {
 	var smithlvl = parseInt(data['input'].smithlvl);
 	var smithperk = parseInt(data['input'].smithperk);
-
-	// var quality = data['input'].quality;
 	
 	var onelvl = parseInt(data['input'].ohlvl);
 	var oneperk = parseInt(data['input'].ohperk);
@@ -531,19 +434,13 @@ function readpage(data)
 	if (!validateInput(skills, perks))
 		return;	
 
-	uniqueArmor();
-
-	// console.log(quality);
-	// console.log(initialquality);
-
-
 	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
 	var effects = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
 
 	for (var i = 1; i <= potionnum; i++)
 	{
 		var key = document.getElementById('potiontype' + i);
-		var val = document.getElementById('potioneffect' + i);
+		var val = document.getElementById('potioninput' + i);
 
 		potions[key.value] += parseInt(val.value);
 	}
@@ -564,6 +461,7 @@ function readpage(data)
 
 	var basetotal = 0;
 	var improvedtotal = 0;
+
 	// calculates weapon damage or armor defense depending on the item
 
 	for (var i = 0; i < data['names'].length; i++) 
@@ -621,90 +519,28 @@ function readpage(data)
 				break;
 		}
 		
-
-		//document.getElementById('head-name').innerHTML = data['names'][0].name;
 		var tablepart = data['names'][i][0].part;
-		//var type = data['names'];
-
-		//console.log(tablepart);
-
 
 		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
-		//console.log(document.getElementById(tablepart + '-name').innerHTML);
+
 		document.getElementById(tablepart + '-type').innerHTML = data['names'][i][0].type;
-		//console.log(document.getElementById(tablepart + '-type').innerHTML);
 
 		document.getElementById(tablepart + '-base').innerHTML = baserating;
 		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
-		document.getElementById(tablepart + '-quality').innerHTML = quality;
-
-
-	
+		document.getElementById(tablepart + '-quality').innerHTML = quality;	
 	}
-	// for (var i = 0; i < basevalues.length; i++)
-	// 	basetotal += parseInt(basevalues[i].innerHTML);
-
-	// var improvedvalues = document.getElementsByClassName("improved");
-	// var improvedtotal = 0;
-	// for (var i = 0; i < improvedvalues.length; i++)
-	// 	improvedtotal += parseInt(improvedvalues[i].innerHTML);
 	
-	//var fitted = 1;
-	// var fitted = 1;
-	
-
 	for(var i = 0; i < 5; i++)
 	{
-		//console.log("fitted " + fitted);
-
-		//document.getElementById(parts[i] + '-base').innerHTML = 
-		//if (parseInt(document.getElementById(parts[i] + '-base').innerHTML) != 0)
-		Math.round(document.getElementById(parts[i] + '-base').innerHTML);// * fitted);
-		Math.round(document.getElementById(parts[i] + '-improved').innerHTML);// * fitted);
-
-		if (document.getElementById(parts[i] + '-base').innerHTML != '' && document.getElementById(parts[i] + '-type').innerHTML != "Weapon")
+		Math.round(document.getElementById(parts[i] + '-base').innerHTML);
+		Math.round(document.getElementById(parts[i] + '-improved').innerHTML);
+		if (document.getElementById(parts[i] + '-base').innerHTML != '' && 
+			document.getElementById(parts[i] + '-type').innerHTML != "Weapon")
 		{
-			//console.log(typeof parseInt(document.getElementById(parts[i] + '-base').innerHTML);
-			
 			basetotal += parseInt(document.getElementById(parts[i] + '-base').innerHTML);
 			improvedtotal += parseInt(document.getElementById(parts[i] + '-improved').innerHTML);
 		}
 	}
-
-	//if (basetotal != 0 && improvedtotal != 0)
-	//{
-
-		//console.log(basetotal);
-		//console.log(typeof improvedtotal);
-
-		document.getElementById('total-base').innerHTML = basetotal;
-		document.getElementById('total-improved').innerHTML = improvedtotal;
-	//}
-
-	// console.log(potions);
-	// console.log(effects);
-
-	//console.log(armorFittingPerk(document.getElementById('Head-type').innerHTML));
-	// adds text to the screen after calculations are done
-	// var para = document.getElementById("test");
-	// para.innerHTML = ("Assuming your character has no active effects, " 
-	// + data[0][0].name + "'s base " + ratingtype + " is " + baserating
-	// + ". It can be improved to be " + quality + " quality and have " +  improvedrating + " " + ratingtype + ".");
-	
-	
-		// document.getElementById('head-name').innerHTML = data[0][0].name;
-		// // document.getElementById('head-base').innerHTML = baserating;
-		// // document.getElementById('head-improved').innerHTML = improvedrating;
-
-		// document.getElementById('chest-name').innerHTML = data[1][0].name;
-		// document.getElementById('hands-name').innerHTML = data[2][0].name;
-		// document.getElementById('Feets-name').innerHTML = data[3][0].name;
-		// document.getElementById('shield-name').innerHTML = data[4][0].name;
-		// document.getElementById('weapon-name').innerHTML = data[5][0].name;
-	
-
-	//para.innerHTML = bllvl + " " + blperk;
-
-	//para.innerHTML = data[0][0].rating + " " + baserating + " " + improvedrating + " " + effskill + " " + ratbo;
-
+	document.getElementById('total-base').innerHTML = basetotal;
+	document.getElementById('total-improved').innerHTML = improvedtotal;
 }
