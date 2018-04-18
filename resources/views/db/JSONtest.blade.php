@@ -106,6 +106,11 @@
 {!! Form::label('customfitperk', 'Custom Fit Perk?') !!}
 {!! Form::checkbox('customfitperk', null, 0, ['id'=>'customfitperk']) !!}
 
+<br>
+
+{!! Form::label('lmatchset', 'Light Armor Matched Set?') !!}
+{!! Form::checkbox('lmatchset', null, 0, ['id'=>'lmatchset']) !!}
+
 <br><br>
 
 {!! Form::label('halvl', 'Heavy Armor Level:') !!}
@@ -120,6 +125,11 @@
 
 {!! Form::label('wellfittedperk', 'Well Fitted Perk?') !!}
 {!! Form::checkbox('wellfittedperk', null, 0, ['id'=>'wellfittedperk']) !!}
+
+<br>
+
+{!! Form::label('hmatchset', 'Heavy Armor Matched Set?') !!}
+{!! Form::checkbox('hmatchset', null, 0, ['id'=>'hmatchset']) !!}
 
 <br><br>
 
@@ -369,7 +379,7 @@
             {
               //document.getElementById('test').style.display = 'block';
               //document.getElementById('errortext').style.display = 'none';
-              console.log(data['names']);
+              //console.log(data['names']);
               readpage(data);
             }
             

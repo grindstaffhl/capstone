@@ -24,8 +24,11 @@ var listEffects = [];
  */
 function effectiveskill(baseskill, perk, enchantments, potions)
 {
-	return (baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
+	
+	var es = (baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
 			(1 + (potions/100)) + 13.29;
+	console.log("effective skill " + es);
+	return es;
 }
 
 /* 
@@ -35,7 +38,9 @@ function effectiveskill(baseskill, perk, enchantments, potions)
  */
 function qualitylvl(effskill)
 {
-	return Math.floor((effskill + 38) * (3/103));
+	var ql = Math.floor((effskill + 38) * (3/103));
+	console.log("quality level " + ql);
+	return ql;
 	//return ((effskill + 38) * (3/103));
 }
 
@@ -240,8 +245,14 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	armorperk = parseInt(armorperk);
 	seekmight = parseInt(seekmight);
 	
-	return Math.round(Math.round((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
-	* (1 + unisonperk) * (1 + matchset) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
+	return Math.round(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
+	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
+
+
+	// var br = basedef + ratbo;
+	// var al = (1 + 0.4 * (armslevel + armoracteff)/100)
+	// var up = 0;
+
 }	
 
 /* 
@@ -396,25 +407,25 @@ function qualityName(q)
 	}
 }
 
-function armorFittingPerk(type)
-{
-	var pieces = 0;
+// function armorFittingPerk(type)
+// {
+// 	var pieces = 0;
 
-	for (var i = 1; i < 4; i++)
-	{
-		if (document.getElementById(parts[i] + '-type').innerHTML == type)
-			pieces++;
-		// console.log(type);
-		// console.log(document.getElementById(parts[i] + '-type').innerHTML);
-	}
+// 	for (var i = 1; i < 4; i++)
+// 	{
+// 		if (document.getElementById(parts[i] + '-type').innerHTML == type)
+// 			pieces++;
+// 		// console.log(type);
+// 		// console.log(document.getElementById(parts[i] + '-type').innerHTML);
+// 	}
 
-	console.log(pieces);
+// 	console.log(pieces);
 
-	if (pieces == 3)
-		return 1.25;
-	else
-		return 1;
-}
+// 	if (pieces == 3)
+// 		return 1.25;
+// 	else
+// 		return 1;
+// }
 
 /* Main function that does all the calculations
  * data = array of data that contains key value pairs of form input
@@ -454,6 +465,22 @@ function readpage(data)
 	if (document.getElementById('seekmight').checked)
 		seekmight = 1;
 
+	var customfit = 0;
+	if (document.getElementById('customfitperk').checked)
+		customfit = 1;
+
+	var wellfitted = 0;
+	if (document.getElementById('wellfittedperk').checked)
+		wellfitted = 1;
+
+	var lmatchset = 0;
+	if (document.getElementById('lmatchset').checked)
+		lmatchset = 1;
+
+	var hmatchset = 0;
+	if (document.getElementById('hmatchset').checked)
+		hmatchset = 1;
+
 	if (!validateInput(skills, perks))
 		return;	
 
@@ -481,7 +508,7 @@ function readpage(data)
 		effects[ekey.value] += parseInt(eval.value);
 	}
 	
-	var effskill = effectiveskill(smithlvl, smithperk, 0, potions['Smithing']);
+	var effskill = effectiveskill(smithlvl, smithperk, effects['Smithing'], potions['Smithing']);
 	var qlevel = parseInt(qualitylvl(effskill));
 	var quality = qualityName(qlevel);
 	
@@ -525,13 +552,13 @@ function readpage(data)
 				}
 				else if (data['names'][i][0].part == "Chest")
 				{
-					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, 0, laperk, seekmight);
 				}
 				else
 				{
-					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], 0, 0, laperk, seekmight);
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, seekmight);
 				}
 				break;
 			case "Heavy":
@@ -546,13 +573,13 @@ function readpage(data)
 				} 
 				else if (data['names'][i][0].part == "Chest")
 				{
-					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
 				}
 				else
 				{
-					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, laperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], 0, 0, haperk, seekmight);
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, laperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
 				}
 			default:
 				break;
@@ -563,13 +590,12 @@ function readpage(data)
 		var tablepart = data['names'][i][0].part;
 		var type = data['names']
 
-		console.log(tablepart);
+		//console.log(tablepart);
 
 
 		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
 		document.getElementById(tablepart + '-type').innerHTML = data['names'][i][0].type;
 
-		console.log("fitted " + fitted);
 		document.getElementById(tablepart + '-base').innerHTML = baserating;
 		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
 		document.getElementById(tablepart + '-quality').innerHTML = quality;
@@ -583,12 +609,16 @@ function readpage(data)
 	// for (var i = 0; i < improvedvalues.length; i++)
 	// 	improvedtotal += parseInt(improvedvalues[i].innerHTML);
 	
-	var fitted = armorFittingPerk(document.getElementById('Head-type').innerHTML);
+	//var fitted = 1;
+	// var fitted = 1;
+	
 
 	for(var i = 0; i < 4; i++)
 	{
-		document.getElementById(parts[i] + '-base').innerHTML *= fitted;
-		document.getElementById(parts[i] + '-improved').innerHTML *= fitted;
+		//console.log("fitted " + fitted);
+
+		document.getElementById(parts[i] + '-base').innerHTML = Math.round(document.getElementById(parts[i] + '-base').innerHTML);// * fitted);
+		document.getElementById(parts[i] + '-improved').innerHTML = Math.round(document.getElementById(parts[i] + '-improved').innerHTML);// * fitted);
 
 		if (data['names'][i][0].part != "Weapon")
 		{
@@ -604,7 +634,7 @@ function readpage(data)
 	// console.log(potions);
 	// console.log(effects);
 
-	console.log(armorFittingPerk(document.getElementById('Head-type').innerHTML));
+	//console.log(armorFittingPerk(document.getElementById('Head-type').innerHTML));
 	// adds text to the screen after calculations are done
 	// var para = document.getElementById("test");
 	// para.innerHTML = ("Assuming your character has no active effects, " 
