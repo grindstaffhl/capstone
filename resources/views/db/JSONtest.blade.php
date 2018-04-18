@@ -81,8 +81,6 @@
 
 <br><br>
 
-
-
 {!! Form::label('smithlvl', 'Smithing Level:') !!}
 {!! Form::number('smithlvl', 15, ['min'=>15, 'max'=>100, 'id'=>'smithlvl']) !!}
 
@@ -182,12 +180,16 @@
 <div id="potionform">
 </div>
 
-{!! Form::button('Add Potion', ['id'=>'addpotion']) !!}
+{!! Form::button('Add Potion', ['id'=>'addpotion']) !!}{{-- 
+{!! Form::button('Delete Potion', ['id'=>'deletepotion']) !!} --}}
 
 <br><br>
 
-<div id="effectform"></div>
+<div id="effectform">
+  
+</div>
 {!! Form::button('Add Effect', ['id'=>'addeffect']) !!}
+{{-- {!! Form::button('Delete Effect', ['id'=>'deleteeffect']) !!} --}}
 
 <br><br>
 
@@ -284,10 +286,21 @@
     makeItemForm();
   });
 
+
   $('#deleteitem').click(function(e)
   {
     deleteItemForm();
   });
+
+  // $('#deletepotion').click(function(e)
+  // {
+  //   deletePotionForm();
+  // });
+
+  // $('#deleteeffect').click(function(e)
+  // {
+  //   deleteEffectForm();
+  // });
 
   // sets up CSRF token for ajax post request
   $.ajaxSetup({
@@ -379,7 +392,7 @@
             {
               //document.getElementById('test').style.display = 'block';
               //document.getElementById('errortext').style.display = 'none';
-              //console.log(data['names']);
+              console.log(data);
               readpage(data);
             }
             

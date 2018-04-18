@@ -83,26 +83,46 @@ function makePotionForm()
 
 	var br = document.createElement('br');
 
-	var effectlabel = document.createElement('label');
-	effectlabel.setAttribute('for', 'potioneffect' + potionnum);
-	effectlabel.innerHTML = 'Potion Effect (%):';
+	var potionlabel = document.createElement('label');
+	potionlabel.setAttribute('for', 'potioneffect' + potionnum);
+	potionlabel.setAttribute('id', 'typelabel' + potionnum);
+	potionlabel.innerHTML = 'Potion Effect (%):';
 
-	potioneffect = document.createElement('input');
-	potioneffect.setAttribute('id', 'potioneffect' + potionnum);
-	potioneffect.setAttribute('type', 'number');
-	potioneffect.setAttribute('value', 0);
+	potioninput = document.createElement('input');
+	potioninput.setAttribute('id', 'potioninput' + potionnum);
+	potioninput.setAttribute('type', 'number' + potionnum);
+	potioninput.setAttribute('value', 0);
 
-	listPotions.push(potioneffect);
+	listPotions.push(potioninput);
 
 	potionform.appendChild(typelabel);
 	potionform.appendChild(potiontype);
 	potionform.appendChild(br);
 	potionform.appendChild(br);
-	potionform.appendChild(effectlabel);
-	potionform.appendChild(potioneffect);
+	potionform.appendChild(potionlabel);
+	potionform.appendChild(potioninput);
 	potionform.appendChild(br);
 	potionform.appendChild(br);
 }
+
+// function deletePotionForm()
+// {
+// 	var form = document.getElementById('potionform');
+	
+// 	var typelabel = document.getElementById('typelabel' + potionnum);
+// 	var potiontype = document.getElementById('potiontype' + potionnum);
+
+// 	var potionlabel = document.getElementById('potionlabel' + potionnum);
+// 	var potioninput = document.getElementById('potioninput' + potionnum);
+
+	
+// 	$('#typelabel').remove();
+// 	$('#potiontype').remove();
+// 	form.removeChild(potionlabel);
+// 	form.removeChild(potioninput);
+
+// 	potionnum--;
+// }
 
 function makeEffectForm()
 {
@@ -113,6 +133,7 @@ function makeEffectForm()
 
 	var typelabel = document.createElement('label');
 	typelabel.setAttribute('for', 'effecttype' + effectnum);
+	typelabel.setAttribute('id', 'typelabel' + effectnum);
 	typelabel.innerHTML = 'Effect Type:';
 
 	var effecttype = document.createElement('select');
@@ -129,24 +150,44 @@ function makeEffectForm()
 	var br = document.createElement('br');
 
 	var effectlabel = document.createElement('label');
-	effectlabel.setAttribute('for', 'effecteffect' + effectnum);
+	effectlabel.setAttribute('for', 'effectinput' + effectnum);
+	effectlabel.setAttribute('id', 'effectlabel' + effectnum);
 	effectlabel.innerHTML = 'Effect (%):';
 
-	var effecteffect = document.createElement('input');
-	effecteffect.setAttribute('id', 'effecteffect' + effectnum);
-	effecteffect.setAttribute('type', 'number');
-	effecteffect.setAttribute('value', 0);
+	var effectinput = document.createElement('input');
+	effectinput.setAttribute('id', 'effectiput' + effectnum);
+	effectinput.setAttribute('type', 'number');
+	effectinput.setAttribute('value', 0);
 
-	listEffects.push(effecteffect);
+	listEffects.push(effectinput);
 
 	effectform.appendChild(typelabel);
 	effectform.appendChild(effecttype);
 	effectform.appendChild(br);
 	effectform.appendChild(effectlabel);
-	effectform.appendChild(effecteffect);
+	effectform.appendChild(effectinput);
 	effectform.appendChild(br);
 	effectform.appendChild(br);
 }
+
+// function deleteEffectForm()
+// {
+// 	var form = document.getElementById('effectform');
+	
+// 	var typelabel = document.getElementById('typelabel' + effectnum);
+// 	var effecttype = document.getElementById('effecttype' + effectnum);
+
+// 	var effectlabel = document.getElementById('effectlabel' + effectnum);
+// 	var effectinput = document.getElementById('effectinput' + effectnum);
+
+	
+// 	$('#typelabel').remove();
+// 	$('#effecttype').remove();
+// 	form.removeChild(effectlabel);
+// 	form.removeChild(effectinput);
+
+// 	effectnum--;
+// }
 
 function makeItemForm()
 {
@@ -188,14 +229,17 @@ function deleteItemForm()
 
 	var errortext = document.getElementById('errortext' + itemnum);
 
-	
-	$('#typelabel').remove();
-	$('#itemtype').remove();
-	form.removeChild(itemlabel);
-	form.removeChild(iteminput);
-	form.removeChild(errortext);
+	if (itemnum > 1)
+	{
+		$('#typelabel').remove();
+		$('#itemtype').remove();
+		form.removeChild(itemlabel);
+		form.removeChild(iteminput);
+		form.removeChild(errortext);
 
-	itemnum--;
+		itemnum--;
+	}
+	
 }
 
 /*
@@ -244,14 +288,21 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	unisonperk = parseInt(unisonperk);
 	armorperk = parseInt(armorperk);
 	seekmight = parseInt(seekmight);
+
+	var br = Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100));
+	var up = 1 + unisonperk/4;
+	var ms = 1 + matchset/4;
+	var ap = 1 + armorperk/5;
+
+	var all = br * up * ms * ap;
+
+	console.log(br + " * " + up + " * " + ms + " * " + ap + " = " + all);
 	
 	return Math.round(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
 	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
 
 
-	// var br = basedef + ratbo;
-	// var al = (1 + 0.4 * (armslevel + armoracteff)/100)
-	// var up = 0;
+	
 
 }	
 
@@ -503,7 +554,7 @@ function readpage(data)
 	for (var i = 1; i <= effectnum; i++)
 	{
 		var ekey = document.getElementById('effecttype' + i);
-		var eval = document.getElementById('effecteffect' + i);
+		var eval = document.getElementById('effectinput' + i);
 
 		effects[ekey.value] += parseInt(eval.value);
 	}
@@ -552,13 +603,13 @@ function readpage(data)
 				}
 				else if (data['names'][i][0].part == "Chest")
 				{
-					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, 0, laperk, seekmight);
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
 				}
 				else
 				{
-					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, seekmight);
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
 				}
 				break;
 			case "Heavy":
@@ -613,23 +664,29 @@ function readpage(data)
 	// var fitted = 1;
 	
 
-	for(var i = 0; i < 4; i++)
+	for(var i = 0; i < 5; i++)
 	{
 		//console.log("fitted " + fitted);
 
-		document.getElementById(parts[i] + '-base').innerHTML = Math.round(document.getElementById(parts[i] + '-base').innerHTML);// * fitted);
-		document.getElementById(parts[i] + '-improved').innerHTML = Math.round(document.getElementById(parts[i] + '-improved').innerHTML);// * fitted);
+		//document.getElementById(parts[i] + '-base').innerHTML = 
+		if (parseInt(document.getElementById(parts[i] + '-base').innerHTML) != 0)
+			Math.round(document.getElementById(parts[i] + '-base').innerHTML);// * fitted);
+		//document.getElementById(parts[i] + '-improved').innerHTML = 
 
-		if (data['names'][i][0].part != "Weapon")
+		Math.round(document.getElementById(parts[i] + '-improved').innerHTML);// * fitted);
+
+		if (typeof data['names'][i] != 'undefined' && data['names'][i][0].part != "Weapon")
 		{
 			basetotal += parseInt(document.getElementById(parts[i] + '-base').innerHTML);
 			improvedtotal += parseInt(document.getElementById(parts[i] + '-improved').innerHTML);
 		}
 	}
 
-	document.getElementById('total-base').innerHTML = basetotal;
-	document.getElementById('total-improved').innerHTML = improvedtotal;
-
+	if (basetotal != 0 && improvedtotal != 0)
+	{
+		document.getElementById('total-base').innerHTML = basetotal;
+		document.getElementById('total-improved').innerHTML = improvedtotal;
+	}
 
 	// console.log(potions);
 	// console.log(effects);
