@@ -1,3 +1,14 @@
+/*
+*****************************************************
+| 	CREATED BY: Hayden Grindstaff and Megan Petruso |
+|	DATE: 4/18/2018									|
+|	SKYRIM COMBAT SKILLS CHARACTER PLANNER			|
+|	CAPSTONE PROJECT 2018							|
+*****************************************************
+	This file runs all calculations and validations
+	for the items input into the forms.
+*/
+
 /* GLOBAL VARIABLES*/
 
 var potionnum = 0; //number of potions
@@ -22,7 +33,7 @@ var listEffects = []; //list of all the effects the user added to equation
  */
 function effectiveskill(baseskill, perk, enchantments, potions)
 {	
-	reutrn ((baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
+	return ((baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
 			(1 + (potions/100)) + 13.29);
 }
 
@@ -39,6 +50,7 @@ function qualitylvl(effskill)
 /*
  * Finds how much dmg/def to add to item depending on quality level
  * part = what body part of armor or weapon, non chest pieces and weapons get half bonus
+ * qlevel = quality level calculated by the qualitylvl() function
  */
 function ratingbonus(part, qlevel)
 {
@@ -89,6 +101,7 @@ function makePotionForm()
 	potioninput.setAttribute('type', 'number' + potionnum);
 	potioninput.setAttribute('value', 0);
 
+	//push to the array
 	listPotions.push(potioninput);
 
 	potionform.appendChild(typelabel);
@@ -101,6 +114,11 @@ function makePotionForm()
 	potionform.appendChild(br);
 }
 
+/*
+	Deletes a potion from the form
+	pops the potion off of the listPotions array
+	reduces the number of potions by 1
+*/
 function deletePotionForm()
 {
 	$('#typelabel' + potionnum).remove();
@@ -108,6 +126,7 @@ function deletePotionForm()
 	$('#potionlabel' + potionnum).remove();
 	$('#potioninput' + potionnum).remove();
 
+	//pop off of the array
 	listPotions.pop();
 
 	potionnum--;
@@ -153,6 +172,7 @@ function makeEffectForm()
 	effectinput.setAttribute('type', 'number');
 	effectinput.setAttribute('value', 0);
 
+	//push to the array
 	listEffects.push(effectinput);
 
 	effectform.appendChild(typelabel);
@@ -164,6 +184,11 @@ function makeEffectForm()
 	effectform.appendChild(br);
 }
 
+/*
+	Deletes an Effect from the form
+	pops the effect from the listEffects array
+	reduces the number of effects by 1
+*/
 function deleteEffectForm()
 {
 	$('#typelabel' + effectnum).remove();
@@ -178,6 +203,7 @@ function deleteEffectForm()
 
 /*
 	Creates items for users to add to total armor table
+	Adds 1 to the number of items
 */
 function makeItemForm()
 {
@@ -207,6 +233,12 @@ function makeItemForm()
 	itemform.appendChild(br);
 }
 
+/*
+	Deletes items from the form
+	reduces the number of items by 1
+	Must have at least 1 item to input, 
+		so cannot delete the last (1) item
+*/
 function deleteItemForm()
 {
 	var form = document.getElementById('itemform');
@@ -257,7 +289,6 @@ function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, se
 	var wpndmg = (((basedam + ratbo) * (1 + ((wpnslevel)/200)) * (1 + (wpnperk * 0.2)) * (1 + (itemeff/100))
 			 * (1 + (potioneff/100)) * (1 + (seekmight/10))));
 	return Math.round(wpndmg);
-	//return wpndmg;
 }
 
 /* 
@@ -278,23 +309,24 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	unisonperk = parseInt(unisonperk);
 	armorperk = parseInt(armorperk);
 	seekmight = parseInt(seekmight);
-
-	var br = Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100));
-	var up = 1 + unisonperk/4;
-	var ms = 1 + matchset/4;
-	var ap = 1 + armorperk/5;
-
-	var all = br * up * ms * ap;
 	
 	return Math.round(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
 	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
 }	
 
+/*
+	Validate/error checking valid numbers in the:
+		Skill text boxes
+		Perk text boxes
+		Potion text boxes
+		Effect text boxes
+*/
 function validateInput(skillarray, perkarray)
 {
 	var badskillnames = '';
 	var badperk = '';
 
+	//check for valid skills
 	for (skill in skillarray)
 	{
 		if (isNaN(skillarray[skill]) || skillarray[skill] > 100 || skillarray[skill] < 15)
@@ -302,10 +334,10 @@ function validateInput(skillarray, perkarray)
 				badskillnames += ('- ' + skill.toString() + "\n");
 			}
 	}
-
 	if (badskillnames != '')
 		window.alert('ERROR: These skills are out of range. They must be between 15 and 100, inclusive.' + '\n\n' + badskillnames);
 
+	//check for valid perks
 	for(perk in perkarray)
 	{
 		if(perkarray[perk] > 5 || perkarray[perk] < 0 || isNaN(perkarray[perk]))
@@ -313,14 +345,14 @@ function validateInput(skillarray, perkarray)
 			badperk += ("- " + perk.toString() + "\n");
 		}
 	}
-
 	if(badperk != '')
 		window.alert("ERROR! These perks are out of range. They must be between 0 and 5, inclusive." + "\n\n" + badperk);
-	
 
+	//don't run the math if the input is invalid
 	if (badskillnames != '' && badperk != '')
 		return false;
 
+	//check for valid potions
 	if(potionnum > 0)
 	{
 		for(var i = 0; i < potionnum; i++)
@@ -334,6 +366,7 @@ function validateInput(skillarray, perkarray)
 		
 	}
 
+	//check for valid effects
 	if(effectnum > 0)
 	{
 		for(var i = 0; i < effectnum; i++)
@@ -347,9 +380,15 @@ function validateInput(skillarray, perkarray)
 		
 	}
 
+	//return true if everything is valid
 	return true;
 }
 
+/*
+	Name of quality that correlates to the quality level
+		calculated from qualitylvl() function
+	q = quality level
+*/
 function qualityName(q)
 {
 	switch (true) {
@@ -374,17 +413,22 @@ function qualityName(q)
 		case q >= 6:
 			return "Legendary";
 		default:
-			return "idfk";
+			return "Unknown";
 			break;
 	}
 }
 
-/* Main function that does all the calculations
+/* 
+	****************************************************************
+	MAIN FUNCTION THAT DOES ALL OF THE CALCULATION WHEN CLICK SUBMIT
+	****************************************************************
  * data = array of data that contains key value pairs of form input
  * data[0][0] is json data from database query
  */
 function readpage(data)
 {
+	//GATHER ALL INFO FROM THE USER INPUTS
+
 	var smithlvl = parseInt(data['input'].smithlvl);
 	var smithperk = parseInt(data['input'].smithperk);
 	
@@ -411,6 +455,8 @@ function readpage(data)
 	var perks = {"Smithing": smithperk, "Light Armor": laperk, "Heavy Armor": haperk, "One-Handed": oneperk, 
 					"Two-Handed": twoperk, "Archery": arperk, "Block": blperk};
 
+	//CHECK BOXES MARKED?
+
 	var seekmight = 0;
 	if (document.getElementById('seekmight').checked)
 		seekmight = 1;
@@ -431,9 +477,11 @@ function readpage(data)
 	if (document.getElementById('hmatchset').checked)
 		hmatchset = 1;
 
+	//CHECK TO SEE IF THE INPUT IS VALID. IF NOT, DON'T DO ANY MATH
 	if (!validateInput(skills, perks))
 		return;	
 
+	//DISPLAY AND PARSE POTIONS AND EFFECTS
 	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
 	var effects = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
 
@@ -452,6 +500,7 @@ function readpage(data)
 		effects[ekey.value] += parseInt(eval.value);
 	}
 	
+	//ALL INPUT IS VALID...DO SOME MATH NOW!
 	var effskill = effectiveskill(smithlvl, smithperk, effects['Smithing'], potions['Smithing']);
 	var qlevel = parseInt(qualitylvl(effskill));
 	var quality = qualityName(qlevel);
@@ -462,8 +511,8 @@ function readpage(data)
 	var basetotal = 0;
 	var improvedtotal = 0;
 
-	// calculates weapon damage or armor defense depending on the item
-
+	//CALCULATES WEAPON DAMAGE OR ARMOR DEFENSE BASED ON THE TYPE OF THE ITEM
+	//ITERATES THROUGH THE LIST OF ITEMS USER INPUTS AND CALCULATES EACH
 	for (var i = 0; i < data['names'].length; i++) 
 	{
 		var ratbo = parseInt(ratingbonus(data['names'][i][0].part, qlevel));
@@ -518,7 +567,8 @@ function readpage(data)
 			default:
 				break;
 		}
-		
+
+		//CREATE THE TABLE FOR THE ITEMS TO GO INTO		
 		var tablepart = data['names'][i][0].part;
 
 		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
@@ -530,6 +580,7 @@ function readpage(data)
 		document.getElementById(tablepart + '-quality').innerHTML = quality;	
 	}
 	
+	//ARMOR RATING ONLY TAKES INTO EFFECT ARMOR...NO WEAPONS ADDED TO TOTAL
 	for(var i = 0; i < 5; i++)
 	{
 		Math.round(document.getElementById(parts[i] + '-base').innerHTML);
@@ -541,6 +592,7 @@ function readpage(data)
 			improvedtotal += parseInt(document.getElementById(parts[i] + '-improved').innerHTML);
 		}
 	}
+	//DISPLAY THE FINAL BASE TOTAL AND IMPROVED TOTAL FOR EACH ITEM
 	document.getElementById('total-base').innerHTML = basetotal;
 	document.getElementById('total-improved').innerHTML = improvedtotal;
 }

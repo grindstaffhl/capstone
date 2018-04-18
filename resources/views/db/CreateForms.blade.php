@@ -1,3 +1,15 @@
+<!--
+*****************************************************
+| CREATED BY: Hayden Grindstaff and Megan Petruso   |
+| DATE: 4/18/2018                                   |
+| SKYRIM COMBAT SKILLS CHARACTER PLANNER            |
+| CAPSTONE PROJECT 2018                             |
+*****************************************************
+  This file creates the buttons, forms, and gathers
+  information from the user inputs to pass to the js 
+  file.
+-->
+
 {{-- take css from layouts.blade.php in the views folder--}}
 @extends('layout') 
 
@@ -10,13 +22,13 @@
 
 <br>
 
-<!-- Builds the forms for input -->
 <form action=''>
 
+<!-- button opens a new tab for user to serach item database -->
 <button onclick="window.open('search', '_blank')">
      Search Items</button>
 
-
+<!-- CREATE ITEM FORMS -->
 <div id="itemform">
 
 {!! Form::label('iteminput1', 'Item Name:') !!}
@@ -25,61 +37,16 @@
 
 <br>
 
-
+<!-- Add and delete buttons for items -->
 </div>
 {!! Form::button('Add Item', ['id'=>'additem']) !!}
 {!! Form::button('Delete Item', ['id'=>'deleteitem']) !!}
 
 <br>
 
-{{--
-
-{!! Form::label('chestname', 'Chest Armor:') !!}
-{!! Form::text('chestname', null, ['id'=>'chestname', 'placeholder'=>'Search...']) !!}
-{!! Form::label('chestquality', 'Quality:') !!}
-{!! Form::select('chestquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'chestinitialquality']) !!}
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
-<br>
-
-{!! Form::label('handsname', 'Hands Armor:') !!}
-{!! Form::text('handsname', null, ['id'=>'handsname', 'placeholder'=>'Search...']) !!} 
-{!! Form::label('handsquality', 'Quality:') !!}
-{!! Form::select('handsquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'handsinitialquality']) !!} 
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
-<br>
-
-{!! Form::label('bootsname', 'Feet Armor:') !!}
-{!! Form::text('bootsname', null, ['id'=>'bootsname', 'placeholder'=>'Search...']) !!} 
-{!! Form::label('bootsquality', 'Quality:') !!}
-{!! Form::select('bootsquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'bootsinitialquality']) !!} 
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
-<br>
-
-{!! Form::label('shieldname', 'Shield:') !!}
-{!! Form::text('shieldname', null, ['id'=>'shieldname', 'placeholder'=>'Search...']) !!} 
-{!! Form::label('shieldquality', 'Quality:') !!}
-{!! Form::select('shieldquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'shieldinitialquality']) !!} 
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
-<br>
-
-{!! Form::label('weaponname', 'Weapon:') !!}
-{!! Form::text('weaponname', null, ['id'=>'weaponname', 'placeholder'=>'Search...']) !!} 
-{!! Form::label('weaponquality', 'Quality:') !!}
-{!! Form::select('weaponquality', [0 => 'Base', 2 => 'Fine', 6 => 'Superior', 10 => 'Exquisite', 13 => 'Flawless',
-                    17 => 'Epic', 20 => 'Legendary'], 0, ['id'=>'weaponinitialquality']) !!} 
-<p id='errortext' style='display:none; color=red;'>Item you chose is not valid. Please try again.</p>
-
---}}
-
 <br><br>
+
+<!-- CREATE THE SKILLS AND PERKS FORMS -->
 
 {!! Form::label('smithlvl', 'Smithing Level:') !!}
 {!! Form::number('smithlvl', 15, ['min'=>15, 'max'=>100, 'id'=>'smithlvl']) !!}
@@ -166,7 +133,7 @@
 
 <br>
 
-{!! Form::label('blperk', 'weapon Wall Perk Level (0-5):') !!}
+{!! Form::label('blperk', 'Wall Perk Level (0-5):') !!}
 {!! Form::number('blperk', 0, ['id'=>'blperk', 'min'=>15, 'max'=>100]) !!}
 
 <br><br>
@@ -176,6 +143,9 @@
 {!! Form::checkbox('seekmight', null, 0, ['id'=>'seekmight']) !!}
 
 <br><br>
+
+<!-- CREATE POTIONS AND EFFECTS FORMS -->
+<!-- actually create a typable form when click the add potion button -->
 
 <div id="potionform">
 </div>
@@ -193,13 +163,14 @@
 
 <br><br>
 
-<!-- submit button to pass data and do calculations -->
-{{-- <button class = "submitbtn">Submit</button> --}}
+<!-- SUBMIT DATA TO RUN CALCULATIONS IN JS FILE -->
 {!! Form::submit('Submit', ['id'=>'submitbtn']) !!}
 </form>
+
 <!-- initially empty paragraph tag that gets filled with data from calculation -->
 <p id="test"></p>
 
+<!-- CREATE HTML TABLE TO HOLD ALL OF THE ITEM CALCULATIONS -->
 <table id="table-data">
   <tr>
     <th></th>
@@ -267,6 +238,7 @@
   </tr>
 </table>
 
+<!-- CLICK FUNCTIONS FOR ALL OF THE BUTTONS ON THE PAGE -->
 <script>
   $(document).ready()
 {
@@ -328,15 +300,6 @@
           parts.push($(this).val());
       });
 
-      // var headname = $("input[name=headname]").val();
-      // var chestname = $("input[name=chestname]").val();
-      // if (chestname == null || chestname == undefined)
-      //   chestname = '';
-      // var handsname = $("input[name=handsname]").val();
-      // var bootsname = $("input[name=bootsname]").val();
-      // var shieldname = $("input[name=shieldname]").val();
-      // var weaponname = $("input[name=weaponname]").val();
-
       var smlvl = $("input[name=smithlvl]").val();
       
       var smp = 0;
@@ -361,10 +324,10 @@
       {
          type:'POST',
 
-         url:'/',
+         url:'/home',
 
-         // data is an array with keys sharing the name of the relevant form
-         // headname:headname, chestname:chestname, handsname:handsname, bootsname:bootsname, shieldname:shieldname, weaponname:weaponname,
+         /* data is an array with keys sharing the name of the relevant form
+                headname:headname, chestname:chestname, handsname:handsname, bootsname:bootsname, shieldname:shieldname, weaponname:weaponname, */
          
          data:{names:names, parts:parts, smithlvl:smlvl, smithperk:smp, lalvl:la, laperk:lp, halvl:ha, haperk:hp, ohlvl:ol, ohperk:op, thlvl:tl, thperk:tp, arlvl:al, arperk:ap, bllvl:bl, blperk:bp},
 
@@ -373,26 +336,18 @@
          {
 
             var validdata = true;
-            //document.getElementById('errortext').style.display = 'none';
             
             for (var i = 0; i < data['names'].length; i++)
             {
               if (typeof data['names'][i][0] == 'undefined')
               {
                 window.alert("Item you chose is not valid.");
-                //console.log(data);
-              //document.getElementById('errortext' + i).style.display = 'block';
-              //document.getElementById('test').style.display = 'none';
-              //window.alert((errortext + i).innerHTML);
                 validdata = false;
               }
             }
 
             if (validdata)
             {
-              //document.getElementById('test').style.display = 'block';
-              //document.getElementById('errortext').style.display = 'none';
-              console.log(data);
               readpage(data);
             }
             
@@ -401,7 +356,7 @@
          // when the post request fails
          error:function()
          { 
-            alert("error!!!!");
+            alert("AN ERROR HAS OCCURED! Please try again.");
          }
       });
   });

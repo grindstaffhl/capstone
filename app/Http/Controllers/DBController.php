@@ -18,42 +18,9 @@ class DBController extends Controller
 
 		-returns the db/weapons_armor.blade.php biew
 	*/
-	public function ascendName()
+	public function viewWeaponsArmor()
 	{
 		$weaponsAndArmor = DB::table('skyrim_weapons_armor')->get();
-        return view('db.weapons_armor', compact('weaponsAndArmor'));
-    }
-
-    /*
-        Views the contents of skyrim_weapons_armor database
-
-        -returns the db/weapons_armor.blade.php biew
-    */
-    public function descendName()
-    {
-        $weaponsAndArmor = DB::table('skyrim_weapons_armor')->get();
-        return view('db.weapons_armor', compact('weaponsAndArmor'));
-    }
-
-    /*
-        Views the contents of skyrim_weapons_armor database
-
-        -returns the db/weapons_armor.blade.php biew
-    */
-    public function ascendRating()
-    {
-        $weaponsAndArmor = DB::table('skyrim_weapons_armor')->get();
-        return view('db.weapons_armor', compact('weaponsAndArmor'));
-    }
-
-    /*
-        Views the contents of skyrim_weapons_armor database
-
-        -returns the db/weapons_armor.blade.php biew
-    */
-    public function descendRating()
-    {
-        $weaponsAndArmor = DB::table('skyrim_weapons_armor')->get();
         return view('db.weapons_armor', compact('weaponsAndArmor'));
     }
 }

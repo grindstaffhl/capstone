@@ -10,14 +10,14 @@
 /*
 	Routes for the PageController (MAIN pages)
 */
-Route::get('home', 'PageController@home'); //home page
+Route::get('/', 'PageController@home'); //home page
 
 
 /*
 	Routes for the ONLY SEEING the contents of each database
 */
 
-Route::get('weapons_armor', 'DBController@ascendName'); //view weapons_armor database
+Route::get('weapons_armor', 'DBController@viewWeaponsArmor'); //view weapons_armor database
 
 
 /*
@@ -30,6 +30,5 @@ Route::get('search', 'SearchController@weaponsAndArmorSearch'); //search wepaons
 	Routes for the current working website.
 	Uses ajax requests to get things from the database.
 */
-Route::get('/', 'SampleController@ajaxRequest');
-
-Route::post('/', 'SampleController@ajaxRequestPost');
+Route::get('home', 'PageController@ajaxRequest');
+Route::post('home', 'PageController@ajaxRequestPost');
