@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon">
+	<link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon">
 	<title>Skyrim Crafting</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
 	<link rel="stylesheet" href="/css/skateboard.css">

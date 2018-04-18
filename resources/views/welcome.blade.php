@@ -21,8 +21,8 @@
 	We do not own or claim to own any rights to The Elder Scrolls V: Skyrim. 
 	The Skyrim Combat Skills Calculator is an estimation. Each item has a
 	standard deviation of +/- 3. Likewise, you will be able to add potions
-	and effects into your formula. It is important to note that potions
-	and effects do not stack, but instead overwrite each other and take
+	and effects into your formula. It is important to note that potions 
+	do not stack, but instead overwrite each other and take
 	the greater of the effects- no matter the order of consumption. With
 	this in mind, have fun and Fus Ro Dah!
 </p>
