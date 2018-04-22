@@ -15,7 +15,7 @@ var potionnum = 0; //number of potions
 var effectnum = 0; //number of effects
 var itemnum = 1; //number of item inputs
 var skilltrees = ['Smithing', 'One-Handed', 'Two-Handed', 'Archery',
-					'Light', 'Heavy', 'Block']; //array of the different skill trees
+					'Light', 'Heavy']; //array of the different skill trees
 var parts = ['Head', 'Chest', 'Hands', 'Feet', 'Shield', 'Weapon']; //array of the different parts associated with items in DB
 
 var listPotions = []; //list of all the potions the user added to equation
@@ -73,6 +73,10 @@ function makePotionForm()
 
 	var potionform = document.getElementById('potionform');
 
+	var panelbody = document.createElement('div');
+	panelbody.setAttribute('class', 'panel-body');
+	panelbody.setAttribute('id', 'potion-panel' + potionnum);
+
 	var typelabel = document.createElement('label');
 	typelabel.setAttribute('for', 'potiontype' + potionnum);
 	typelabel.setAttribute('id', 'typelabel' + potionnum);
@@ -101,17 +105,15 @@ function makePotionForm()
 	potioninput.setAttribute('type', 'number' + potionnum);
 	potioninput.setAttribute('value', 0);
 
-	//push to the array
+	//push to the listPotions array
 	listPotions.push(potioninput);
 
-	potionform.appendChild(typelabel);
-	potionform.appendChild(potiontype);
-	potionform.appendChild(br);
-	potionform.appendChild(br);
-	potionform.appendChild(potionlabel);
-	potionform.appendChild(potioninput);
-	potionform.appendChild(br);
-	potionform.appendChild(br);
+	panelbody.appendChild(typelabel);
+	panelbody.appendChild(potiontype);
+	panelbody.appendChild(potionlabel);
+	panelbody.appendChild(potioninput);
+
+	potionform.appendChild(panelbody);
 }
 
 /*
@@ -125,8 +127,8 @@ function deletePotionForm()
 	$('#potiontype' + potionnum).remove();
 	$('#potionlabel' + potionnum).remove();
 	$('#potioninput' + potionnum).remove();
+	$('#potion-panel' + potionnum).remove();
 
-	//pop off of the array
 	listPotions.pop();
 
 	potionnum--;
@@ -143,6 +145,11 @@ function makeEffectForm()
 
 
 	var effectform = document.getElementById('effectform');
+
+	var panelbody = document.createElement('div');
+	panelbody.setAttribute('class', 'panel-body');
+	panelbody.setAttribute('id', 'effect-panel' + effectnum);
+
 
 	var typelabel = document.createElement('label');
 	typelabel.setAttribute('for', 'effecttype' + effectnum);
@@ -172,16 +179,15 @@ function makeEffectForm()
 	effectinput.setAttribute('type', 'number');
 	effectinput.setAttribute('value', 0);
 
-	//push to the array
+	//push to the listEffects array
 	listEffects.push(effectinput);
 
-	effectform.appendChild(typelabel);
-	effectform.appendChild(effecttype);
-	effectform.appendChild(br);
-	effectform.appendChild(effectlabel);
-	effectform.appendChild(effectinput);
-	effectform.appendChild(br);
-	effectform.appendChild(br);
+	panelbody.appendChild(typelabel);
+	panelbody.appendChild(effecttype);
+	panelbody.appendChild(effectlabel);
+	panelbody.appendChild(effectinput);
+
+	effectform.appendChild(panelbody);
 }
 
 /*
@@ -195,6 +201,7 @@ function deleteEffectForm()
 	$('#effecttype' + effectnum).remove();
 	$('#effectlabel' + effectnum).remove();
 	$('#effectinput' + effectnum).remove();
+	$('#effect-panel' + effectnum).remove();
 
 	listEffects.pop();
 
@@ -216,7 +223,7 @@ function makeItemForm()
 	var itemlabel = document.createElement('label');
 	itemlabel.setAttribute('for', 'iteminput' + itemnum);
 	itemlabel.setAttribute('id', 'itemlabel' + itemnum);
-	itemlabel.innerHTML = 'Item Name:';
+	itemlabel.innerHTML = 'Item Name: ';
 
 	var iteminput = document.createElement('input');
 	iteminput.setAttribute('id', 'iteminput' + itemnum);
@@ -230,7 +237,6 @@ function makeItemForm()
 	itemform.appendChild(itemlabel);
 	itemform.appendChild(iteminput);
 	itemform.appendChild(errortext);
-	itemform.appendChild(br);
 }
 
 /*
@@ -261,7 +267,6 @@ function deleteItemForm()
 
 		itemnum--;
 	}
-	
 }
 
 /*
@@ -451,9 +456,9 @@ function readpage(data)
 	var blperk = parseInt(data['input'].blperk);
 
 	var skills = {'Smithing': smithlvl, 'Light Armor': lalvl, 'Heavy Armor': halvl, 'One-Handed': onelvl, 
-					'Two-Handed': twolvl, 'Archery': arlvl, 'Block': bllvl};
+					'Two-Handed': twolvl, 'Archery': arlvl};
 	var perks = {"Smithing": smithperk, "Light Armor": laperk, "Heavy Armor": haperk, "One-Handed": oneperk, 
-					"Two-Handed": twoperk, "Archery": arperk, "Block": blperk};
+					"Two-Handed": twoperk, "Archery": arperk};
 
 	//CHECK BOXES MARKED?
 
@@ -482,8 +487,8 @@ function readpage(data)
 		return;	
 
 	//DISPLAY AND PARSE POTIONS AND EFFECTS
-	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
-	var effects = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0, 'Block': 0};
+	var potions = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0};
+	var effects = {'Smithing': 0, 'One-Handed': 0, 'Two-Handed': 0, 'Archery': 0, 'Light': 0, 'Heavy': 0};
 
 	for (var i = 1; i <= potionnum; i++)
 	{
