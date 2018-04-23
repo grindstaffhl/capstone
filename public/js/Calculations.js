@@ -428,7 +428,9 @@ function readpage(data)
 	//GATHER ALL INFO FROM THE USER INPUTS
 
 	var smithlvl = parseInt(data['input'].smithlvl);
-	var smithperk = parseInt(data['input'].smithperk);
+	var asmithperk = parseInt(data['input'].asmithperk);
+	var wsmithperk = parseInt(data['input'].wsmithperk);
+	console.log(asmithperk + " " + wsmithperk);
 	
 	var onelvl = parseInt(data['input'].ohlvl);
 	var oneperk = parseInt(data['input'].ohperk);
@@ -445,12 +447,9 @@ function readpage(data)
 	var arlvl = parseInt(data['input'].arlvl);
 	var arperk = parseInt(data['input'].arperk);
 
-	var bllvl = parseInt(data['input'].bllvl);
-	var blperk = parseInt(data['input'].blperk);
-
 	var skills = {'Smithing': smithlvl, 'Light Armor': lalvl, 'Heavy Armor': halvl, 'One-Handed': onelvl, 
 					'Two-Handed': twolvl, 'Archery': arlvl};
-	var perks = {"Smithing": smithperk, "Light Armor": laperk, "Heavy Armor": haperk, "One-Handed": oneperk, 
+	var perks = {"Light Armor": laperk, "Heavy Armor": haperk, "One-Handed": oneperk, 
 					"Two-Handed": twoperk, "Archery": arperk};
 
 	//CHECK BOXES MARKED?
@@ -499,9 +498,13 @@ function readpage(data)
 	}
 	
 	//ALL INPUT IS VALID...DO SOME MATH NOW!
-	var effskill = effectiveskill(smithlvl, smithperk, effects['Smithing'], potions['Smithing']);
-	var qlevel = parseInt(qualitylvl(effskill));
-	var quality = qualityName(qlevel);
+	var aeffskill = effectiveskill(smithlvl, asmithperk, effects['Smithing'], potions['Smithing']);
+	var aqlevel = parseInt(qualitylvl(aeffskill));
+	var aquality = qualityName(aqlevel);
+
+	var weffskill = effectiveskill(smithlvl, wsmithperk, effects['Smithing'], potions['Smithing']);
+	var wqlevel = parseInt(qualitylvl(weffskill));
+	var wquality = qualityName(wqlevel);
 	
 	var baserating,improvedrating = 0;
 	var itemname, ratingtype = "";
@@ -513,25 +516,27 @@ function readpage(data)
 	//ITERATES THROUGH THE LIST OF ITEMS USER INPUTS AND CALCULATES EACH
 	for (var i = 0; i < data['names'].length; i++) 
 	{
-		var ratbo = parseInt(ratingbonus(data['names'][i][0].part, qlevel));
+		var aratbo = parseInt(ratingbonus(data['names'][i][0].part, aqlevel));
+		var wratbo = parseInt(ratingbonus(data['names'][i][0].part, wqlevel));
+
 
 		switch(data['names'][i][0].type)
 		{
 			case "One-Handed":
 				baserating = weapondamage(data['names'][i][0].rating, 0, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
-				improvedrating = weapondamage(data['names'][i][0].rating, ratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, wratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
 				itemname = "weapon";
 				ratingtype = "damage";
 				break;
 			case "Two-Handed":
 				baserating = weapondamage(data['names'][i][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
-				improvedrating = weapondamage(data['names'][i][0].rating, ratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, wratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
 				itemname = "weapon";
 				ratingtype = "damage";
 				break;
 			case "Archery":
 				baserating = weapondamage(data['names'][i][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
-				improvedrating = weapondamage(data['names'][i][0].rating, ratbo, arlvl, arperk, effskill['Archery'], potions['Archery'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, wratbo, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
 				break;
 			case "Light":
 				itemname = "armor";
@@ -540,12 +545,12 @@ function readpage(data)
 				if(data['names'][i][0].part == "Shield")
 				{
 					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
 				}
 				else
 				{
 					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
 				}
 				break;
 			case "Heavy":
@@ -554,12 +559,12 @@ function readpage(data)
 				if(data['names'][i][0].part == "Shield")
 				{
 					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
 				}
 				else
 				{
 					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
-					improvedrating = armordefense(data['names'][i][0].rating, ratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
 				}
 				break;
 			default:
@@ -575,7 +580,13 @@ function readpage(data)
 
 		document.getElementById(tablepart + '-base').innerHTML = baserating;
 		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
-		document.getElementById(tablepart + '-quality').innerHTML = quality;	
+
+		var qualname = '';
+		if (data['names'][i][0].part == 'Weapon')
+			qualname = wquality;
+		else
+			qualname = aquality;
+		document.getElementById(tablepart + '-quality').innerHTML = qualname;	
 	}
 	
 	//ARMOR RATING ONLY TAKES INTO EFFECT ARMOR...NO WEAPONS ADDED TO TOTAL
