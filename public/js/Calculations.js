@@ -84,6 +84,7 @@ function makePotionForm()
 
 	var potiontype = document.createElement('select');
 	potiontype.setAttribute('id', 'potiontype' + potionnum);
+	potiontype.setAttribute('class', 'form-control');
 	
 	for (var i = 0; i < skilltrees.length; i++)
 	{
@@ -104,6 +105,7 @@ function makePotionForm()
 	potioninput.setAttribute('id', 'potioninput' + potionnum);
 	potioninput.setAttribute('type', 'number' + potionnum);
 	potioninput.setAttribute('value', 0);
+	potioninput.setAttribute('class', 'form-control');
 
 	//push to the listPotions array
 	listPotions.push(potioninput);
@@ -158,6 +160,7 @@ function makeEffectForm()
 
 	var effecttype = document.createElement('select');
 	effecttype.setAttribute('id', 'effecttype' + effectnum);
+	effecttype.setAttribute('class', 'form-control');
 	
 	for (var i = 0; i < skilltrees.length; i++)
 	{
@@ -178,6 +181,7 @@ function makeEffectForm()
 	effectinput.setAttribute('id', 'effectinput' + effectnum);
 	effectinput.setAttribute('type', 'number');
 	effectinput.setAttribute('value', 0);
+	effectinput.setAttribute('class', 'form-control');
 
 	//push to the listEffects array
 	listEffects.push(effectinput);
@@ -215,30 +219,25 @@ function deleteEffectForm()
 function makeItemForm()
 {
 	itemnum++;
-
 	var itemform = document.getElementById('itemform');
 
 	var br = document.createElement('br');
 
-	var itemlabel = document.createElement('label');
-	itemlabel.setAttribute('for', 'iteminput' + itemnum);
-	itemlabel.setAttribute('id', 'itemlabel' + itemnum);
-	itemlabel.innerHTML = 'Item Name: ';
-
 	var iteminput = document.createElement('input');
 	iteminput.setAttribute('id', 'iteminput' + itemnum);
 	iteminput.setAttribute('type', 'text');
+	iteminput.setAttribute('class', 'form-control');
+	iteminput.setAttribute('placeholder', 'Item Name');
 
 	var errortext = document.createElement('p');
 	errortext.setAttribute('id', 'errortext' + itemnum);
 	errortext.setAttribute('style', 'display:none; color:red;');
 	errortext.innerHTML = 'Item you chose is not valid. Please try again.';
 
-	itemform.appendChild(itemlabel);
+	
 	itemform.appendChild(iteminput);
 	itemform.appendChild(errortext);
 }
-
 /*
 	Deletes items from the form
 	reduces the number of items by 1
@@ -248,20 +247,14 @@ function makeItemForm()
 function deleteItemForm()
 {
 	var form = document.getElementById('itemform');
-	
-	var typelabel = document.getElementById('typelabel' + itemnum);
-	var itemtype = document.getElementById('itemtype' + itemnum);
 
-	var itemlabel = document.getElementById('itemlabel' + itemnum);
 	var iteminput = document.getElementById('iteminput' + itemnum);
-
 	var errortext = document.getElementById('errortext' + itemnum);
 
 	if (itemnum > 1)
 	{
 		$('#typelabel').remove();
 		$('#itemtype').remove();
-		form.removeChild(itemlabel);
 		form.removeChild(iteminput);
 		form.removeChild(errortext);
 
@@ -354,7 +347,7 @@ function validateInput(skillarray, perkarray)
 		window.alert("ERROR! These perks are out of range. They must be between 0 and 5, inclusive." + "\n\n" + badperk);
 
 	//don't run the math if the input is invalid
-	if (badskillnames != '' && badperk != '')
+	if (badskillnames != '' || badperk != '')
 		return false;
 
 	//check for valid potions

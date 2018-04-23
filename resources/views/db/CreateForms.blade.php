@@ -16,32 +16,37 @@
 @section('content')
 
 <!-- jquery library -->
+<link rel="stylesheet" href="/css/calculations.css">
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
 <h1>Skyrim Item Improving</h1>  
 
 <br>
-<div class='container'>
-  <div class="col-sm-5" id="leftcol">
   <!-- Builds the forms for input -->
 
+
+<div class='container'>
+  <div class='col-sm-5'>
+    <div class='form-group'>
 <form action=''>
 
   <div id="itemform">
 
-  {!! Form::label('iteminput1', 'Item Name:') !!}
-  {!! Form::text('iteminput1', null, ['id'=>'iteminput1', 'placeholder'=>'Search...']) !!} 
+  {{-- {!! Form::label('iteminput1', 'Item Name:') !!} --}}
+  {!! Form::text('iteminput1', null, ['id'=>'iteminput1', 'class'=>'form-control', 'placeholder'=>'Item Name']) !!} 
   <p id='errortext' style='display:none; color=red;'>item1 you chose is not valid. Please try again.</p>
-
-  <br>
-
 
   </div>
   {!! Form::button('Add Item', ['id'=>'additem']) !!}
   {!! Form::button('Delete Item', ['id'=>'deleteitem']) !!}
 
+    </div>
+  </div>
+</div>
   <br><br>
-
+  
+<div class='container'>
+  <div class="col-sm-5" id="leftcol">
 
       <div class="panel-group">
         <div class="panel panel-default">
@@ -51,9 +56,9 @@
             </h4>
           </div>
           <div id="collapsesmith" class="panel-collapse collapse">
-            <div class="panel-body">
-              {!! Form::label('smithlvl', 'Smithing Level:') !!} {!! Form::number('smithlvl', 15, ['min'=>15, 'max'=>100, 'id'=>'smithlvl']) !!}</div>
-            <div class="panel-body">
+            <div class="panel-body form-group">
+              {!! Form::label('smithlvl', 'Smithing Level:') !!} {!! Form::number('smithlvl', 15, ['min'=>15, 'max'=>100, 'id'=>'smithlvl', 'class'=>'form-control']) !!}</div>
+            <div class="panel-body form-group">
               {!! Form::label('smithperk', 'Relevant Smithing Perk ') !!} {!! Form::checkbox('smithperk', null, 0, ['id'=>'smithperk']) !!}</div>
           </div>
         </div>
@@ -76,14 +81,14 @@
                     </h4>
                   </div>
                   <div id="collapselight" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      {!! Form::label('lalvl', 'Light Armor Level:') !!} {!! Form::number('lalvl', 15, ['id'=>'lalvl', 'min'=>15, 'max'=>100]) !!}</div>
-                    <div class="panel-body">
-                      {!! Form::label('laperk', 'Agile Defender Perk Level (0-5):') !!} {!! Form::number('laperk', 0, ['id'=>'laperk', 'min'=>'0', 'max'=>'5']) !!}</div>
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
+                      {!! Form::label('lalvl', 'Light Armor Level:') !!} {!! Form::number('lalvl', 15, ['id'=>'lalvl', 'min'=>15, 'max'=>100, 'class'=>'form-control']) !!}</div>
+                    <div class="panel-body form-group">
+                      {!! Form::label('laperk', 'Agile Defender Perk Level (0-5):') !!} {!! Form::number('laperk', 0, ['id'=>'laperk', 'min'=>'0', 'max'=>'5', 'class'=>'form-control']) !!}</div>
+                    <div class="panel-body form-group">
                       {!! Form::label('customfitperk', 'Custom Fit Perk? (Only check if wearing 4 pieces of armor)') !!} {!! Form::checkbox('customfitperk', null, 0, ['id'=>'customfitperk']) !!}
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
                       {!! Form::label('lmatchset', 'Light Armor Matched Set? (Only check if wearing 4 pieces of armor)') !!} {!! Form::checkbox('lmatchset', null, 0, ['id'=>'lmatchset']) !!}
                     </div>
                   </div>
@@ -98,16 +103,16 @@
                     </h4>
                   </div>
                   <div id="collapseheavy" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      {!! Form::label('halvl', 'Heavy Armor Level:') !!} {!! Form::number('halvl', 15, ['id'=>'halvl', 'min'=>15, 'max'=>100]) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('halvl', 'Heavy Armor Level:') !!} {!! Form::number('halvl', 15, ['id'=>'halvl', 'min'=>15, 'max'=>100, 'class'=>'form-control']) !!}
                     </div>
-                    <div class="panel-body">
-                      {!! Form::label('haperk', 'Juggernaut Perk Level (0-5):') !!} {!! Form::number('haperk', 0, ['id'=>'haperk', 'min'=>'0', 'max'=>'5']) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('haperk', 'Juggernaut Perk Level (0-5):') !!} {!! Form::number('haperk', 0, ['id'=>'haperk', 'min'=>'0', 'max'=>'5', 'class'=>'form-control']) !!}
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
                       {!! Form::label('wellfittedperk', 'Well Fitted Perk? (Only check if wearing 4 pieces of armor)') !!} {!! Form::checkbox('wellfittedperk', null, 0, ['id'=>'wellfittedperk']) !!}
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
                       {!! Form::label('hmatchset', 'Heavy Armor Matched Set? (Only check if wearing 4 pieces of armor)') !!} {!! Form::checkbox('hmatchset', null, 0, ['id'=>'hmatchset']) !!}
                     </div>
                   </div>
@@ -136,11 +141,11 @@
                     </h4>
                   </div>
                   <div id="collapseoh" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      {!! Form::label('ohlvl', 'One-Handed Level:') !!} {!! Form::number('ohlvl', 15, ['id'=>'ohlvl', 'min'=>15, 'max'=>100]) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('ohlvl', 'One-Handed Level:') !!} {!! Form::number('ohlvl', 15, ['id'=>'ohlvl', 'min'=>15, 'max'=>100, 'class'=>'form-control']) !!}
                     </div>
-                    <div class="panel-body">
-                      {!! Form::label('ohperk', 'Armsman Perk Level (0-5):') !!} {!! Form::number('ohperk', 0, ['id'=>'ohperk', 'min'=>'0', 'max'=>'5']) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('ohperk', 'Armsman Perk Level (0-5):') !!} {!! Form::number('ohperk', 0, ['id'=>'ohperk', 'min'=>'0', 'max'=>'5', 'class'=>'form-control']) !!}
                     </div>
                   </div>
                 </div>
@@ -154,11 +159,11 @@
                     </h4>
                   </div>
                   <div id="collapseth" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      {!! Form::label('thlvl', 'Two-Handed Level:') !!} {!! Form::number('thlvl', 15, ['id'=>'thlvl', 'min'=>15, 'max'=>100]) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('thlvl', 'Two-Handed Level:') !!} {!! Form::number('thlvl', 15, ['id'=>'thlvl', 'min'=>15, 'max'=>100, 'class'=>'form-control']) !!}
                     </div>
-                    <div class="panel-body">
-                      {!! Form::label('thperk', 'Barbarian Perk Level (0-5):') !!} {!! Form::number('thperk', 0, ['id'=>'thperk', 'min'=>'0', 'max'=>'5']) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('thperk', 'Barbarian Perk Level (0-5):') !!} {!! Form::number('thperk', 0, ['id'=>'thperk', 'min'=>'0', 'max'=>'5', 'class'=>'form-control']) !!}
                     </div>
                   </div>
                 </div>
@@ -172,11 +177,11 @@
                     </h4>
                   </div>
                   <div id="collapsearchery" class="panel-collapse collapse">
-                    <div class="panel-body">
-                      {!! Form::label('arlvl', 'Archery Level:') !!} {!! Form::number('arlvl', 15, ['id'=>'arlvl', 'min'=>15, 'max'=>100]) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('arlvl', 'Archery Level:') !!} {!! Form::number('arlvl', 15, ['id'=>'arlvl', 'min'=>15, 'max'=>100, 'class'=>'form-control']) !!}
                     </div>
-                    <div class="panel-body">
-                      {!! Form::label('arperk', 'Overdraw Perk Level (0-5):') !!} {!! Form::number('arperk', 0, ['id'=>'arperk', 'min'=>15, 'max'=>100]) !!}
+                    <div class="panel-body form-group">
+                      {!! Form::label('arperk', 'Overdraw Perk Level (0-5):') !!} {!! Form::number('arperk', 0, ['id'=>'arperk', 'min'=>15, 'max'=>100, 'class'=>'form-control']) !!}
                     </div>
                   </div>
                 </div>
@@ -197,7 +202,7 @@
                   <div id="collapsepotions" class="panel-collapse collapse">
                     <div id="potionform">
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
                       {!! Form::button('Add Potion', ['id'=>'addpotion']) !!} {!! Form::button('Delete Potion', ['id'=>'deletepotion']) !!}
                     </div>
                   </div>
@@ -212,12 +217,12 @@
                     </h4>
                   </div>
                   <div id="collapseeffects" class="panel-collapse collapse">
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
                       {!! Form::label('seekmight', 'Seeker of Might ') !!} {!! Form::checkbox('seekmight', null, 0, ['id'=>'seekmight']) !!}
                     </div>
                     <div id="effectform">
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body form-group">
                       {!! Form::button('Add Effect', ['id'=>'addeffect']) !!} {!! Form::button('Delete Effect', ['id'=>'deleteeffect']) !!}
                     </div>
                   </div>
@@ -228,7 +233,7 @@
 
 <div class="col-sm-2"></div>
 
-<div class="col-sm-5" id="rightcolumn">
+<div class="col-sm-5" id="rightcol">
 
 <table id="table-data">
   <tr id="headings">
@@ -297,10 +302,8 @@
   </tr>
 </table>
 
-<div class="btn-group">
-{!! Form::submit('Submit', ['id'=>'submitbtn', 'class'=>'btn btn-dark']) !!}
-{!! Form::button('Search Items', ['id'=>'searchitems', 'class'=>'btn btn-dark', 'onclick'=>"window.open('search', '_blank')"]) !!}
-</div>
+{!! Form::submit('Submit', ['id'=>'submitbtn']) !!}
+{!! Form::button('Search Items', ['id'=>'searchitems', 'onclick'=>"window.open('search', '_blank')"]) !!}
 </div>
 </form>
 </div>

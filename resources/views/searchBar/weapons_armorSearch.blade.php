@@ -1,6 +1,7 @@
 @extends('layout') <!-- use tables.blade.php for formatting/css (looks at tables_style.css) -->
 
 @section('content')
+<link rel="stylesheet" href=" {{URL::asset('/css/table_style.css') }}">
 
 <div class="panel panel-default">
 
@@ -21,8 +22,8 @@
     <!-- check if there is anything returned from the query -->
     @unless($weapArmor->isEmpty())
         <!-- create the table that will hold the items -->
-        <table class="table table-bordered table-hover" id="weaponarmortable">
-            <thead>
+        <table  id="table-data">
+            <thead id="headings">
                 <th>Name</th>
                 <th>Rating</th>
                 <th>Weight</th>

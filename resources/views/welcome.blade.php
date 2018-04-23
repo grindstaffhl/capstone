@@ -2,7 +2,9 @@
 
 @section('content')
 
+<div class='container'>
     <h1> Skyrim Combat Skills Planner </h1>
+    <br><br>
 
 <p>
 	This calculator is used to plan your character's combat skills: Smithing,
@@ -16,7 +18,7 @@
 	and shield to view the total armor defense.
 </p>
 <br>
-	<h3> *DISCLAIMER* </h3>
+	<h3 style="text-align: center;"> DISCLAIMER </h3>
 <p>
 	We do not own or claim to own any rights to The Elder Scrolls V: Skyrim. 
 	The Skyrim Combat Skills Calculator is an estimation. Each item has a
@@ -29,6 +31,8 @@
 
 <br>
  <!-- button opens url to the skyrim calculator -->
-<button onclick="window.location='/home';">
+<button style="margin: 0 auto;" onclick="window.location='/home';">
      Plan Character</button>
+
+</div>
 @stop	

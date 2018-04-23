@@ -1,3 +1,16 @@
-body {
-	background: white;
+body
+{
+	background-color: #171814;
+	font-family: 'Josefin Sans', sans-serif;
+	color: #F1F1EF;
+}
+
+table tr:hover td, table tr:hover th 
+{
+	background-color: #272822;
+}
+
+table tr#headings:hover th
+{
+	background-color: #171814;
 }
