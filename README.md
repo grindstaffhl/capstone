@@ -70,7 +70,7 @@ Would you like to contribute? Let us know and send us an email at: petrusomc@app
 
 
 #### Project Proposal
-A link to our project proposal.
+A [link](https://github.com/grindstaffhl/capstone/blob/master/ProjectProposal.md) to our project proposal.
 
 
 #### Technical Report
