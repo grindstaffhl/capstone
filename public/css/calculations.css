@@ -1,0 +1,165 @@
+body
+{
+	background-color: #171814;
+	font-family: 'Josefin Sans', sans-serif;
+	color: #F1F1EF;
+}
+
+table
+{
+	height: 275px;
+	border-collapse: collapse;
+	border: solid #F1F1EF 1px;
+	color: #F1F1EF;
+	font-weight: 40px;
+}
+
+h1, h3
+{
+	font-family: 'Cormorant Infant', serif;
+	text-transform: uppercase;
+	text-align: center;
+	color: #F1F1EF;
+}
+
+#rightcol
+{
+	position: fixed;
+	/*transform: translateX(110%);*/
+	right: 0px;
+	margin-right: 98px;
+	padding-right: 15px;
+	top: 26vh;;
+}
+
+
+
+/*#leftcol
+{
+	margin-left: 10px;
+}*/
+
+::placeholder
+{
+	color: #272822;
+	opacity: 1;
+}
+
+input, label, select
+{
+	margin: 5px 0;
+}
+
+button, input#submitbtn
+{
+	border: solid 1.5px #a5a5a5;
+    border-radius: 8px;
+    background-color: #272822;
+    text-align: center;
+    color: #F1F1EF;
+}
+
+.form-group
+{
+	margin: auto;
+}
+
+
+#headings th
+{
+	border-bottom: solid #F1F1EF 1px;
+}
+
+
+#itemform > .innercontents
+{
+	display: block;
+}
+
+label
+{
+	font-weight: normal;
+}
+
+.panel-body
+{
+    background-image: none;
+    background-color: #171814;
+    color: #F1F1EF;
+}
+
+.panel > .panel-heading
+{
+	background-color: #272822;
+	color: #F1F1EF;
+}
+
+.panel .panel-default
+{
+	height: 100%;
+}
+
+table td, table th
+{
+	padding: 3px;
+	text-align: center;
+	height: 40px;
+	width: 80px;
+	font-weight: normal;
+}
+
+table tr:hover td, table tr:hover th 
+{
+	background-color: #272822;
+}
+
+table tr#headings:hover th
+{
+	background-color: #171814;
+}
+
+
+#table-data th:nth-child(1)
+{
+	border-right: solid #F1F1EF 1px;
+}
+
+
+#total td, #total th
+{
+	border-top: solid #F1F1EF 1px;
+}
+
+
+#weaponarmortable
+{
+	height: 100%;
+}
+
+
+#searchform
+{
+	margin: 0 auto;
+}
+
+
+#searchinput
+{
+	left: 41vw; 
+	padding: 10px 0;
+}
+
+@media (max-width: 767px)
+{
+	#searchinput
+	{
+		left: 26vw;
+		width: 50%;
+	}
+
+	#rightcol
+	{
+		position: static;
+		width: 100%;
+	}
+}
