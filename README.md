@@ -3,6 +3,10 @@ Developers: Megan Petruso and Hayden Grindstaff
 
 
 ## Setup
+#### PHP
+Make sure that php 7.0 or greater is installed on your machine.
+
+
 #### MAMP
 Go to the following url [here](https://www.mamp.info/en/) and download MAMP. MAMP Pro is not required for this project. Follow the prompts to install MAMP. Once MAMP is properly installed, open the application and click "Start Servers". The Apache server and MySQL server will start to connect and run. The Apache Port is 80 and MySQL Port is 3306 by default. If you already have a different application running through those ports, you can change where apache and mysql runs through by clicking "Preferences->Ports". Likewise, you can view and change where the files for your web server will be saved on you computer by going to "Preferences->Web Server".
 
@@ -39,7 +43,9 @@ Once you have installed Laravel and Composer, download [Sublime text](https://ww
   'Form' => Collective\Html\FormFacade::class,
   'Html' => Collective\Html\HtmlFacade::class,
   ```
-4. Lastly, you will configure the MAMP database in your database.php file under the config folder.
+4. Navigate to the .env file in Sublime. You will change the DB_DATABASE to capstone and DB_USERNAME and DB_PASSWORD to root.
+
+5. Lastly, you will configure the MAMP database in your database.php file under the config folder.
 ![image](mysqldrivers.png)
 
 You have now congifured your Laravel files to communicate with MAMP. To run the capstone folder you downloaded from the repository, navigate to the capstone folder in your command line and execute the following command:
@@ -48,5 +54,10 @@ You have now congifured your Laravel files to communicate with MAMP. To run the 
   ```
 This will get the Laravel server running. Once up, you can navigate to the website given, which should be something like [<http://127.0.0.1:8000>](<http://127.0.0.1:8000>). Do also make sure your MAMP server is running in order for your database queries to execute.
 
-Once you have all of desired files from the repository downloaded, MAMP installed, and the capstone.sql imported into your database in phpMyAdmin, Laravel and Composer installed, and MAMP configured with Laravel, you are ready to edit and experiement with the Skyrim Combat Skills Planner.
+Once you start up the server, you will see that the home page is routing to Laravel's default. To fix this, reset your local git repo to the HEAD with:
+  ```
+  git reset --hard HEAD
+  ```
+
+After you have all of desired files from the repository downloaded, MAMP installed, and the capstone.sql imported into your database in phpMyAdmin, Laravel and Composer installed, and MAMP configured with Laravel, you are ready to edit and experiement with the Skyrim Combat Skills Planner.
 
