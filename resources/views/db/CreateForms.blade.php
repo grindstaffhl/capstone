@@ -16,7 +16,6 @@
 @section('content')
 
 <!-- jquery library -->
-<link rel="stylesheet" href="/css/calculations.css">
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
 <h1>Skyrim Item Improving</h1>  
@@ -233,7 +232,7 @@
     </div>
   </div>
 
-  <div class="col-sm-5 pull-right" id="rightcol">
+  <div class="col-sm-5" id="rightcol">
     <table id="table-data">
       <tr id="headings">
         <th></th>
