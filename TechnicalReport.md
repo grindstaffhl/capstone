@@ -1,11 +1,12 @@
 # Skyrim Combat Skills Planner
 May 6, 2018
+
 Developers: Megan Petruso and Hayden Grindstaff
 
 
 ## Abstract
 The Skyrim Combat Planner allows users to calculate proposed weapon and armor ratings. These calculations are based on the user’s skills and perks for Smithing, One-Handed, Two-Handed, Light Armor, Heavy Armor, and Archery. Our objective was to address the confusion between what a skill perk is and how the skill perk can directly benefit the player. We started with basic database functionality, creating a database full of all basic weapons and armor in *The Elder Scrolls V: Skyrim*. Utilizing MAMP, we were able to access our database information through simple php files. Stretching out to new techniques and tools, Laravel came into play when we had to address the over abundance of php files we created. We sought to consolidate these files into one simple, sleek framework. Gradually adding more advanced functionality over time, and finally CSS, we created a functional calculator. Our results were fairly successful, with only a standard deviation of 3 for each of the calculated totals. This is due to the reverse engineering of equations from the game, as well as the inconsistent rounding the game has when it comes to calculations. We concluded that our calculator sufficiently address players’ needs to directly visualize how change in skills, perks, potions, and effects can affect any weapon or armor improvement in *The Elder Scrolls V: Skyrim*. 
-### Keywords
+#### Keywords
 - Skyrim
 - The Elder Scrolls
 - Calculator
@@ -56,17 +57,17 @@ Similar Skyrim calculators failed to address the calculated values each skill pe
 
 
 ## References
-1 Rasmus Lerdorf. PHP. 7.0.x. Library. http://php.net/.
-2 MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
-3 Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
-4 Ajax. Library. https://api.jquery.com/category/ajax/.
-5 Brendan Eich. JavaScript. Library. https://www.w3schools.com/jsref/default.asp
-6 Taylor Otwell. Laravel-Blade Templates. 5.6. Library. https://laravel.com/docs/5.6/blade.
-7 Tobias. Ratschiller. phpMyAdmin. 4.8. Application. https://www.phpmyadmin.net/.
-8 Jon Skinner, Will Bond. Sublime Text. v3. Text Editor. https://www.sublimetext.com/.
-9 CSS. Library. https://www.w3schools.com/cssref/default.asp.
-10 HTML. Library. https://www.w3schools.com/tags/default.asp.
-11 “Weapons (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim).
-12 “Armor (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Armor_(Skyrim)
-13 “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
-14 “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
+- Rasmus Lerdorf. PHP. 7.0.x. Library. http://php.net/.
+- MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
+- Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
+- Ajax. Library. https://api.jquery.com/category/ajax/.
+- Brendan Eich. JavaScript. Library. https://www.w3schools.com/jsref/default.asp
+- Taylor Otwell. Laravel-Blade Templates. 5.6. Library. https://laravel.com/docs/5.6/blade.
+- Tobias. Ratschiller. phpMyAdmin. 4.8. Application. https://www.phpmyadmin.net/.
+- Jon Skinner, Will Bond. Sublime Text. v3. Text Editor. https://www.sublimetext.com/.
+- CSS. Library. https://www.w3schools.com/cssref/default.asp.
+- HTML. Library. https://www.w3schools.com/tags/default.asp.
+- “Weapons (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim).
+- “Armor (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Armor_(Skyrim)
+- “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
+- “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
