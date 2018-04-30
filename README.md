@@ -79,4 +79,4 @@ A [link](https://github.com/grindstaffhl/capstone/blob/master/ProjectProposal.md
 
 
 #### Technical Report
-A link to our technical report.
+A [link](https://github.com/grindstaffhl/capstone/blob/master/TechnicalReport.md) to our technical report.
