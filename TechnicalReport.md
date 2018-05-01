@@ -16,9 +16,9 @@ The Skyrim Combat Skills Planner allows users to calculate proposed weapon and a
 
 
 ## Table of Contents
-- [Introduction and Project Overview](#Introduction and Project Overview)
-  * [Background, Problem, and Objective](#Background, Problem, and Objective)
-  * [Similar Works](#Similar Works)
+- [Introduction and Project Overview](#Introduction-and-Project-Overview)
+  * [Background, Problem, and Objective](#Background-Problem-and-Objective)
+  * [Similar Works](#Similar-Works)
   * [Users](#Users)
   * [Benefits](#Benefits)
   * [Problem Scope](#Problem Scope)
