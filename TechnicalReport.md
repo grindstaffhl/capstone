@@ -348,15 +348,27 @@ Similar Skyrim calculators failed to address the calculated values each skill pe
 [1] Rasmus Lerdorf. PHP. 7.0.x. Library. http://php.net/.
 
 [2] MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
-- Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
-- Ajax. Library. https://api.jquery.com/category/ajax/.
-- Brendan Eich. JavaScript. Library. https://www.w3schools.com/jsref/default.asp
-- Taylor Otwell. Laravel-Blade Templates. 5.6. Library. https://laravel.com/docs/5.6/blade.
-- Tobias. Ratschiller. phpMyAdmin. 4.8. Application. https://www.phpmyadmin.net/.
-- Jon Skinner, Will Bond. Sublime Text. v3. Text Editor. https://www.sublimetext.com/.
-- CSS. Library. https://www.w3schools.com/cssref/default.asp.
-- HTML. Library. https://www.w3schools.com/tags/default.asp.
-- “Weapons (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim).
-- “Armor (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Armor_(Skyrim)
-- “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
-- “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
+
+[3] Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
+
+[4] Ajax. Library. https://api.jquery.com/category/ajax/.
+
+[5] Brendan Eich. JavaScript. Library. https://www.w3schools.com/jsref/default.asp.
+
+[6] Taylor Otwell. Laravel-Blade Templates. 5.6. Library. https://laravel.com/docs/5.6/blade.
+
+[7] Tobias. Ratschiller. phpMyAdmin. 4.8. Application. https://www.phpmyadmin.net/.
+
+[8] Jon Skinner, Will Bond. Sublime Text. v3. Text Editor. https://www.sublimetext.com/.
+
+[9] CSS. Library. https://www.w3schools.com/cssref/default.asp.
+
+[10] HTML. Library. https://www.w3schools.com/tags/default.asp.
+
+[11] “Weapons (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim).
+
+[12] “Armor (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Armor_(Skyrim).
+
+[13] “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
+
+[14] “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
