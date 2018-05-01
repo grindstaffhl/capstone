@@ -345,8 +345,8 @@ Similar Skyrim calculators failed to address the calculated values each skill pe
 
 
 ## References <a name="References"></a>
-- Rasmus Lerdorf. PHP. 7.0.x. Library. http://php.net/.
-- MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
+[1] Rasmus Lerdorf. PHP. 7.0.x. Library. http://php.net/.
+[2] MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
 - Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
 - Ajax. Library. https://api.jquery.com/category/ajax/.
 - Brendan Eich. JavaScript. Library. https://www.w3schools.com/jsref/default.asp
