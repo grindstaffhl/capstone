@@ -43,13 +43,288 @@ Users are able to input a weapon or armor piece in to a text box. If the user wo
 ## Design, Development, and Test
 
 #### Design
+Overall, the design of our project is relatively straightforward. It mostly revolved around using Laravel v5.6 as our main framework. Neither of us had ever used any sort of framework before, and while it was very challenging, I would say it was extremely beneficial. Since we only used three webpages for our project, the design was very simple. FLOWCHART OF VIEWS, CONTROLLERS, ROUTES, ETC. Each webpage has its corresponding View, which is basically the HTML file with some Laravel Blade additions to it. Also, each URL has a Route specified. When the browser loads that specific URL, Laravel knows to call the specified Controller method in the Route. For instance, when the browser loads “localhost:8000”, it knows to load the “home” function in PageController. 
+Hosting the site took only one other piece of software in conjunction with Laravel. We decided to use MAMP to help host the site and allow us to use database queries, something Laravel can’t natively do. MAMP built an Apache server and a MYSQL server on specific ports and changed the settings in Laravel to use this software. Then, we used Artisan, Laravel’s command-line interface, to host the site.
+The code itself is primarily made up of PHP, HTML/Laravel Blade, JavaScript, and CSS. The heart and soul of the project is in the main JavaScript file, called “Calculations.js”. Here, we have the “readpage” function, which is called on a successful AJAX post request when the Submit button is clicked. The readpage function takes in the data delivered from the post request, sets some variables from the data that was just delivered, and calls helper methods that perform specific tasks.
+The most important helper functions are as follows:
+```javascript
+function effectiveskill(baseskill, perk, enchantments, potions)
+{	
+	return ((baseskill - 13.29) * (1 + perk) * (1 + (enchantments/100)) * 
+			(1 + (potions/100)) + 13.29);
+}
+```
+This portion of code is a simple calculation that builds a variable important for other calculations. This function takes in the player’s smithing level, if they have the relevant smithing perk, and any enchantments or potions that improve a player’s smithing level.
+```javascript
+function qualitylvl(effskill)
+{
+	return Math.floor((effskill + 38) * (3/103));
+}
+```
+This function uses the effective skill from the previous function and builds a variable that determines what an item’s quality level will be when improved.
+```javascript
+function ratingbonus(part, qlevel)
+{
+	rbo = (3.6 * qlevel - 1.6);
+	if (part == "Chest")
+		return Math.ceil(rbo);
+	else
+		return Math.ceil(rbo/2);
+}
+```
+ratingBonus takes in the quality level from the previous function and the Part associated with the item to be improved. This function determines how much of a rating bonus is added when the item is improved. If the item’s Part is “Chest”, then it gets double the bonus. In the game’s terms, if you are improved a piece of armor worn on the chest, you get a double rating bonus.
+
+```javascript
+function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, seekmight)
+{
+	var wpndmg = (((basedam + ratbo) * (1 + ((wpnslevel)/200)) * (1 + (wpnperk * 0.2)) * (1 + (itemeff/100))
+			 * (1 + (potioneff/100)) * (1 + (seekmight/10))));
+	return Math.round(wpndmg);
+}
+function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchset, armorperk, seekmight)
+{
+	return Math.round(Math.ceil((basedef + ratbo) * (1 + 0.4 * (armslevel + armoracteff)/100))
+	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
+}
+```
+Most importantly, the calculations of the previous functions come together into one of these functions, depending on the type of item being improved. We found these functions on different Skyrim wiki sites and tweaked them (mostly changing rounding) to fit what ratings the actual game was giving us. Each function takes into account the base rating of the item, the level of the skill corresponding to the Type of the item, any perks that are associated with that skill tree, any potions or effects that alter their skill level, and, unless the item being improved is Light Armor, the Seeker of Might perk bonus. This perk gives a 10% bonus to all “combat” skills and functions slightly differently than other active effects, which is why it is separate from other skills. The values for the potions and effects are taken from an array that holds values for all of the combined effects in each skill tree. Code block for potions and effects arrays Each element of the arrays are initialized to 0 and are changed based on the correlating forms for potions or effects.
+```javascript
+function makePotionForm()
+{
+	potionnum++;
+
+
+	var potionform = document.getElementById('potionform');
+
+	var panelbody = document.createElement('div');
+	panelbody.setAttribute('class', 'panel-body');
+	panelbody.setAttribute('id', 'potion-panel' + potionnum);
+
+	var typelabel = document.createElement('label');
+	typelabel.setAttribute('for', 'potiontype' + potionnum);
+	typelabel.setAttribute('id', 'typelabel' + potionnum);
+	typelabel.innerHTML = 'Potion Type:';
+
+	var potiontype = document.createElement('select');
+	potiontype.setAttribute('id', 'potiontype' + potionnum);
+	potiontype.setAttribute('class', 'form-control');
+	
+	for (var i = 0; i < skilltrees.length; i++)
+	{
+		var option = document.createElement('option');
+		option.value = skilltrees[i];
+		option.text = skilltrees[i];
+		potiontype.appendChild(option);
+	}
+
+	var br = document.createElement('br');
+
+	var potionlabel = document.createElement('label');
+	potionlabel.setAttribute('for', 'potioneffect' + potionnum);
+	potionlabel.setAttribute('id', 'potionlabel' + potionnum);
+	potionlabel.innerHTML = 'Potion Effect (%):';
+
+	potioninput = document.createElement('input');
+	potioninput.setAttribute('id', 'potioninput' + potionnum);
+	potioninput.setAttribute('type', 'number' + potionnum);
+	potioninput.setAttribute('value', 0);
+	potioninput.setAttribute('class', 'form-control');
+
+	//push to the listPotions array
+	listPotions.push(potioninput);
+
+	panelbody.appendChild(typelabel);
+	panelbody.appendChild(potiontype);
+	panelbody.appendChild(potionlabel);
+	panelbody.appendChild(potioninput);
+
+	potionform.appendChild(panelbody);
+}
+function deletePotionForm()
+{
+	$('#typelabel' + potionnum).remove();
+	$('#potiontype' + potionnum).remove();
+	$('#potionlabel' + potionnum).remove();
+	$('#potioninput' + potionnum).remove();
+	$('#potion-panel' + potionnum).remove();
+
+	listPotions.pop();
+
+	potionnum--;
+}
+```
+To add benefits to the players, potions and effects are incorporated into our calculations. We have simple drop-down forms correlating to the skill tree being altered and the effect of the potion or effect. This function creates HTML elements and adds them to the page and are given specific IDs that are all added together in an array under its specific skill tree, as mentioned previously. The ID holds the name of the form and a global variable, one for the number of forms for potions and one for effects, which is incremented when a new form is made. When deleting these forms, we also decrement the respective global variable to ensure the accurate number of forms is kept.
+```javascript
+function validateInput(skillarray, perkarray)
+{
+	var badskillnames = '';
+	var badperk = '';
+
+	//check for valid skills
+	for (skill in skillarray)
+	{
+		if (isNaN(skillarray[skill]) || skillarray[skill] > 100 || skillarray[skill] < 15)
+			{
+				badskillnames += ('- ' + skill.toString() + "\n");
+			}
+	}
+	if (badskillnames != '')
+		window.alert('ERROR: These skills are out of range. They must be between 15 and 100, inclusive.' + '\n\n' + badskillnames);
+
+	//check for valid perks
+	for(perk in perkarray)
+	{
+		if(perkarray[perk] > 5 || perkarray[perk] < 0 || isNaN(perkarray[perk]))
+		{
+			badperk += ("- " + perk.toString() + "\n");
+		}
+	}
+	if(badperk != '')
+		window.alert("ERROR! These perks are out of range. They must be between 0 and 5, inclusive." + "\n\n" + badperk);
+
+	//don't run the math if the input is invalid
+	if (badskillnames != '' || badperk != '')
+		return false;
+
+	//check for valid potions
+	if(potionnum > 0)
+	{
+		for(var i = 0; i < potionnum; i++)
+		{
+			if(listPotions[i].value < 0 || listPotions[i].value == '')
+			{
+				window.alert("ERROR! Potion(s) are out of range. They must be greater than 0, inclusive.");
+				return false;
+			}
+		}
+		
+	}
+
+	//check for valid effects
+	if(effectnum > 0)
+	{
+		for(var i = 0; i < effectnum; i++)
+		{
+			if(listEffects[i].value < 0 || listEffects[i].value == '')
+			{
+				window.alert("ERROR! Effect(s) are out of range. They must be greater than 0, inclusive.");
+				return false;
+			}
+		}
+		
+	}
+
+	//return true if everything is valid
+	return true;
+}
+```
+We also have input validation for forms where the user types a number. We need to ensure that the data being entered by the user falls within the acceptable range that Skyrim has, else the calculations become unattainable with the player’s current skill levels. If a skill or a perk is out of range, we have an alert that says which inputs are invalid and the correct range.
+
+
+```javascript
+for (var i = 0; i < data['names'].length; i++) 
+	{
+		var aratbo = parseInt(ratingbonus(data['names'][i][0].part, aqlevel));
+		var wratbo = parseInt(ratingbonus(data['names'][i][0].part, wqlevel));
+
+
+		switch(data['names'][i][0].type)
+		{
+			case "One-Handed":
+				baserating = weapondamage(data['names'][i][0].rating, 0, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, wratbo, onelvl, oneperk, effects['One-Handed'], potions['One-Handed'], seekmight);
+				itemname = "weapon";
+				ratingtype = "damage";
+				break;
+			case "Two-Handed":
+				baserating = weapondamage(data['names'][i][0].rating, 0, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, wratbo, twolvl, twoperk, effects['Two-Handed'], potions['Two-Handed'], seekmight);
+				itemname = "weapon";
+				ratingtype = "damage";
+				break;
+			case "Archery":
+				baserating = weapondamage(data['names'][i][0].rating, 0, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
+				improvedrating = weapondamage(data['names'][i][0].rating, wratbo, arlvl, arperk, effects['Archery'], potions['Archery'], seekmight);
+				break;
+			case "Light":
+				itemname = "armor";
+				ratingtype = "defense";
+				
+				if(data['names'][i][0].part == "Shield")
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, 0, 0);
+				}
+				else
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, lalvl, effects['Light'] + potions['Light'], customfit, lmatchset, laperk, 0);
+				}
+				break;
+			case "Heavy":
+				itemname = "armor";
+				ratingtype = "defense";
+				if(data['names'][i][0].part == "Shield")
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, 0, 0);
+				}
+				else
+				{
+					baserating = armordefense(data['names'][i][0].rating, 0, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
+					improvedrating = armordefense(data['names'][i][0].rating, aratbo, halvl, effects['Heavy'] + potions['Heavy'], wellfitted, hmatchset, haperk, seekmight);
+				}
+				break;
+			default:
+				break;
+		}
+
+		//CREATE THE TABLE FOR THE ITEMS TO GO INTO		
+		var tablepart = data['names'][i][0].part;
+
+		document.getElementById(tablepart + '-name').innerHTML = data['names'][i][0].name;
+
+		document.getElementById(tablepart + '-type').innerHTML = data['names'][i][0].type;
+
+		document.getElementById(tablepart + '-base').innerHTML = baserating;
+		document.getElementById(tablepart + '-improved').innerHTML = improvedrating;
+
+		var qualname = '';
+		if (data['names'][i][0].part == 'Weapon')
+			qualname = wquality;
+		else
+			qualname = aquality;
+		document.getElementById(tablepart + '-quality').innerHTML = qualname;	
+	}
+```
+Finally, readpage makes different variables and then uses a large for loop and switch statement to set each variable for each item. The item and each of its properties is then placed into the table and, if the item is a piece of armor, the armor defense rating is added to the total at the bottom.
+
 
 #### Development
+First and foremost, we wanted to make sure that our formulas for calculating effective skill, quality level, rating bonus, and item rating were correct. We spent a lot of time tweaking these formulas throughout the course of the project to get it to be as accurate as we possibly could. In the first phase of the project, we knew we would not be able to learn how to get an AJAX request working before the due date, so we decided to hard code a One-Handed weapon, Two-Handed weapon, a full set of Light Armor, and full set of Heavy Armor. After that, we thought the next step would be to more intelligently implement Laravel into our code and then get a database up and working. Unfortunately, that took some time. Laravel has a bit of a high learning curve and we had a lot of issues with AJAX requests, so that probably took time we could have used to add new features. We then wanted to ensure adding potions and effects behaved as they should, which ate up more time than we expected. After that came functionality for performing calculations on more than one item at a time. Then it was code cleanup and finally CSS.
 
 #### Test
-
+Testing mostly involved someone with a copy of Skyrim and someone entering in the data on our project. We do not know how to run scripts that would do this for us in Skyrim, so our testing was manual. We knew it was important to test on a variety of characters and we made sure adding one component, such as a potion or extra perk, would not negatively affect the calculations. This lead to a lot of formula tweaking, but we were able to get a standard deviation of +- 3 for rating.
 
 ## Results
+Overall, we are quite happy with how our project turned out. After lots and lots of testing on our own characters, friends’ characters, and characters we made for testing, we finally tweaked our code enough that our calculations were extremely close to what the game reports. In fact, we even tested a few times that the game’s reports were incorrect and ours was correct. We also got most of the features we wanted in the project implemented.
+
+- [x] multiple items being improved at once
+- [ ] implement autofill search bar
+- [x] damage/armor rating formulas within acceptable deviation
+- [ ] improving already improved items
+- [x] database queries instead of hard-coded items
+- [x] implement potions and effects
+- [x] implement most important perks
+- [ ] user profiles
+- [ ] csv import/export
+- [ ] total form validation
+- [x] CSS styling
+
+I think our biggest regret with the project is not being able to get everything validated. It mostly came down to time; we couldn’t feasibly make generalized functions that could be used for multiple forms and didn’t want to clutter up the code more than it already is. However, we were able to make sure that the item names and the number range with skill levels, skill perks, and potion and effects amounts were validated. We wanted to implement validation for having a high enough skill level for certain perks. For example, in order to have 3 levels of the Juggernaut perk, your character’s Heavy Armor skill level would need to be at least 60. We also were not able to get some of the armor perks validated, namely Matched Set and the perk that gives a rating bonus if your character is wearing all Light or Heavy armor. However, we concluded that the project will work just fine without these features, because the person using our project will know that these things aren’t normally possible. If we were given another week or two with no other assignments to worry about, it is definitely possible that we could get these features implemented.
+Aside from validation, there were two other ease-of-use features we weren’t able to implement. One of them is the search bar autofill. It’s kind of frustrating to have to search for an item and make sure it is spelled properly but given the time and the new framework we were using, we weren’t able to figure out how to make an autofill feature. To somewhat remedy this, we decided to implement the database search table that opens in a new tab. That way, the user could type in parts of the name of the item to find what they are looking for without having to run each function every time. The other feature we wanted to implement was improving an already improved item. This is possible in Skyrim and it is very likely that it will happen. Unfortunately, we found that there were too many variables in how previous calculations were made. Reverse engineering to figure out what a player’s skill levels were and if they had any potions or effects active is nearly impossible. Considering our project was more for planning out characters, this isn’t a huge problem because you can still see what your rating will be with your current stats and how changes 
+ Unfortunately, we couldn’t figure out how to add user profiles and login validation. We wanted for users to be able to save their characters so they wouldn’t have to reenter their information every time, but we could not figure out how to implement it, nor did we have time.
+Nonetheless, we have a working project that we are proud of. We thankfully found formulas that are correct to up to within 3 points of rating. We were able to make our code a little cleaner with Laravel and Bootstrap and each form works exactly as intended. Most importantly, our project doesn’t take very long to run. It may take a few seconds to run the first time, but after that the results are almost instantaneous. Even though our project doesn’t have all the features we wanted, it still serves its main purpose without fail.  
 
 
 ## Conclusion and Future Work
