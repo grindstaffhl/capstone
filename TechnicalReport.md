@@ -5,7 +5,7 @@ Developers: Megan Petruso and Hayden Grindstaff
 
 
 ## Abstract
-The Skyrim Combat Skills Planner allows users to calculate proposed weapon and armor ratings. These calculations are based on the user’s skills and perks for Smithing, One-Handed, Two-Handed, Light Armor, Heavy Armor, and Archery. Our objective was to address the confusion between what a skill perk is and how the skill perk can directly benefit the player. We started with basic database functionality, creating a database full of all basic weapons and armor in *The Elder Scrolls V: Skyrim*. Utilizing MAMP, we were able to access our database information through simple php files. Stretching out to new techniques and tools, Laravel came into play when we had to address the over abundance of php files we created. We sought to consolidate these files into one simple, sleek framework. Gradually adding more advanced functionality over time, and finally CSS, we created a functional calculator. Our results were fairly successful, with only a standard deviation of 3 for each of the calculated totals. This is due to the reverse engineering of equations from the game, as well as the inconsistent rounding the game has when it comes to calculations. We concluded that our calculator sufficiently address players’ needs to directly visualize how change in skills, perks, potions, and effects can affect any weapon or armor improvement in *The Elder Scrolls V: Skyrim*. 
+The Skyrim Combat Skills Planner allows users to calculate proposed weapon and armor ratings. These calculations are based on the user’s skills and perks for Smithing, One-Handed, Two-Handed, Light Armor, Heavy Armor, and Archery. Our objective was to address the confusion between what a skill perk is and how the skill perk can directly benefit the player. We started with basic database functionality, creating a database full of all basic weapons and armor in *The Elder Scrolls V: Skyrim*. Utilizing MAMP, we were able to access our database information through simple php files. Stretching out to new techniques and tools, Laravel [3] came into play when we had to address the over abundance of php files we created. We sought to consolidate these files into one simple, sleek framework. Gradually adding more advanced functionality over time, and finally CSS, we created a functional calculator. Our results were fairly successful, with only a standard deviation of 3 for each of the calculated totals. This is due to the reverse engineering of equations from the game, as well as the inconsistent rounding the game has when it comes to calculations. We concluded that our calculator sufficiently address players’ needs to directly visualize how change in skills, perks, potions, and effects can affect any weapon or armor improvement in *The Elder Scrolls V: Skyrim*. 
 #### Keywords
 - Skyrim
 - The Elder Scrolls
@@ -50,7 +50,7 @@ Our product allows users to easily view how their character’s stats can affect
 The main problem we addressed in our product is how a set of skills, perks, and effects can affect an item in the game. We were not able to educate the user on what each perk does for the user’s character. This is mostly due to only one set of perks in a skill tree directly affecting the rating value of armor and weapons. Therefore, information about other perks in the tree yielded unnecessary for us to explain because they do not contribute to the weapon and armor rating equation. Additionally, users have to input the entire name of an item because the bar does not utilize smart search on the database of weapons and armor. To help the user with this issue, we provided a page that allows the user to search the database of weapons and armor based on name or type of item. We also planned to set apart our product from similar Skyrim calculators by allowing users to create an account, authenticate themselves, and save character builds. We were not able to do this because of time constraints and novice knowledge of Laravel. Similarly, our calculator is only functional on items that have not been improved. Again, we planned to implement a feature that allows the user to improve an already improved item; however, the math associated with this function was not as consistent as originally thought. Therefore, we had to forgo this idea and add a disclaimer that addresses both our accuracy and type of items that can be calculated.
 
 #### Features <a name="Features"></a>
-Users are able to input a weapon or armor piece in to a text box. If the user would like to add more than one item to the “equipped” table, the user can add another item; however, if the user does not insert anything into one of the item boxes, the POST request will not go through and the website will throw an error. To avoid this, the user must delete any boxes that he or she will not use. After typing one or more items that the user wishes to calculate, the user can then edit their characters smithing level and selecting if the character has the perk for the armor and, or the weapon. Likewise, the user can fill out similar information for One-Handed, Two-handed, Light Armor, Heavy Armor, and Archery skills. The user can adjust however many perks, out of five, his or her character has for each of the combat skills. Finally, the user can add any potions, with potency, and effects, with percentage to their equation. The user may add or delete any potions or effects. If a potion or effect is left unfilled, it is defaults to zero. Users then click the “Calculate” button to add the items to the “equipped” table. The user is able to see the name of the item, the part of the body it is worn, the original rating, the upgraded rating, and the quality level it will improve. Additionally, the total seen at the bottom of the “equipped” table is the original armor rating and the upgraded armor rating. These totals do not add weapons. Next to the “Calculate” button, the user is able to search the database for weapons he or she can choose to calculate with. The search bar searches the database on name or type of item.
+Users are able to input a weapon or armor piece in to a text box. If the user would like to add more than one item to the “equipped” table, the user can add another item; however, if the user does not insert anything into one of the item boxes, the POST request will not go through and the website will throw an error. To avoid this, the user must delete any boxes that he or she will not use. After typing one or more items that the user wishes to calculate, the user can then edit their character's smithing level and selecting if the character has the perk for the armor or the weapon. Likewise, the user can fill out similar information for One-Handed, Two-handed, Light Armor, Heavy Armor, and Archery skills. The user can adjust however many perks, out of five, his or her character has for each of the combat skills. Finally, the user can add any potions, with potency, and effects, with percentage to their equation. The user may add or delete any potions or effects. If a potion or effect is left unfilled, it is defaults to zero. Users then click the “Calculate” button to add the items to the “equipped” table. The user is able to see the name of the item, the part of the body it is worn, the original rating, the upgraded rating, and the quality level it will improve. Additionally, the total seen at the bottom of the “equipped” table is the original armor rating and the upgraded armor rating. These totals do not add weapons. Next to the “Calculate” button, the user is able to search the database for weapons he or she can choose to calculate with. The search bar searches the database on name or type of item.
 
 
 ## Design, Development, and Test <a name="DDT"></a>
@@ -345,30 +345,20 @@ Similar Skyrim calculators failed to address the calculated values each skill pe
 
 
 ## References <a name="References"></a>
-[1] Rasmus Lerdorf. PHP. 7.0.x. Library. http://php.net/.
+[1] MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
 
-[2] MAMP. MAMP 4 for Windows. Application. https://www.mamp.info/en/.
+[2] Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
 
-[3] Taylor Otwell. Laravel. 5.6. Library. https://laravel.com/docs/5.6/installation.
+[3] Taylor Otwell. Laravel-Blade Templates. 5.6. Library. https://laravel.com/docs/5.6/blade.
 
-[4] Ajax. Library. https://api.jquery.com/category/ajax/.
+[4] Tobias. Ratschiller. phpMyAdmin. 4.8. Application. https://www.phpmyadmin.net/.
 
-[5] Brendan Eich. JavaScript. Library. https://www.w3schools.com/jsref/default.asp.
+[5] Jon Skinner, Will Bond. Sublime Text. v3. Text Editor. https://www.sublimetext.com/.
 
-[6] Taylor Otwell. Laravel-Blade Templates. 5.6. Library. https://laravel.com/docs/5.6/blade.
+[6] “Weapons (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim).
 
-[7] Tobias. Ratschiller. phpMyAdmin. 4.8. Application. https://www.phpmyadmin.net/.
+[7] “Armor (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Armor_(Skyrim).
 
-[8] Jon Skinner, Will Bond. Sublime Text. v3. Text Editor. https://www.sublimetext.com/.
+[8] “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
 
-[9] CSS. Library. https://www.w3schools.com/cssref/default.asp.
-
-[10] HTML. Library. https://www.w3schools.com/tags/default.asp.
-
-[11] “Weapons (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Weapons_(Skyrim).
-
-[12] “Armor (Skyrim)”. The Elder Scrolls Wiki. FANDOM. http://elderscrolls.wikia.com/wiki/Armor_(Skyrim).
-
-[13] “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
-
-[14] “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
+[9] “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
