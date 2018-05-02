@@ -85,7 +85,7 @@ function ratingbonus(part, qlevel)
 		return Math.ceil(rbo/2);
 }
 ```
-ratingBonus takes in the quality level from the previous function and the Part associated with the item to be improved. This function determines how much of a rating bonus is added when the item is improved. If the item’s Part is “Chest”, then it gets double the bonus. In the game’s terms, if you are improved a piece of armor worn on the chest, you get a double rating bonus. [10]
+The function ratingBonus takes in the quality level from the previous function and the Part associated with the item to be improved. This function determines how much of a rating bonus is added when the item is improved. If the item’s Part is “Chest”, then it gets double the bonus. In the game’s terms, if you are improved a piece of armor worn on the chest, you get a double rating bonus. [10]
 ```javascript
 function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, seekmight)
 {
