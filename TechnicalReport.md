@@ -67,14 +67,14 @@ function effectiveskill(baseskill, perk, enchantments, potions)
 			(1 + (potions/100)) + 13.29);
 }
 ```
-This portion of code is a simple calculation that builds a variable important for other calculations. This function takes in the player’s smithing level, if they have the relevant smithing perk, and any enchantments or potions that improve a player’s smithing level.
+This portion of code is a simple calculation that builds a variable important for other calculations. This function takes in the player’s smithing level, if they have the relevant smithing perk, and any enchantments or potions that improve a player’s smithing level. [10]
 ```javascript
 function qualitylvl(effskill)
 {
 	return Math.floor((effskill + 38) * (3/103));
 }
 ```
-This function uses the effective skill from the previous function and builds a variable that determines what an item’s quality level will be when improved.
+This function uses the effective skill from the previous function and builds a variable that determines what an item’s quality level will be when improved. [10]
 ```javascript
 function ratingbonus(part, qlevel)
 {
@@ -85,8 +85,7 @@ function ratingbonus(part, qlevel)
 		return Math.ceil(rbo/2);
 }
 ```
-ratingBonus takes in the quality level from the previous function and the Part associated with the item to be improved. This function determines how much of a rating bonus is added when the item is improved. If the item’s Part is “Chest”, then it gets double the bonus. In the game’s terms, if you are improved a piece of armor worn on the chest, you get a double rating bonus.
-
+ratingBonus takes in the quality level from the previous function and the Part associated with the item to be improved. This function determines how much of a rating bonus is added when the item is improved. If the item’s Part is “Chest”, then it gets double the bonus. In the game’s terms, if you are improved a piece of armor worn on the chest, you get a double rating bonus. [10]
 ```javascript
 function weapondamage(basedam, ratbo, wpnslevel, wpnperk, itemeff, potioneff, seekmight)
 {
@@ -100,7 +99,7 @@ function armordefense(basedef, ratbo, armslevel, armoracteff, unisonperk, matchs
 	* (1 + unisonperk/4) * (1 + matchset/4) * (1 + (armorperk/5)) * (1 + (seekmight/10)));
 }
 ```
-Most importantly, the calculations of the previous functions come together into one of these functions, depending on the type of item being improved. We found these functions on different Skyrim wiki sites and tweaked them (mostly changing rounding) to fit what ratings the actual game was giving us. Each function takes into account the base rating of the item, the level of the skill corresponding to the Type of the item, any perks that are associated with that skill tree, any potions or effects that alter their skill level, and, unless the item being improved is Light Armor, the Seeker of Might perk bonus. This perk gives a 10% bonus to all “combat” skills and functions slightly differently than other active effects, which is why it is separate from other skills. The values for the potions and effects are taken from an array that holds values for all of the combined effects in each skill tree. Code block for potions and effects arrays Each element of the arrays are initialized to 0 and are changed based on the correlating forms for potions or effects.
+Most importantly, the calculations of the previous functions come together into one of these functions, depending on the type of item being improved. We found these functions on different Skyrim wiki sites and tweaked them (mostly changing rounding) to fit what ratings the actual game was giving us. Each function takes into account the base rating of the item, the level of the skill corresponding to the Type of the item, any perks that are associated with that skill tree, any potions or effects that alter their skill level, and, unless the item being improved is Light Armor, the Seeker of Might perk bonus. This perk gives a 10% bonus to all “combat” skills and functions slightly differently than other active effects, which is why it is separate from other skills. The values for the potions and effects are taken from an array that holds values for all of the combined effects in each skill tree. Code block for potions and effects arrays Each element of the arrays are initialized to 0 and are changed based on the correlating forms for potions or effects. [8] [9]
 ```javascript
 function makePotionForm()
 {
@@ -362,3 +361,5 @@ Similar Skyrim calculators failed to address the calculated values each skill pe
 [8] “Skyrim:Weapons”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Weapons.
 
 [9] “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Armor.
+
+[10] “Skyrim:Armor”. The Unofficial Elder Scrolls Pages. The UESPWiki. http://en.uesp.net/wiki/Skyrim:Smithing.
