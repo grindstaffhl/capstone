@@ -60,6 +60,7 @@ The main problem we addressed in our product is how a set of skills, perks, and 
 | Change Heavy Armor Level | Improve Improved Items |
 | Change Light Armor Level | Same Armor Type Perk   |
 | Change Archery Level     |                        |
+| Change Skill Perks       |                        |
 | Add 1+ Potion	           |                        |
 | Add 1+ Effect            |                        |
 | Search for Item          |                        |
